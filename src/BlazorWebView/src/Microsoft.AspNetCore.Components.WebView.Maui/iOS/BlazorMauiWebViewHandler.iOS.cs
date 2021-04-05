@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if IOS
+using System;
 using Foundation;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -10,8 +11,8 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
-	{
+    public partial class BlazorMauiWebViewHandler : AbstractViewHandler<IBlazorMauiWebView, WKWebView>, IWebViewDelegate
+    {
 		static WKProcessPool? SharedPool;
 
 		protected override WKWebView CreateNativeView()
@@ -47,6 +48,15 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			return base.GetDesiredSize(widthConstraint, heightConstraint);
 		}
 
+		public static void MapSource(BlazorMauiWebViewHandler handler, IBlazorMauiWebView webView)
+		{
+			//ViewHandler.CheckParameters(handler, webView);
+
+			IWebViewDelegate webViewDelegate = handler;
+
+			handler.TypedNativeView?.UpdateSource(webView, webViewDelegate);
+		}
+
 		public void LoadHtml(string? html, string? baseUrl)
 		{
 			if (html != null)
@@ -73,32 +83,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 				TypedNativeView.Frame = new RectangleF(x, y, width, height);
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-		public static void MapHostPage(BlazorWebViewHandler handler, IBlazorWebView webView)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void MapRootComponents(BlazorWebViewHandler handler, IBlazorWebView webView)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void MapServices(BlazorWebViewHandler handler, IBlazorWebView webView)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }
+#endif
