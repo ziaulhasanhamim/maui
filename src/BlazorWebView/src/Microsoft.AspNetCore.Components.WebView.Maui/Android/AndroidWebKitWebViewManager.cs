@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
 	/// <summary>
-	/// An implementation of <see cref="WebViewManager"/> that uses the Edge WebView2 browser control
+	/// An implementation of <see cref="WebViewManager"/> that uses the Android WebKit WebView browser control
 	/// to render web content.
 	/// </summary>
 	public class AndroidWebKitWebViewManager : MauiWebViewManager
