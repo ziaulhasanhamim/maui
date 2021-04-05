@@ -1,5 +1,4 @@
-﻿#if ANDROID
-using Android.Webkit;
+﻿using Android.Webkit;
 using AWebView = Android.Webkit.WebView;
 using Android.Util;
 using System;
@@ -27,9 +26,9 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
     public class WebKitWebViewClient : WebViewClient
     {
-        private readonly BlazorMauiWebViewHandler? _webViewHandler;
+        private readonly BlazorWebViewHandler? _webViewHandler;
 
-        public WebKitWebViewClient(BlazorMauiWebViewHandler webViewHandler)
+        public WebKitWebViewClient(BlazorWebViewHandler webViewHandler)
         {
             _webViewHandler = webViewHandler ?? throw new ArgumentNullException(nameof(webViewHandler));
         }
@@ -209,4 +208,3 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         }
     }
 }
-#endif

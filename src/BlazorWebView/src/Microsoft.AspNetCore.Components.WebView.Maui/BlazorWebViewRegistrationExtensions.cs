@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 				throw new ArgumentNullException(nameof(appHostBuilder));
 			}
 
-			appHostBuilder.RegisterHandler<IBlazorWebView, BlazorMauiWebViewHandler>();
+			appHostBuilder.RegisterHandler<IBlazorWebView, BlazorWebViewHandler>();
 
 			return appHostBuilder;
 		}

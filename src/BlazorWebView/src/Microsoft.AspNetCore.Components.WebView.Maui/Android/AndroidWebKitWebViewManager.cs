@@ -1,5 +1,4 @@
-﻿#if ANDROID
-using Android.Webkit;
+﻿using Android.Webkit;
 using AWebView = Android.Webkit.WebView;
 using Android.Util;
 using Microsoft.AspNetCore.Components.WebView;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Components.WebView.Maui;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
@@ -23,7 +21,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         // we intercept all the requests within this origin.
         private const string AppOrigin = "https://0.0.0.0/";
         private static readonly Android.Net.Uri AndroidAppOriginUri = Android.Net.Uri.Parse(AppOrigin)!;
-        private readonly BlazorMauiWebViewHandler _blazorMauiWebViewHandler;
+        private readonly BlazorWebViewHandler _blazorMauiWebViewHandler;
         private readonly AWebView _webview;
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         /// <param name="dispatcher">A <see cref="Dispatcher"/> instance that can marshal calls to the required thread or sync context.</param>
         /// <param name="fileProvider">Provides static content to the webview.</param>
         /// <param name="hostPageRelativePath">Path to the host page within the <paramref name="fileProvider"/>.</param>
-        public AndroidWebKitWebViewManager(BlazorMauiWebViewHandler blazorMauiWebViewHandler, AWebView webview, IServiceProvider services, Dispatcher dispatcher, IFileProvider fileProvider, string hostPageRelativePath)
+        public AndroidWebKitWebViewManager(BlazorWebViewHandler blazorMauiWebViewHandler, AWebView webview, IServiceProvider services, Dispatcher dispatcher, IFileProvider fileProvider, string hostPageRelativePath)
             : base(services, dispatcher, new Uri(AppOrigin), fileProvider, hostPageRelativePath)
         {
             _blazorMauiWebViewHandler = blazorMauiWebViewHandler ?? throw new ArgumentNullException(nameof(blazorMauiWebViewHandler));
@@ -125,4 +123,3 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         }
     }
 }
-#endif

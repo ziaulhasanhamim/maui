@@ -4,9 +4,9 @@ using Microsoft.Maui.Handlers;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorMauiWebViewHandler
+	public partial class BlazorWebViewHandler
 	{
-		public static PropertyMapper<IBlazorWebView, BlazorMauiWebViewHandler> WebViewMapper = new PropertyMapper<IBlazorWebView, BlazorMauiWebViewHandler>(ViewHandler.ViewMapper)
+		public static PropertyMapper<IBlazorWebView, BlazorWebViewHandler> WebViewMapper = new PropertyMapper<IBlazorWebView, BlazorWebViewHandler>(ViewHandler.ViewMapper)
 		{
 			[nameof(IBlazorWebView.Source)] = MapSource,
 			[nameof(IBlazorWebView.HostPage)] = MapHostPage,
@@ -14,11 +14,11 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			[nameof(IBlazorWebView.Services)] = MapServices,
 		};
 
-		public BlazorMauiWebViewHandler() : base(WebViewMapper)
+		public BlazorWebViewHandler() : base(WebViewMapper)
 		{
 		}
 
-		public BlazorMauiWebViewHandler(PropertyMapper mapper) : base(mapper ?? WebViewMapper)
+		public BlazorWebViewHandler(PropertyMapper mapper) : base(mapper ?? WebViewMapper)
 		{
 		}
 	}

@@ -1,5 +1,4 @@
-﻿#if IOS
-using System;
+﻿using System;
 using Foundation;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -11,7 +10,7 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-    public partial class BlazorMauiWebViewHandler : AbstractViewHandler<IBlazorMauiWebView, WKWebView>, IWebViewDelegate
+    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>, IWebViewDelegate
     {
 		static WKProcessPool? SharedPool;
 
@@ -48,7 +47,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			return base.GetDesiredSize(widthConstraint, heightConstraint);
 		}
 
-		public static void MapSource(BlazorMauiWebViewHandler handler, IBlazorMauiWebView webView)
+		public static void MapSource(BlazorWebViewHandler handler, IBlazorWebView webView)
 		{
 			//ViewHandler.CheckParameters(handler, webView);
 
@@ -83,6 +82,32 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 				TypedNativeView.Frame = new RectangleF(x, y, width, height);
 			}
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		public static void MapHostPage(BlazorWebViewHandler handler, IBlazorWebView webView)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void MapRootComponents(BlazorWebViewHandler handler, IBlazorWebView webView)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void MapServices(BlazorWebViewHandler handler, IBlazorWebView webView)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
-#endif

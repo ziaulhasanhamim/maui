@@ -1,5 +1,4 @@
-﻿#if ANDROID
-using Microsoft.Maui.Handlers;
+﻿using Microsoft.Maui.Handlers;
 using Android.Webkit;
 using static Android.Views.ViewGroup;
 using AWebView = Android.Webkit.WebView;
@@ -12,7 +11,7 @@ using Path = System.IO.Path;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorMauiWebViewHandler : AbstractViewHandler<IBlazorWebView, AWebView>, IWebViewDelegate
+	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, AWebView>, IWebViewDelegate
     {
         public const string AssetBaseUrl = "file:///android_asset/";
 
@@ -53,7 +52,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
             _webChromeClient?.Dispose();
         }
 
-        public static void MapSource(BlazorMauiWebViewHandler handler, IBlazorWebView webView)
+        public static void MapSource(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
             Log.Info("eilon", "MapSource");
             //ViewHandler.CheckParameters(handler, webView);
@@ -112,7 +111,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
             _webviewManager.Navigate("/");
         }
 
-        public static void MapHostPage(BlazorMauiWebViewHandler handler, IBlazorWebView webView)
+        public static void MapHostPage(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
             Log.Info("eilon", "MapHostPage = " + webView.HostPage);
 
@@ -121,7 +120,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
             handler.StartWebViewCoreIfPossible();
         }
 
-        public static void MapRootComponents(BlazorMauiWebViewHandler handler, IBlazorWebView webView)
+        public static void MapRootComponents(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
             Log.Info("eilon", "MapRootComponents = " + webView.RootComponents.Count);
             for (int i = 0; i < webView.RootComponents.Count; i++)
@@ -134,7 +133,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
             handler.StartWebViewCoreIfPossible();
         }
 
-        public static void MapServices(BlazorMauiWebViewHandler handler, IBlazorWebView webView)
+        public static void MapServices(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
             Log.Info("eilon", "MapServices = " + webView.Services?.GetType().FullName);
 
@@ -161,4 +160,3 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
             new WebChromeClient();
     }
 }
-#endif

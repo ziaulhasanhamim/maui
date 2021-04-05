@@ -1,9 +1,14 @@
 ﻿@page "/"
 
-<h1>Markup @count</h1>
+<h1>This is the count: @count</h1>
+<button @onclick="Increment">Increment</button>
 
 @code {
 
     int count = 123;
 
+    void Increment()
+    {
+        count++;
+    }
 }

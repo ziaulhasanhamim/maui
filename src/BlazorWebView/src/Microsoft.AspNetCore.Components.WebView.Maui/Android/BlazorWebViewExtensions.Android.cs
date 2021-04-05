@@ -1,12 +1,10 @@
-﻿#if ANDROID
-using AWebView = Android.Webkit.WebView;
+﻿using AWebView = Android.Webkit.WebView;
 using Microsoft.Maui.Controls;
 using Android.Util;
-using Microsoft.AspNetCore.Components.WebView.Maui;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public static class BlazorMauiWebViewExtensions
+	public static class BlazorWebViewExtensions
 	{
 		public static void UpdateSource(this AWebView nativeWebView, IBlazorWebView webView)
 		{
@@ -23,4 +21,3 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 		}
 	}
 }
-#endif

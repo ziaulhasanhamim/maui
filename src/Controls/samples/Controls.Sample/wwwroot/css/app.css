@@ -1,4 +1,8 @@
-﻿
+﻿h1 {
+    color: purple;
+    background-color: lightcyan;
+    font-weight: 800;
+}
 
 #blazor-error-ui {
     background: lightyellow;
