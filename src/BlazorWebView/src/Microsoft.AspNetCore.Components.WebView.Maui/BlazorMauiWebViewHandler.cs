@@ -8,7 +8,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 	{
 		public static PropertyMapper<IBlazorWebView, BlazorWebViewHandler> WebViewMapper = new PropertyMapper<IBlazorWebView, BlazorWebViewHandler>(ViewHandler.ViewMapper)
 		{
-			[nameof(IBlazorWebView.Source)] = MapSource,
+			//[nameof(IBlazorWebView.Source)] = MapSource,
 			[nameof(IBlazorWebView.HostPage)] = MapHostPage,
 			[nameof(IBlazorWebView.RootComponents)] = MapRootComponents,
 			[nameof(IBlazorWebView.Services)] = MapServices,

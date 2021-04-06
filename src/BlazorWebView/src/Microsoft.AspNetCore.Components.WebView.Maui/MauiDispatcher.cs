@@ -13,10 +13,11 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         {
         }
 
-        public override bool CheckAccess()
+#pragma warning disable CA1416 // Validate platform compatibility
+		public override bool CheckAccess()
         {
-            return !Device.IsInvokeRequired;
-        }
+			return !Device.IsInvokeRequired;
+		}
 
         public override Task InvokeAsync(Action workItem)
         {
@@ -37,5 +38,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         {
             return Device.InvokeOnMainThreadAsync(workItem);
         }
-    }
+#pragma warning restore CA1416 // Validate platform compatibility
+	}
 }

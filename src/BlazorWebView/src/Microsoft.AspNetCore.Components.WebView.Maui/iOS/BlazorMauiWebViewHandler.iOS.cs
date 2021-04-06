@@ -10,7 +10,7 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>, IWebViewDelegate
+    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
     {
 		static WKProcessPool? SharedPool;
 
@@ -45,15 +45,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			SetDesiredSize(widthConstraint, heightConstraint);
 
 			return base.GetDesiredSize(widthConstraint, heightConstraint);
-		}
-
-		public static void MapSource(BlazorWebViewHandler handler, IBlazorWebView webView)
-		{
-			//ViewHandler.CheckParameters(handler, webView);
-
-			IWebViewDelegate webViewDelegate = handler;
-
-			handler.TypedNativeView?.UpdateSource(webView, webViewDelegate);
 		}
 
 		public void LoadHtml(string? html, string? baseUrl)

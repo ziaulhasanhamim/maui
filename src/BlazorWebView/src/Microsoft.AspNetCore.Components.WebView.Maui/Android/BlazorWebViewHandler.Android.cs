@@ -11,7 +11,7 @@ using Path = System.IO.Path;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, AWebView>, IWebViewDelegate
+	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, AWebView>
     {
         public const string AssetBaseUrl = "file:///android_asset/";
 
@@ -50,16 +50,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
             _webViewClient?.Dispose();
             _webChromeClient?.Dispose();
-        }
-
-        public static void MapSource(BlazorWebViewHandler handler, IBlazorWebView webView)
-        {
-            Log.Info("eilon", "MapSource");
-            //ViewHandler.CheckParameters(handler, webView);
-
-            IWebViewDelegate webViewDelegate = handler;
-
-            handler.TypedNativeView?.UpdateSource(webView, webViewDelegate);
         }
 
         private bool RequiredStartupPropertiesSet =>
