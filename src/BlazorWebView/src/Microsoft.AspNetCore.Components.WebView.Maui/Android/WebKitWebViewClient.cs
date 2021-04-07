@@ -96,20 +96,11 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 								headerString.Substring(0, headerString.IndexOf(':')),
 								headerString.Substring(headerString.IndexOf(':') + 2))));
 
-				Log.Info("eilon", $"    Intercepting web request: status {statusCode} {statusMessage}");
-
-                Log.Info("eilon", $"    Headers (count={headersDict.Count})");
-                foreach (var item in headersDict)
-                {
-                    Log.Info("eilon", $"      header['{item.Key}'] = '{item.Value}'");
-
-                }
                 var contentType = headersDict["Content-Type"];
                 if (allowFallbackOnHostPage)
                 {
-                    // Override the host page to always be text/html. This is a bug in StaticContentProvider in Blazor WebView
+                    // Override the host page to always be text/html. This is a bug in StaticContentProvider in Blazor WebView that is fixed in later builds
                     contentType = "text/html";
-                    Log.Info("eilon", $"    Overriding content type to: {contentType}");
                 }
                 return new WebResourceResponse(contentType, "UTF-8", statusCode, statusMessage, headersDict, content);
             }
@@ -187,9 +178,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
                 // Start Blazor
                 view.EvaluateJavascript(@"
-                    console.log('starting blazor...');
-                    window.Blazor.start();
-                    console.log('blazor started');
+                    Blazor.start();
                 ", new BlazorValueCallback(() =>
                 {
                     // Done

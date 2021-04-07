@@ -63,8 +63,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
         private void StartWebViewCoreIfPossible()
         {
-            Log.Info("eilon", "StartWebViewCoreIfPossible");
-
             if (!RequiredStartupPropertiesSet ||
                 false)//_webviewManager != null)
             {
@@ -86,7 +84,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			var contentRootDir = Path.GetDirectoryName(HostPage) ?? string.Empty;
             var hostPageRelativePath = Path.GetRelativePath(contentRootDir, HostPage!);
             var fileProvider = new ManifestEmbeddedFileProvider(resourceAssembly, root: contentRootDir);
-            Log.Info("eilon", $"ManifestEmbeddedFileProvider from {resourceAssembly.GetName().Name}, root dir = {contentRootDir}, hostpage = {HostPage}, hostRelativeDir = {hostPageRelativePath}");
 
             _webviewManager = new AndroidWebKitWebViewManager(this, TypedNativeView, Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
 			if (RootComponents != null)
@@ -97,49 +94,35 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 					_ = rootComponent.AddToWebViewManagerAsync(_webviewManager);
 				}
 			}
-            Log.Info("eilon", "NavigateStart to '/'");
+
             _webviewManager.Navigate("/");
         }
 
         public static void MapHostPage(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
-            Log.Info("eilon", "MapHostPage = " + webView.HostPage);
-
-            // TODO: Do OnImportantPropertyChanged event here
             handler.HostPage = webView.HostPage;
             handler.StartWebViewCoreIfPossible();
         }
 
         public static void MapRootComponents(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
-            Log.Info("eilon", "MapRootComponents = " + webView.RootComponents.Count);
-            for (int i = 0; i < webView.RootComponents.Count; i++)
-            {
-                var item = webView.RootComponents[i];
-                Log.Info("eilon", $"  RootComponents[{i}] = {item.ComponentType?.FullName}");
-            }
-
             handler.RootComponents = webView.RootComponents;
             handler.StartWebViewCoreIfPossible();
         }
 
         public static void MapServices(BlazorWebViewHandler handler, IBlazorWebView webView)
         {
-            Log.Info("eilon", "MapServices = " + webView.Services?.GetType().FullName);
-
             handler.Services = webView.Services;
             handler.StartWebViewCoreIfPossible();
         }
 
         public void LoadHtml(string? html, string? baseUrl)
         {
-            Log.Info("eilon", $"LoadHtml = {(html + new string(' ', 50)).Substring(0, 50)}");
             TypedNativeView?.LoadDataWithBaseURL(baseUrl ?? AssetBaseUrl, html ?? string.Empty, "text/html", "UTF-8", null);
         }
 
         public void LoadUrl(string? url)
         {
-            Log.Info("eilon", $"LoadUrl = {(url + new string(' ', 50)).Substring(0, 50)}");
             TypedNativeView?.LoadUrl(url ?? string.Empty);
         }
 
