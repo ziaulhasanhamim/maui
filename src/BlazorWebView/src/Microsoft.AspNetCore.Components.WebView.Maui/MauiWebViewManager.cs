@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.WebView;
-using System;
-using Microsoft.AspNetCore.Components;
+﻿using System;
 using Microsoft.Extensions.FileProviders;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
@@ -12,5 +10,4 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 		{
 		}
 	}
-
 }
