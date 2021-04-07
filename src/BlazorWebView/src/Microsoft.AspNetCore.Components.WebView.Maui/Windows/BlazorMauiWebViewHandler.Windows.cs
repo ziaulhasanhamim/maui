@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using Microsoft.AspNetCore.Components.WebView.WebView2;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Hosting;
-using Microsoft.UI.Xaml.Controls;
 using WebView2Control = Microsoft.UI.Xaml.Controls.WebView2;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WebView2Control>
-    {
+	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WebView2Control>
+	{
 		private WebView2WebViewManager? _webviewManager;
 
 		protected override WebView2Control CreateNativeView()

@@ -10,83 +10,83 @@ using System.Linq;
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
 	internal class BlazorValueCallback : Java.Lang.Object, IValueCallback
-    {
-        private readonly Action _callback;
+	{
+		private readonly Action _callback;
 
-        public BlazorValueCallback(Action callback)
-        {
-            _callback = callback ?? throw new ArgumentNullException(nameof(callback));
-        }
+		public BlazorValueCallback(Action callback)
+		{
+			_callback = callback ?? throw new ArgumentNullException(nameof(callback));
+		}
 
-        public void OnReceiveValue(Java.Lang.Object? value)
-        {
-            _callback();
-        }
-    }
+		public void OnReceiveValue(Java.Lang.Object? value)
+		{
+			_callback();
+		}
+	}
 
-    public class WebKitWebViewClient : WebViewClient
-    {
-        private readonly BlazorWebViewHandler? _webViewHandler;
+	public class WebKitWebViewClient : WebViewClient
+	{
+		private readonly BlazorWebViewHandler? _webViewHandler;
 
-        public WebKitWebViewClient(BlazorWebViewHandler webViewHandler)
-        {
-            _webViewHandler = webViewHandler ?? throw new ArgumentNullException(nameof(webViewHandler));
-        }
+		public WebKitWebViewClient(BlazorWebViewHandler webViewHandler)
+		{
+			_webViewHandler = webViewHandler ?? throw new ArgumentNullException(nameof(webViewHandler));
+		}
 
-        protected WebKitWebViewClient(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-        {
-            // This constructor is called whenever the .NET proxy was disposed, and it was recreated by Java. It also
-            // happens when overriden methods are called between execution of this constructor and the one above.
-            // because of these facts, we have to check
-            // all methods below for null field references and properties.
-        }
+		protected WebKitWebViewClient(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+		{
+			// This constructor is called whenever the .NET proxy was disposed, and it was recreated by Java. It also
+			// happens when overriden methods are called between execution of this constructor and the one above.
+			// because of these facts, we have to check
+			// all methods below for null field references and properties.
+		}
 
 		public override bool ShouldOverrideUrlLoading(AWebView? view, IWebResourceRequest? request)
 		{
 			// handle redirects to the app custom scheme by reloading the url in the view.
 			// otherwise they will be blocked by Android.
 			var requestUri = request?.Url?.ToString();
-            if (requestUri != null && view != null &&
+			if (requestUri != null && view != null &&
 				request != null && request.IsRedirect && request.IsForMainFrame)
-            {
-                var uri = new Uri(requestUri);
-                if (uri.Host == "0.0.0.0")
-                {
-                    view.LoadUrl(uri.ToString());
-                    return true;
-                }
-            }
-            return base.ShouldOverrideUrlLoading(view, request);
-        }
+			{
+				var uri = new Uri(requestUri);
+				if (uri.Host == "0.0.0.0")
+				{
+					view.LoadUrl(uri.ToString());
+					return true;
+				}
+			}
+			return base.ShouldOverrideUrlLoading(view, request);
+		}
 
-        public override WebResourceResponse? ShouldInterceptRequest(AWebView? view, IWebResourceRequest? request)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+		public override WebResourceResponse? ShouldInterceptRequest(AWebView? view, IWebResourceRequest? request)
+		{
+			if (request is null)
+			{
+				throw new ArgumentNullException(nameof(request));
+			}
 
-            var allowFallbackOnHostPage = false;
+			var allowFallbackOnHostPage = false;
 
 			var requestUri = request?.Url?.ToString();
 			var _appBaseUri = new Uri(AppOrigin);
-            var fileUri = requestUri != null ? new Uri(requestUri) : null;
+			var fileUri = requestUri != null ? new Uri(requestUri) : null;
 
-            if (fileUri != null &&  _appBaseUri.IsBaseOf(fileUri))
-            {
-                var relativePath = _appBaseUri.MakeRelativeUri(fileUri).ToString();
-                if (string.IsNullOrEmpty(relativePath))
-                {
-                    // For app root, use host page (something like wwwroot/index.html)
-                    allowFallbackOnHostPage = true;
-                }
-            }
+			if (fileUri != null && _appBaseUri.IsBaseOf(fileUri))
+			{
+				var relativePath = _appBaseUri.MakeRelativeUri(fileUri).ToString();
+				if (string.IsNullOrEmpty(relativePath))
+				{
+					// For app root, use host page (something like wwwroot/index.html)
+					allowFallbackOnHostPage = true;
+				}
+			}
 
-            if (requestUri != null &&
+			if (requestUri != null &&
 				_webViewHandler != null &&
-                _webViewHandler.WebviewManager != null &&
-                _webViewHandler.WebviewManager.TryGetResponseContentInternal(requestUri, allowFallbackOnHostPage, out var statusCode, out var statusMessage, out var content, out var headers))
-            {
+				_webViewHandler.WebviewManager != null &&
+				_webViewHandler.WebviewManager.TryGetResponseContentInternal(requestUri, allowFallbackOnHostPage, out var statusCode, out var statusMessage, out var content, out var headers))
+			{
 				var headersDict =
 					new Dictionary<string, string>(
 					headers
@@ -96,43 +96,43 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 								headerString.Substring(0, headerString.IndexOf(':')),
 								headerString.Substring(headerString.IndexOf(':') + 2))));
 
-                var contentType = headersDict["Content-Type"];
-                if (allowFallbackOnHostPage)
-                {
-                    // Override the host page to always be text/html. This is a bug in StaticContentProvider in Blazor WebView that is fixed in later builds
-                    contentType = "text/html";
-                }
-                return new WebResourceResponse(contentType, "UTF-8", statusCode, statusMessage, headersDict, content);
-            }
+				var contentType = headersDict["Content-Type"];
+				if (allowFallbackOnHostPage)
+				{
+					// Override the host page to always be text/html. This is a bug in StaticContentProvider in Blazor WebView that is fixed in later builds
+					contentType = "text/html";
+				}
+				return new WebResourceResponse(contentType, "UTF-8", statusCode, statusMessage, headersDict, content);
+			}
 
-            return base.ShouldInterceptRequest(view, request);
-        }
+			return base.ShouldInterceptRequest(view, request);
+		}
 
-        private const string AppOrigin = "https://0.0.0.0/";
+		private const string AppOrigin = "https://0.0.0.0/";
 
-        public override void OnPageFinished(AWebView? view, string? url)
-        {
-            base.OnPageFinished(view, url);
+		public override void OnPageFinished(AWebView? view, string? url)
+		{
+			base.OnPageFinished(view, url);
 
-            // TODO: How do we know this runs only once?
-            if (view != null && url == AppOrigin)
-            {
-                // Startup scripts must run in OnPageFinished. If scripts are run earlier they will have no lasting
-                // effect because once the page content loads all the document state gets reset.
-                RunBlazorStartupScripts(view);
-            }
-        }
+			// TODO: How do we know this runs only once?
+			if (view != null && url == AppOrigin)
+			{
+				// Startup scripts must run in OnPageFinished. If scripts are run earlier they will have no lasting
+				// effect because once the page content loads all the document state gets reset.
+				RunBlazorStartupScripts(view);
+			}
+		}
 
-        private void RunBlazorStartupScripts(AWebView view)
-        {
-            // TODO: we need to protect against double initialization because the
-            // OnPageFinished event refires after the app is brought back from the 
-            // foreground and the webview is brought back into view, without it actually
-            // getting reloaded.
+		private void RunBlazorStartupScripts(AWebView view)
+		{
+			// TODO: we need to protect against double initialization because the
+			// OnPageFinished event refires after the app is brought back from the 
+			// foreground and the webview is brought back into view, without it actually
+			// getting reloaded.
 
 
-            // Set up JS ports
-            view.EvaluateJavascript(@"
+			// Set up JS ports
+			view.EvaluateJavascript(@"
 
 
 
@@ -172,28 +172,28 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         }
 
         ", new BlazorValueCallback(() =>
-            {
-                // Set up Server ports
-                _webViewHandler?.WebviewManager?.SetUpMessageChannel();
+			{
+				// Set up Server ports
+				_webViewHandler?.WebviewManager?.SetUpMessageChannel();
 
-                // Start Blazor
-                view.EvaluateJavascript(@"
+				// Start Blazor
+				view.EvaluateJavascript(@"
                     Blazor.start();
                 ", new BlazorValueCallback(() =>
-                {
-                    // Done
-                }));
+				{
+					// Done
+				}));
 
-            }));
-        }
+			}));
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            if (disposing)
-            {
-                //_webViewManager = null;
-            }
-        }
-    }
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+			if (disposing)
+			{
+				//_webViewManager = null;
+			}
+		}
+	}
 }

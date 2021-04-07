@@ -10,8 +10,8 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
-    {
+	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
+	{
 		static WKProcessPool? SharedPool;
 
 		protected override WKWebView CreateNativeView()
