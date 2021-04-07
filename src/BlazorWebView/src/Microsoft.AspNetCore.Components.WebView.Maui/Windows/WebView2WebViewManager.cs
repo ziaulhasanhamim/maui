@@ -117,7 +117,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			_webview.CoreWebView2.DOMContentLoaded += async (_, __) =>
 			{
 				await _webview.CoreWebView2!.ExecuteScriptAsync(@"
-					window.Blazor.start();
+					Blazor.start();
 					");
 			};
 		}
