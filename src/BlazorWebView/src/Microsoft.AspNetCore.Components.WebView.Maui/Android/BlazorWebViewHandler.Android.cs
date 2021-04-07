@@ -1,10 +1,8 @@
-﻿using Android.Util;
-using Android.Webkit;
+﻿using Android.Webkit;
 using static Android.Views.ViewGroup;
 using AWebView = Android.Webkit.WebView;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Controls;
 using System;
 using System.Collections.ObjectModel;
 using Path = System.IO.Path;

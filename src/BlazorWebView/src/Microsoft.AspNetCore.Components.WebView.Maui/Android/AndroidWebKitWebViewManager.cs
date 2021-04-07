@@ -1,12 +1,8 @@
 ﻿using Android.Webkit;
 using AWebView = Android.Webkit.WebView;
-using Android.Util;
-using Microsoft.AspNetCore.Components.WebView;
 using System;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using System.Collections.Generic;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
