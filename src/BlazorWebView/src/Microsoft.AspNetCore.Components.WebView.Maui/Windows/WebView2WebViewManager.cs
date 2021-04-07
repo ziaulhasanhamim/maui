@@ -113,6 +113,13 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 			_webview.CoreWebView2.WebMessageReceived += (sender, eventArgs)
 				=> MessageReceived(new Uri(eventArgs.Source), eventArgs.TryGetWebMessageAsString());
+
+			_webview.CoreWebView2.DOMContentLoaded += async (_, __) =>
+			{
+				await _webview.CoreWebView2!.ExecuteScriptAsync(@"
+					window.Blazor.start();
+					");
+			};
 		}
 
 		//private static string GetHeaderString(IDictionary<string, string> headers) =>
@@ -125,6 +132,8 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 			// Desktop applications almost never want to show a URL preview when hovering over a link
 			_webview.CoreWebView2.Settings.IsStatusBarEnabled = false;
+
+			// TODO: This event doesn't exist in WinUI
 
 			// Desktop applications don't normally want to enable things like "alt-left to go back"
 			// or "ctrl+f to find". Developers should explicitly opt into allowing these.
