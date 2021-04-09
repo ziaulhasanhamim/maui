@@ -114,16 +114,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			handler.StartWebViewCoreIfPossible();
 		}
 
-		public void LoadHtml(string? html, string? baseUrl)
-		{
-			TypedNativeView?.LoadDataWithBaseURL(baseUrl ?? AssetBaseUrl, html ?? string.Empty, "text/html", "UTF-8", null);
-		}
-
-		public void LoadUrl(string? url)
-		{
-			TypedNativeView?.LoadUrl(url ?? string.Empty);
-		}
-
 		protected virtual WebViewClient GetWebViewClient() =>
 			new WebKitWebViewClient(this);
 
