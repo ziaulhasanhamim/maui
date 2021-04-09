@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using Foundation;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Handlers;
@@ -12,10 +13,8 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-    public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
-    {
-		static WKProcessPool? SharedPool;
-
+	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
+	{
 		protected override WKWebView CreateNativeView()
 		{
 			return new WKWebView(RectangleF.Empty, new WKWebViewConfiguration())
