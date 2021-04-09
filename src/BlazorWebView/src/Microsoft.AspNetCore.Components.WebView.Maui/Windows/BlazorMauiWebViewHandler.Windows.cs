@@ -13,12 +13,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 		protected override WebView2Control CreateNativeView()
 		{
-
-			//_webViewClient = GetWebViewClient();
-			//aWebView.SetWebViewClient(_webViewClient);
-
-			//_webChromeClient = GetWebChromeClient();
-			//aWebView.SetWebChromeClient(_webChromeClient);
 			return new WebView2Control();
 		}
 
@@ -77,7 +71,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 		public static void MapHostPage(BlazorWebViewHandler handler, IBlazorWebView webView)
 		{
-			// TODO: Do OnImportantPropertyChanged event here
 			handler.HostPage = webView.HostPage;
 			handler.StartWebViewCoreIfPossible();
 		}
