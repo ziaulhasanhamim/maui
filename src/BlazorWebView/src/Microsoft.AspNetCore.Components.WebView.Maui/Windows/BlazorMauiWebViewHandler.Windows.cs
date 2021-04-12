@@ -7,7 +7,7 @@ using WebView2Control = Microsoft.UI.Xaml.Controls.WebView2;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WebView2Control>
+	public partial class BlazorWebViewHandler : ViewHandler<IBlazorWebView, WebView2Control>
 	{
 		private WebView2WebViewManager? _webviewManager;
 
@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			{
 				return;
 			}
-			if (TypedNativeView == null)
+			if (NativeView == null)
 			{
 				throw new InvalidOperationException($"Can't start {nameof(BlazorWebView)} without native web view instance.");
 			}
@@ -57,7 +57,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			var hostPageRelativePath = Path.GetRelativePath(contentRootDir, HostPage!);
 			var fileProvider = new ManifestEmbeddedFileProvider(resourceAssembly, root: contentRootDir);
 
-			_webviewManager = new WebView2WebViewManager(new WinUIWebView2Wrapper(TypedNativeView), Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
+			_webviewManager = new WebView2WebViewManager(new WinUIWebView2Wrapper(NativeView), Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
 			if (RootComponents != null)
 			{
 				foreach (var rootComponent in RootComponents)

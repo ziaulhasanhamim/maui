@@ -9,7 +9,7 @@ using Path = System.IO.Path;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, AWebView>
+	public partial class BlazorWebViewHandler : ViewHandler<IBlazorWebView, AWebView>
 	{
 		public const string AssetBaseUrl = "file:///android_asset/";
 
@@ -66,7 +66,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			{
 				return;
 			}
-			if (TypedNativeView == null)
+			if (NativeView == null)
 			{
 				throw new InvalidOperationException($"Can't start {nameof(BlazorWebView)} without native web view instance.");
 			}
@@ -83,7 +83,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			var hostPageRelativePath = Path.GetRelativePath(contentRootDir, HostPage!);
 			var fileProvider = new ManifestEmbeddedFileProvider(resourceAssembly, root: contentRootDir);
 
-			_webviewManager = new AndroidWebKitWebViewManager(this, TypedNativeView, Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
+			_webviewManager = new AndroidWebKitWebViewManager(this, NativeView, Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
 			if (RootComponents != null)
 			{
 				foreach (var rootComponent in RootComponents)

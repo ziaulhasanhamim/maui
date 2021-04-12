@@ -13,7 +13,7 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class BlazorWebViewHandler : AbstractViewHandler<IBlazorWebView, WKWebView>
+	public partial class BlazorWebViewHandler : ViewHandler<IBlazorWebView, WKWebView>
 	{
 		protected override WKWebView CreateNativeView()
 		{
@@ -33,12 +33,12 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 		void SetDesiredSize(double width, double height)
 		{
-			if (TypedNativeView != null)
+			if (NativeView != null)
 			{
-				var x = TypedNativeView.Frame.X;
-				var y = TypedNativeView.Frame.Y;
+				var x = NativeView.Frame.X;
+				var y = NativeView.Frame.Y;
 
-				TypedNativeView.Frame = new RectangleF(x, y, width, height);
+				NativeView.Frame = new RectangleF(x, y, width, height);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			{
 				return;
 			}
-			if (TypedNativeView == null)
+			if (NativeView == null)
 			{
 				throw new InvalidOperationException($"Can't start {nameof(BlazorWebView)} without native web view instance.");
 			}
@@ -88,7 +88,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			var hostPageRelativePath = Path.GetRelativePath(contentRootDir, HostPage!);
 			var fileProvider = new ManifestEmbeddedFileProvider(resourceAssembly, root: contentRootDir);
 
-			_webviewManager = new IOSWebViewManager(this, TypedNativeView, Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
+			_webviewManager = new IOSWebViewManager(this, NativeView, Services!, MauiDispatcher.Instance, fileProvider, hostPageRelativePath);
 			if (RootComponents != null)
 			{
 				foreach (var rootComponent in RootComponents)
