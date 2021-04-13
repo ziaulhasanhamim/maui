@@ -94,7 +94,8 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			config.UserContentController.AddUserScript(new WKUserScript(
 				new NSString(frameworkScriptSource), WKUserScriptInjectionTime.AtDocumentEnd, true));
 
-			config.SetUrlSchemeHandler(new SchemeHandler(this), urlScheme: "app"); // iOS WKWebView doesn't allow handling 'http'/'https' schemes
+			// iOS WKWebView doesn't allow handling 'http'/'https' schemes, so we use the fake 'app' scheme
+			config.SetUrlSchemeHandler(new SchemeHandler(this), urlScheme: "app");
 
 			_webview.NavigationDelegate = new WebViewNavigationDelegate(_blazorMauiWebViewHandler);
 		}
