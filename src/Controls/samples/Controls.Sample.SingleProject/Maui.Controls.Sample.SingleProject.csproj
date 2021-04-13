@@ -28,8 +28,8 @@
     <Content Remove="wwwroot\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <!-- <EmbeddedResource Include="wwwroot\css\app.css" />
-    <EmbeddedResource Include="wwwroot\index.html" /> -->
+    <!-- <EmbeddedResource Include="wwwroot\css\app.css" /> -->
+    <EmbeddedResource Include="wwwroot\index.html" />
   </ItemGroup>
 
 

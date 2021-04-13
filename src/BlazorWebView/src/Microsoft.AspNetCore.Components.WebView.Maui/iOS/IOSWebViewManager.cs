@@ -17,26 +17,11 @@ using RectangleF = CoreGraphics.CGRect;
 
 namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
-	public partial class IOSWebViewManager : WebViewManager, IWKScriptMessageHandler
+	public partial class IOSWebViewManager : WebViewManager
 	{
-
-		private sealed class WebViewScriptMessageHandler : NSObject, IWKScriptMessageHandler
+		internal void MessageReceivedInternal(Uri uri, string message)
 		{
-			private Action<Uri, string> _messageReceivedAction;
-			
-			public WebViewScriptMessageHandler(Action<Uri, string> messageReceivedAction)
-			{
-				_messageReceivedAction = messageReceivedAction ?? throw new ArgumentNullException(nameof(messageReceivedAction));
-			}
-
-			public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
-			{
-				if (message is null)
-				{
-					throw new ArgumentNullException(nameof(message));
-				}
-				_messageReceivedAction(new Uri(AppOrigin), ((NSString)message.Body).ToString());
-			}
+			MessageReceived(uri, message);
 		}
 
 		private const string AppOrigin = "app://0.0.0.0/";
@@ -59,14 +44,19 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 		/// <inheritdoc />
 		protected override void NavigateCore(Uri absoluteUri)
 		{
+			System.Console.WriteLine($"1111111111-NavigateCore - {absoluteUri}");
 			using var nsUrl = new NSUrl(absoluteUri.ToString());
 			using var request = new NSUrlRequest(nsUrl);
 			_webview.LoadRequest(request);
 		}
 
+		internal bool TryGetResponseContentInternal(string uri, bool allowFallbackOnHostPage, out int statusCode, out string statusMessage, out Stream content, out string headers) =>
+			TryGetResponseContent(uri, allowFallbackOnHostPage, out statusCode, out statusMessage, out content, out headers);
+
 		/// <inheritdoc />
 		protected override void SendMessage(string message)
 		{
+			System.Console.WriteLine($"1111111111-SendMessage {message}");
 			var messageJSStringLiteral = JavaScriptEncoder.Default.Encode(message);
 			_webview.EvaluateJavaScript(
 				javascript: $"__dispatchMessageCallback(\"{messageJSStringLiteral}\")",
@@ -75,107 +65,13 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 
 		private void InitializeWebView()
 		{
-			var config = _webview.Configuration;
-			config.Preferences.SetValueForKey(NSObject.FromObject(true), new NSString("developerExtrasEnabled"));
-
-			var frameworkScriptSource = @"
-		Blazor.start();
-
-        (function () {
-	        window.onpageshow = function(event) {
-		        if (event.persisted) {
-			        window.location.reload();
-		        }
-	        };
-        })();
-                    ";
-
-			config.UserContentController.AddScriptMessageHandler(new WebViewScriptMessageHandler(MessageReceived), "webwindowinterop");
-			config.UserContentController.AddUserScript(new WKUserScript(
-				new NSString(frameworkScriptSource), WKUserScriptInjectionTime.AtDocumentEnd, true));
-
-			// iOS WKWebView doesn't allow handling 'http'/'https' schemes, so we use the fake 'app' scheme
-			config.SetUrlSchemeHandler(new SchemeHandler(this), urlScheme: "app");
+			System.Console.WriteLine($"1111111111-InitializeWebView start");
 
 			_webview.NavigationDelegate = new WebViewNavigationDelegate(_blazorMauiWebViewHandler);
+
+			System.Console.WriteLine($"1111111111-InitializeWebView end");
 		}
 
-		public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
-		{
-			if (message is null)
-			{
-				throw new ArgumentNullException(nameof(message));
-			}
-
-			MessageReceived(new Uri(AppOrigin), ((NSString)message.Body).ToString());
-		}
-
-		private class SchemeHandler : NSObject, IWKUrlSchemeHandler
-		{
-			private readonly IOSWebViewManager _webViewManager;
-
-			public SchemeHandler(IOSWebViewManager webViewManager)
-			{
-				_webViewManager = webViewManager;
-			}
-
-			[Export("webView:startURLSchemeTask:")]
-			public void StartUrlSchemeTask(WKWebView webView, IWKUrlSchemeTask urlSchemeTask)
-			{
-				var responseBytes = GetResponseBytes(urlSchemeTask.Request.Url.AbsoluteString, out var contentType, statusCode: out var statusCode);
-				if (statusCode == 200)
-				{
-					using (var dic = new NSMutableDictionary<NSString, NSString>())
-					{
-						dic.Add((NSString)"Content-Length", (NSString)(responseBytes.Length.ToString(CultureInfo.InvariantCulture)));
-						dic.Add((NSString)"Content-Type", (NSString)contentType);
-						// Disable local caching. This will prevent user scripts from executing correctly.
-						dic.Add((NSString)"Cache-Control", (NSString)"no-cache, max-age=0, must-revalidate, no-store");
-						using var response = new NSHttpUrlResponse(urlSchemeTask.Request.Url, statusCode, "HTTP/1.1", dic);
-						urlSchemeTask.DidReceiveResponse(response);
-					}
-					urlSchemeTask.DidReceiveData(NSData.FromArray(responseBytes));
-					urlSchemeTask.DidFinish();
-				}
-			}
-
-			private byte[] GetResponseBytes(string url, out string contentType, out int statusCode)
-			{
-				if (_webViewManager.TryGetResponseContent(url, allowFallbackOnHostPage: true, out statusCode, out var statusMessage, out var content, out var headers))
-				{
-					statusCode = 200;
-					using var ms = new MemoryStream();
-					var uri = new Uri(url);
-
-					content.CopyTo(ms);
-					content.Dispose();
-
-					var headersDict =
-						new Dictionary<string, string>(
-						headers
-							.Split(Environment.NewLine)
-							.Select(headerString =>
-								new KeyValuePair<string, string>(
-									headerString.Substring(0, headerString.IndexOf(':')),
-									headerString.Substring(headerString.IndexOf(':') + 2))));
-
-					contentType = headersDict["Content-Type"];
-
-					return ms.ToArray();
-				}
-				else
-				{
-					statusCode = 404;
-					contentType = string.Empty;
-					return Array.Empty<byte>();
-				}
-			}
-
-			[Export("webView:stopURLSchemeTask:")]
-			public void StopUrlSchemeTask(WKWebView webView, IWKUrlSchemeTask urlSchemeTask)
-			{
-			}
-		}
 
 
 		internal class WebViewNavigationDelegate : WKNavigationDelegate
@@ -234,6 +130,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			{
 				if (_currentUri != null && _currentNavigation == navigation)
 				{
+					System.Console.WriteLine($"1111111111-DidCommitNavigation");
 					//_webView.HandleNavigationStarting(_currentUri);
 				}
 			}
@@ -242,6 +139,7 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			{
 				if (_currentUri != null && _currentNavigation == navigation)
 				{
+					System.Console.WriteLine($"1111111111-DidFinishNavigation");
 					//_webView.HandleNavigationFinished(_currentUri);
 					_currentUri = null;
 					_currentNavigation = null;
