@@ -29,9 +29,6 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 		private readonly BlazorWebViewHandler _blazorMauiWebViewHandler;
 		private readonly WKWebView _webview;
 
-		// TODO: Is this an OK handle to use for IWKScriptMessageHandler.Handle?
-		public IntPtr Handle => NSObject.FromObject(this).Handle;
-
 		public IOSWebViewManager(BlazorWebViewHandler blazorMauiWebViewHandler, WKWebView webview, IServiceProvider services, Dispatcher dispatcher, IFileProvider fileProvider, string hostPageRelativePath)
 			: base(services, dispatcher, new Uri(AppOrigin), fileProvider, hostPageRelativePath)
 		{
