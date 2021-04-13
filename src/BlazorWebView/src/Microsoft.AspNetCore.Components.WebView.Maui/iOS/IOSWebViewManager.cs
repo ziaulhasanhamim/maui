@@ -19,7 +19,27 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 {
 	public partial class IOSWebViewManager : WebViewManager, IWKScriptMessageHandler
 	{
-		private const string AppOrigin = "https://0.0.0.0/";
+
+		private sealed class WebViewScriptMessageHandler : NSObject, IWKScriptMessageHandler
+		{
+			private Action<Uri, string> _messageReceivedAction;
+			
+			public WebViewScriptMessageHandler(Action<Uri, string> messageReceivedAction)
+			{
+				_messageReceivedAction = messageReceivedAction ?? throw new ArgumentNullException(nameof(messageReceivedAction));
+			}
+
+			public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
+			{
+				if (message is null)
+				{
+					throw new ArgumentNullException(nameof(message));
+				}
+				_messageReceivedAction(new Uri(AppOrigin), ((NSString)message.Body).ToString());
+			}
+		}
+
+		private const string AppOrigin = "app://0.0.0.0/";
 
 		private readonly BlazorWebViewHandler _blazorMauiWebViewHandler;
 		private readonly WKWebView _webview;
@@ -70,11 +90,11 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
         })();
                     ";
 
-			config.UserContentController.AddScriptMessageHandler(this, "webwindowinterop");
+			config.UserContentController.AddScriptMessageHandler(new WebViewScriptMessageHandler(MessageReceived), "webwindowinterop");
 			config.UserContentController.AddUserScript(new WKUserScript(
 				new NSString(frameworkScriptSource), WKUserScriptInjectionTime.AtDocumentEnd, true));
 
-			config.SetUrlSchemeHandler(new SchemeHandler(this), urlScheme: "http");
+			config.SetUrlSchemeHandler(new SchemeHandler(this), urlScheme: "app"); // iOS WKWebView doesn't allow handling 'http'/'https' schemes
 
 			_webview.NavigationDelegate = new WebViewNavigationDelegate(_blazorMauiWebViewHandler);
 		}
