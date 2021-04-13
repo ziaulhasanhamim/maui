@@ -25,6 +25,20 @@ namespace Microsoft.AspNetCore.Components.WebView.Maui
 			config.Preferences.SetValueForKey(NSObject.FromObject(true), new NSString("developerExtrasEnabled"));
 
 			var frameworkScriptSource = @"
+
+window.__receiveMessageCallbacks = [];
+window.__dispatchMessageCallback = function(message) {
+	window.__receiveMessageCallbacks.forEach(function(callback) { callback(message); });
+};
+window.external = {
+	sendMessage: function(message) {
+		window.webkit.messageHandlers.webwindowinterop.postMessage(message);
+	},
+	receiveMessage: function(callback) {
+		window.__receiveMessageCallbacks.push(callback);
+	}
+};
+
 		Blazor.start();
 
         (function () {
