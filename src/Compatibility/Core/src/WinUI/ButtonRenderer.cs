@@ -190,6 +190,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.UWP
 			Control.BorderThickness = Element.BorderWidth == (double)Button.BorderWidthProperty.DefaultValue ? WinUIHelpers.CreateThickness(3) : WinUIHelpers.CreateThickness(Element.BorderWidth);
 		}
 
+		[PortHandler]
 		void UpdateCharacterSpacing()
 		{
 			Control.UpdateCharacterSpacing(Element.CharacterSpacing.ToEm());
