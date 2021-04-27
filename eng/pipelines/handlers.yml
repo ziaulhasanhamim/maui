@@ -145,7 +145,6 @@ stages:
           vmImage: $(macOSXVmImage)
           demands:
             - sh
-            - Xamarin.iOS
         steps:
           - template: common/controlgallery-ios.yml
 
