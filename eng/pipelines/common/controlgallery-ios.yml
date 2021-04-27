@@ -2,6 +2,13 @@ steps:
   - checkout: self
     clean: true
 
+  - task: UseDotNet@2
+    displayName: 'Install .net core $(DOTNET_VERSION)'
+    condition: ne(variables['DOTNET_VERSION'], '')
+    inputs:
+      version: $(DOTNET_VERSION)
+      packageType: 'sdk'
+
   - task: xamops.azdevex.provisionator-task.provisionator@1
     displayName: 'Provision Xcode'
     condition: ne(variables['REQUIRED_XCODE'], '')
@@ -28,13 +35,6 @@ steps:
       targetType: 'filePath'
       filePath: 'build.sh'
       arguments: --target provision --TeamProject="$(System.TeamProject)"
-
-  - task: UseDotNet@2
-    displayName: 'Install .net core $(DOTNET_VERSION)'
-    condition: ne(variables['DOTNET_VERSION'], '')
-    inputs:
-      version: $(DOTNET_VERSION)
-      packageType: 'sdk'
 
   - task: InstallAppleCertificate@2
     displayName: 'Install an Apple certificate'
