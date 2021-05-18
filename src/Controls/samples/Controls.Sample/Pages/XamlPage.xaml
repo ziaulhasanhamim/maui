@@ -4,10 +4,12 @@
                    x:Class="Maui.Controls.Sample.Pages.XamlPage">
 
     <StackLayout>
-        <Label 
-               Text="Welcome to Microsoft MAUI!"
-               VerticalOptions="CenterAndExpand"
-               HorizontalOptions="CenterAndExpand" />
+        <Grid HeightRequest="50" BackgroundColor="Purple">
+            <Label 
+            Text="Welcome to Microsoft MAUI!"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand" />
+        </Grid>
     </StackLayout>
 
 </controls:BasePage>
