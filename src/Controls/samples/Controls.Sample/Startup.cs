@@ -55,6 +55,15 @@ namespace Maui.Controls.Sample
 #endif
 			appBuilder.UseMauiControlsHandlers();
 
+			appBuilder.ConfigureMauiHandlers(handlers =>
+			{
+#if __ANDROID__
+				handlers
+					.AddCompatibilityRenderer<NavigationPage, 
+					Microsoft.Maui.Controls.Compatibility.Platform.Android.AppCompat.NavigationPageRenderer>();
+#endif
+			});
+
 			appBuilder
 				.ConfigureAppConfiguration(config =>
 				{
