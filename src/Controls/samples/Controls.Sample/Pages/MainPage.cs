@@ -54,6 +54,21 @@ namespace Maui.Controls.Sample.Pages
 				})
 			};
 
+			//Content = new CollectionView()
+			//{
+			//	ItemsSource = Enumerable.Range(0, 100),
+			//	ItemTemplate = new DataTemplate(() =>
+			//	{
+			//		return new Grid()
+			//		{
+			//			Children =
+			//			{
+			//				new Button() { Text = "Hello"}
+			//			}
+			//		};
+			//	})
+			//};
+
 			NavigationPage.SetHasNavigationBar(this, false);
 
 			//SetupCompatibilityLayout();
