@@ -214,10 +214,18 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 					return;
 				}
 
-				RemoveView(_view.View);
+				RemoveView(_view.View); 
 				AppCompat.Platform.SetRenderer(_viewCell.View, null);
 				_viewCell.View.IsPlatformEnabled = false;
-				_view.View.Dispose();
+
+				if (_view is HandlerToRendererShim htrs)
+				{
+					htrs.Dispose();
+				}
+				else
+				{
+					_view.View.Dispose();
+				}
 
 				_viewCell = cell;
 				_view = AppCompat.Platform.CreateRenderer(_viewCell.View, Context);
