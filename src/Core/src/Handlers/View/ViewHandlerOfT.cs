@@ -67,6 +67,7 @@ namespace Microsoft.Maui.Handlers
 
 			VirtualView = (TVirtualView)view;
 			NativeView ??= CreateNativeView();
+			VirtualView.Parent?.Handler?.UpdateValue("ChildNativeViewChanged");
 
 			if (VirtualView != null && VirtualView.Handler != this)
 				VirtualView.Handler = this;

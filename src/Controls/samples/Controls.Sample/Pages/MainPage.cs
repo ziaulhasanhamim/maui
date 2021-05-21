@@ -32,7 +32,27 @@ namespace Maui.Controls.Sample.Pages
 			_services = services;
 			BindingContext = _viewModel = viewModel;
 
-			SetupMauiLayout();
+			//SetupMauiLayout();
+
+			Content = new ListView()
+			{
+				HasUnevenRows = true,
+				ItemsSource = Enumerable.Range(0, 100),
+				ItemTemplate = new DataTemplate(() =>
+				{
+					ViewCell cell = new ViewCell();
+
+					cell.View = new Grid()
+					{
+						Children =
+						{
+							new Button() { Text = "Hello"}
+						}
+					};
+
+					return cell;
+				})
+			};
 
 			NavigationPage.SetHasNavigationBar(this, false);
 
