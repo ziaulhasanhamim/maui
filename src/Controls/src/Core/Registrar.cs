@@ -348,30 +348,11 @@ namespace Microsoft.Maui.Controls.Internals
 				null);
 		}
 
-		public static void RegisterAll(
+		public static void RegisterFromAssemblies(
 			Assembly[] assemblies,
-			Assembly defaultRendererAssembly,
 			Type[] attrTypes,
-			InitializationFlags flags,
 			Action<Type> viewRegistered)
 		{
-			Profile.FrameBegin();
-
-
-			if (ExtraAssemblies != null)
-				assemblies = assemblies.Union(ExtraAssemblies).ToArray();
-
-			int indexOfExecuting = Array.IndexOf(assemblies, defaultRendererAssembly);
-
-			if (indexOfExecuting > 0)
-			{
-				assemblies[indexOfExecuting] = assemblies[0];
-				assemblies[0] = defaultRendererAssembly;
-			}
-
-			// Don't use LINQ for performance reasons
-			// Naive implementation can easily take over a second to run
-			Profile.FramePartition("Reflect");
 			foreach (Assembly assembly in assemblies)
 			{
 				string frameName = Profile.IsEnabled ? assembly.GetName().Name : "Assembly";
@@ -421,6 +402,33 @@ namespace Microsoft.Maui.Controls.Internals
 
 				Profile.FrameEnd(frameName);
 			}
+		}
+
+		public static void RegisterAll(
+			Assembly[] assemblies,
+			Assembly defaultRendererAssembly,
+			Type[] attrTypes,
+			InitializationFlags flags,
+			Action<Type> viewRegistered)
+		{
+			Profile.FrameBegin();
+
+
+			if (ExtraAssemblies != null)
+				assemblies = assemblies.Union(ExtraAssemblies).ToArray();
+
+			int indexOfExecuting = Array.IndexOf(assemblies, defaultRendererAssembly);
+
+			if (indexOfExecuting > 0)
+			{
+				assemblies[indexOfExecuting] = assemblies[0];
+				assemblies[0] = defaultRendererAssembly;
+			}
+
+			// Don't use LINQ for performance reasons
+			// Naive implementation can easily take over a second to run
+			Profile.FramePartition("Reflect");
+			RegisterFromAssemblies(assemblies, attrTypes, viewRegistered);
 
 			var type = Registered.GetHandlerType(typeof(EmbeddedFont));
 			if (type != null)

@@ -21,16 +21,16 @@ namespace Microsoft.Maui.Controls
 		ReadOnlyCollection<Element> _logicalChildren;
 
 		static readonly SemaphoreSlim SaveSemaphore = new SemaphoreSlim(1, 1);
+		IResourceDictionary _systemResources;
 
 		public Application()
 		{
 			SetCurrentApplication(this);
 			NavigationProxy = new NavigationImpl(this);
-			SystemResources = DependencyService.Get<ISystemResourcesProvider>().GetSystemResources();
-			SystemResources.ValuesChanged += OnParentResourcesChanged;
+
 			_platformConfigurationRegistry = new Lazy<PlatformConfigurationRegistry<Application>>(() => new PlatformConfigurationRegistry<Application>(this));
 			// Initialize this value, when the app loads
-			_lastAppTheme = RequestedTheme;
+			//_lastAppTheme = RequestedTheme;
 		}
 
 		public void Quit()
@@ -53,7 +53,11 @@ namespace Microsoft.Maui.Controls
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static void SetCurrentApplication(Application value) => Current = value;
 
-		public static Application Current { get; set; }
+		public static Application Current
+		{
+			get;
+			set;
+		}
 
 		// TODO MAUI. What should this be?
 		public Page MainPage
@@ -155,7 +159,27 @@ namespace Microsoft.Maui.Controls
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public int PanGestureId { get; set; }
 
-		internal IResourceDictionary SystemResources { get; }
+		// TODO MAUI once we get rid of Forms.Init we can fix this
+		static object SystemResourcesLock = new object();
+		internal IResourceDictionary SystemResources
+		{
+			get
+			{
+				if (_systemResources != null)
+					return _systemResources;
+
+				lock(SystemResourcesLock)
+				{ 
+					if(_systemResources == null)
+					{
+						_systemResources = DependencyService.Get<ISystemResourcesProvider>().GetSystemResources();
+						_systemResources.ValuesChanged += OnParentResourcesChanged;
+					}
+				}
+
+				return _systemResources;
+			}
+		}
 
 		ObservableCollection<Element> InternalChildren { get; } = new ObservableCollection<Element>();
 

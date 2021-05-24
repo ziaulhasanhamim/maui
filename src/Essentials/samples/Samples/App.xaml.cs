@@ -27,8 +27,6 @@ namespace Samples
 
 			VersionTracking.Track();
 
-			MainPage = new NavigationPage(new HomePage());
-
 			try
 			{
 				AppActions.OnAppAction += AppActions_OnAppAction;
@@ -102,6 +100,12 @@ namespace Samples
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
+		}
+
+		protected override IWindow CreateWindow(IActivationState activationState)
+		{
+			Microsoft.Maui.Controls.Compatibility.Forms.Init(activationState);
+			return new Window(new NavigationPage(new HomePage()));
 		}
 	}
 }
