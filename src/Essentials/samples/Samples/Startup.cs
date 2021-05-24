@@ -14,7 +14,7 @@ namespace Samples
 		public void Configure(IAppHostBuilder appBuilder)
 		{
 			appBuilder
-				.UseFormsCompatibility(scanAllAssemblies:true)
+				.UseFormsCompatibility(scanAllAssemblies: true)
 				.UseMauiControlsHandlers()
 				.UseMauiApp<App>();
 

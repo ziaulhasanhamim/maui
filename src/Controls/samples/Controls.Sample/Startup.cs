@@ -39,7 +39,7 @@ namespace Maui.Controls.Sample
 			bool useFullDIAndBlazor = UseFullDI || _pageType == PageType.Blazor;
 
 			appBuilder
-				.UseFormsCompatibility()
+				.UseFormsCompatibility(scanAllAssemblies: true)
 				.UseMauiControlsHandlers();
 
 			if (UseXamlApp)
