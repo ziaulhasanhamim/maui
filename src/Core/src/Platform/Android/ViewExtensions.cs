@@ -84,7 +84,7 @@ namespace Microsoft.Maui
 				if (nativeView.Id == -1)
 					nativeView.Id = AView.GenerateViewId();
 
-				labelingView.LabelFor = nativeView.Id;
+				ViewCompat.SetLabelFor(labelingView, nativeView.Id);
 			}
 		}
 
