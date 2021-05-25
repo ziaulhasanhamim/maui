@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 
 namespace Microsoft.Maui.Controls
 {
@@ -90,7 +91,7 @@ namespace Microsoft.Maui.Controls
 			return (VisualElement)bindable.GetValue(LabeledByProperty);
 		}
 
-		public static void SetLabeledBy(BindableObject bindable, LabeledBy value)
+		public static void SetLabeledBy(BindableObject bindable, IView value)
 		{
 			bindable.SetValue(LabeledByProperty, value);
 		}

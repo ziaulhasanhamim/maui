@@ -90,6 +90,16 @@ namespace Microsoft.Maui
 				nativeView.AccessibilityTraits |= UIAccessibilityTrait.Header;
 			else
 				nativeView.AccessibilityTraits &= ~UIAccessibilityTrait.Header;
+
+			if (view.Handler?.MauiContext != null && semantics.LabeledBy != null)
+			{
+				var labelingView = semantics.LabeledBy;
+
+				if (labelingView is IText text)
+					nativeView.AccessibilityLabel = text.Text;
+				else
+					nativeView.AccessibilityLabel = $"{labelingView}";
+			}
 		}
 
 		public static T? FindDescendantView<T>(this UIView view) where T : UIView
