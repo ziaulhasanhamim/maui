@@ -10,11 +10,7 @@ namespace Microsoft.Maui.Controls
 
 		public static readonly BindableProperty HeadingLevelProperty = BindableProperty.CreateAttached("HeadingLevel", typeof(SemanticHeadingLevel), typeof(SemanticProperties), SemanticHeadingLevel.None, propertyChanged: OnHeadingLevelPropertyChanged);
 
-		static void OnHeadingLevelPropertyChanged(BindableObject bindable, object oldValue, object newValue)
-		{
-			UpdateSemanticsProperty(bindable,
-				(semantics) => semantics.HeadingLevel = (SemanticHeadingLevel)newValue);
-		}
+		public static readonly BindableProperty LabeledByProperty = BindableProperty.CreateAttached("LabeledBy", typeof(IView), typeof(SemanticProperties), default(IView), propertyChanged: OnLabeledByPropertyChanged);
 
 		static void OnDescriptionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -34,6 +30,22 @@ namespace Microsoft.Maui.Controls
 
 			UpdateSemanticsProperty(bindable,
 				(semantics) => semantics.Hint = value);
+		}
+
+		static void OnHeadingLevelPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			UpdateSemanticsProperty(bindable,
+				(semantics) => semantics.HeadingLevel = (SemanticHeadingLevel)newValue);
+		}
+
+		static void OnLabeledByPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			IView value = null;
+			if (newValue != null)
+				value = newValue as IView;
+
+			UpdateSemanticsProperty(bindable,
+				(semantics) => semantics.LabeledBy = value);
 		}
 
 		static void UpdateSemanticsProperty(BindableObject bindable, Action<Semantics> action)
@@ -71,6 +83,16 @@ namespace Microsoft.Maui.Controls
 		public static void SetHeadingLevel(BindableObject bindable, SemanticHeadingLevel value)
 		{
 			bindable.SetValue(HeadingLevelProperty, value);
+		}
+
+		public static VisualElement GetLabeledBy(BindableObject bindable)
+		{
+			return (VisualElement)bindable.GetValue(LabeledByProperty);
+		}
+
+		public static void SetLabeledBy(BindableObject bindable, LabeledBy value)
+		{
+			bindable.SetValue(LabeledByProperty, value);
 		}
 	}
 }

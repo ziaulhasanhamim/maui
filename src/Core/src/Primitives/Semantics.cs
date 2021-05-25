@@ -9,6 +9,8 @@ namespace Microsoft.Maui
 
 		public bool IsHeading => HeadingLevel != SemanticHeadingLevel.None;
 
+		public IView? LabeledBy { get; set; }
+
 		public Semantics()
 		{
 		}
