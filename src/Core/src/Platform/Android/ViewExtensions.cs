@@ -78,16 +78,14 @@ namespace Microsoft.Maui
 			nativeView.ContentDescription = semantics.Description;
 			ViewCompat.SetAccessibilityHeading(nativeView, semantics.IsHeading);
 
-			if (semantics.LabeledBy != null)
+			if (view.Handler?.MauiContext != null && semantics.LabeledBy != null)
 			{
-				var labelingView = semantics.LabeledBy.Handler.NativeView as AView;
-
+				AView labelingView = semantics.LabeledBy.ToNative(view.Handler.MauiContext);
 				if (nativeView.Id == -1)
 					nativeView.Id = AView.GenerateViewId();
 
 				labelingView.LabelFor = nativeView.Id;
 			}
-
 		}
 
 		public static void InvalidateMeasure(this AView nativeView, IView view)
