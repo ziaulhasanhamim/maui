@@ -44,6 +44,22 @@ namespace Maui.Controls.Sample.Pages
 
 			verticalStack.Add(new Label { Text = "Thank you for using Blazor and .NET MAUI!", FontSize = 24, TextColor = Colors.BlanchedAlmond, HorizontalOptions = LayoutOptions.Center });
 
+			var bwv2 = new BlazorWebView
+			{
+				// General properties
+				BackgroundColor = Colors.Purple,
+				HeightRequest = 400,
+				MinimumHeightRequest = 400,
+				VerticalOptions = LayoutOptions.FillAndExpand,
+
+				// BlazorWebView properties
+				HostPage = @"wwwroot/index2.html",
+			};
+			bwv2.RootComponents.Add(new RootComponent { Selector = "#app", ComponentType = typeof(Pages.FolderView) });
+			verticalStack.Add(bwv2);
+
+			verticalStack.Add(new Label { Text = "This is at the bottom!", FontSize = 24, TextColor = Colors.BlanchedAlmond, HorizontalOptions = LayoutOptions.Center });
+
 			Content = verticalStack;
 		}
 	}

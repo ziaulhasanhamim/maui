@@ -23,16 +23,44 @@ using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Controls;
 using Maui.Controls.Sample.Controls;
+using System.Linq;
 
 namespace Maui.Controls.Sample
 {
+	public class MailService
+	{
+		private string _currentFolder;
+
+		public string CurrentFolder
+		{
+			get { return _currentFolder; }
+			set
+			{
+				if (_currentFolder != value)
+				{
+					_currentFolder = value;
+					FolderChanged?.Invoke(this, EventArgs.Empty);
+				}
+			}
+		}
+
+		public event EventHandler FolderChanged;
+
+		public string[] GetMessages()
+		{
+			return Enumerable
+				.Range(0, 40)
+				.Select(i => $"Message {i} in folder {CurrentFolder}")
+				.ToArray();
+		}
+	}
 
 	public class CustomButton : Button { }
 
 	public class Startup : IStartup
 	{
 		enum PageType { Xaml, Semantics, Main, Blazor, NavigationPage, Shell }
-		private PageType _pageType = PageType.NavigationPage;
+		private PageType _pageType = PageType.Blazor;
 
 		public readonly static bool UseXamlApp = true;
 		public readonly static bool UseFullDI = false;
@@ -110,6 +138,7 @@ namespace Maui.Controls.Sample
 							logging.AddConsole();
 #endif
 						});
+						services.AddSingleton<MailService>();
 					}
 
 					services.AddSingleton<ITextService, TextService>();

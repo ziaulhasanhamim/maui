@@ -1,19 +1,39 @@
 ﻿@page "/"
+@inject Maui.Controls.Sample.MailService Mail
 
 <div>
     Navigate: Home | <a href="/other">Other</a>
 </div>
-
+NICE
 <h1>This is the count in the main app: @count</h1>
 <button @onclick="Increment">Increment</button>
+<div>
+    Enter your name: <input type="text" @bind-value="textValue" />
+    Here is your name: @textValue
+</div>
+
+<ul>
+    @foreach (var folder in Folders)
+    {
+        var folderValue = folder;
+        <li><button @onclick="(() => SetFolder(folderValue))">@folderValue</button></li>
+    }
+</ul>
 
 <MauiRazorClassLibrarySample.Component1 />
 
 @code {
     int count = 0;
+    string textValue;
 
+    string[] Folders = { "Inbox", "Sent", "Spam" };
     void Increment()
     {
         count++;
+    }
+
+    void SetFolder(string folderName)
+    {
+        Mail.CurrentFolder = folderName;
     }
 }

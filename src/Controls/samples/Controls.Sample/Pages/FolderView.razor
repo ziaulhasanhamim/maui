@@ -1,0 +1,26 @@
+﻿@page "/folders"
+@inject Maui.Controls.Sample.MailService Mail
+
+@if (Mail == null)
+{
+    <div>Loading message...</div>
+}
+else
+{
+    <ul>
+        @foreach (var msg in Mail.GetMessages())
+        {
+            var msgValue = msg;
+            <li>@msgValue</li>
+        }
+    </ul>
+}
+
+<MauiRazorClassLibrarySample.Component1 />
+
+@code {
+    protected override void OnInitialized()
+    {
+        Mail.FolderChanged += (_, __) => StateHasChanged();
+    }
+}
