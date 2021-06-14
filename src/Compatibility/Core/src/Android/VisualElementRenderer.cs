@@ -389,6 +389,18 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 			if (Element == null)
 				return;
 
+			Func<Graphics.Rectangle, Graphics.Size> CrossPlatformArrange = (Element as IFrameworkElement).Arrange;
+
+			var deviceIndependentLeft = Context.FromPixels(l);
+			var deviceIndependentTop = Context.FromPixels(t);
+			var deviceIndependentRight = Context.FromPixels(r);
+			var deviceIndependentBottom = Context.FromPixels(b);
+
+			var destination = Graphics.Rectangle.FromLTRB(deviceIndependentLeft, deviceIndependentTop,
+				deviceIndependentRight, deviceIndependentBottom);
+
+			CrossPlatformArrange(destination);
+
 			UpdateLayout(((IElementController)Element).LogicalChildren);
 		}
 
@@ -504,12 +516,28 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 
 		protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
 		{
+			Func<double, double, Graphics.Size> CrossPlatformMeasure = (Element as IFrameworkElement).Measure;
+
 			if (Element is Layout layout)
 			{
 				layout.ResolveLayoutChanges();
 			}
 
-			base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+			if (CrossPlatformMeasure == null)
+			{
+				base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+				return;
+			}
+
+			var deviceIndependentWidth = widthMeasureSpec.ToDouble(Context);
+			var deviceIndependentHeight = heightMeasureSpec.ToDouble(Context);
+
+			var size = CrossPlatformMeasure(deviceIndependentWidth, deviceIndependentHeight);
+
+			var nativeWidth = Context.ToPixels(size.Width);
+			var nativeHeight = Context.ToPixels(size.Height);
+
+			SetMeasuredDimension((int)nativeWidth, (int)nativeHeight);
 		}
 	}
 }

@@ -10,13 +10,10 @@ namespace Microsoft.Maui
 		readonly IServiceProvider? _services;
 		readonly IMauiHandlersServiceProvider? _mauiHandlersServiceProvider;
 
-		public MauiContext(Context context)
+
+		public MauiContext(IServiceProvider services, Context context)
 		{
 			_context = new WeakReference<Context>(context ?? throw new ArgumentNullException(nameof(context)));
-		}
-
-		public MauiContext(IServiceProvider services, Context context) : this(context)
-		{
 			_services = services ?? throw new ArgumentNullException(nameof(services));
 			_mauiHandlersServiceProvider = Services.GetRequiredService<IMauiHandlersServiceProvider>();
 		}

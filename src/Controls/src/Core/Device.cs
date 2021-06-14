@@ -167,8 +167,7 @@ namespace Microsoft.Maui.Controls
 			PlatformServices.StartTimer(interval, callback);
 		}
 
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public static Assembly[] GetAssemblies()
+		internal static Assembly[] GetAssemblies()
 		{
 			return AppDomain.CurrentDomain.GetAssemblies();
 		}

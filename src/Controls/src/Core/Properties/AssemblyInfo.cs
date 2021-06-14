@@ -39,6 +39,9 @@ using Microsoft.Maui.Controls.StyleSheets;
 [assembly: InternalsVisibleTo("Microsoft.Maui.Controls.DualScreen")]
 [assembly: InternalsVisibleTo("Microsoft.Maui.Controls.DualScreen.UnitTests")]
 [assembly: InternalsVisibleTo("WinUI.UITests")]
+// This is just temporary until we can just delete all the non NET6 projects and just have one
+// proper multi targeted project
+[assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.Hack")]
 
 [assembly: Preserve]
 

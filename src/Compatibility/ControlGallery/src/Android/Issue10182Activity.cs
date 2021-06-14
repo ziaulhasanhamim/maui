@@ -29,7 +29,7 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
 
 			base.OnCreate(savedInstanceState);
 
-			Microsoft.Maui.Controls.Compatibility.Forms.Init(this, savedInstanceState);
+			//Microsoft.Maui.Controls.Compatibility.Forms.Init(this, savedInstanceState);
 			LoadApplication(new Issue10182Application());
 
 			_activity1 = (Activity1)DependencyService.Resolve<Context>();

@@ -205,9 +205,6 @@ namespace Microsoft.Maui.Controls.Compatibility
 			Profile.FrameEnd();
 		}
 
-		public static void Init(Context activity, Bundle bundle, Assembly resourceAssembly) =>
-			Init(new MauiContext(activity), bundle, resourceAssembly);
-
 		public static void Init(IMauiContext context, Bundle bundle, Assembly resourceAssembly)
 		{
 			Profile.FrameBegin();
@@ -215,11 +212,11 @@ namespace Microsoft.Maui.Controls.Compatibility
 			Profile.FrameEnd();
 		}
 
-		public static void Init(InitializationOptions options)
+		public static void Init(IMauiContext context, InitializationOptions options)
 		{
 			Profile.FrameBegin();
 			SetupInit(
-				new MauiContext(options.Activity),
+				context,
 				options.ResourceAssembly,
 				options
 			);

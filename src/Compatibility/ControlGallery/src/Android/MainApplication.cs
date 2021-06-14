@@ -3,14 +3,13 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Plugin.CurrentActivity;
 using Microsoft.Maui.Controls.DualScreen;
 
 namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
 {
 	//You can specify additional application information in this attribute
     [Application]
-    public class MainApplication : global::Android.App.Application, global::Android.App.Application.IActivityLifecycleCallbacks
+    public class MainApplication : MauiApplication<Startup>, global::Android.App.Application.IActivityLifecycleCallbacks
     {
 		internal static Context ActivityContext { get; private set; }
 
@@ -20,7 +19,12 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
         }
 
         public override void OnCreate()
-        {
+		{
+#if NET6_0_OR_GREATER
+			// TODO: https://github.com/dotnet/runtime/issues/51274
+			Java.Lang.JavaSystem.LoadLibrary("System.Security.Cryptography.Native.OpenSsl");
+
+#endif
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
             //A great place to initialize Xamarin.Insights and Dependency Services!
@@ -34,7 +38,6 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
-            CrossCurrentActivity.Current.Activity = activity;
 			ActivityContext = activity;
         }
 
@@ -50,7 +53,6 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
 
         public void OnActivityResumed(Activity activity)
         {
-            CrossCurrentActivity.Current.Activity = activity;
 			ActivityContext = activity;
 		}
 
@@ -61,7 +63,6 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Android
 
         public void OnActivityStarted(Activity activity)
         {
-            CrossCurrentActivity.Current.Activity = activity;
 			ActivityContext = activity;
 		}
 

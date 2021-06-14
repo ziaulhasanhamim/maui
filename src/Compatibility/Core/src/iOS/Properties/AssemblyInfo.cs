@@ -75,3 +75,6 @@ using UIKit;
 [assembly: Microsoft.Maui.Controls.Dependency(typeof(ResourcesProvider))]
 [assembly: ResolutionGroupName("Xamarin")]
 [assembly: AssemblyMetadata("IsTrimmable", "True")]
+// This is just temporary until we can just delete all the non NET6 projects and just have one
+// proper multi targeted project
+[assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.Hack")]

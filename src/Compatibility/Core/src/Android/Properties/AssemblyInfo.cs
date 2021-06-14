@@ -71,3 +71,7 @@ using Microsoft.Maui.Controls.Shapes;
 [assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.Material")]
 [assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.DualScreen")]
 [assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.Android.UnitTests")]
+
+// This is just temporary until we can just delete all the non NET6 projects and just have one
+// proper multi targeted project
+[assembly: InternalsVisibleTo("Microsoft.Maui.Controls.Compatibility.Hack")]

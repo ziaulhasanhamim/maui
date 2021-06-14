@@ -36,7 +36,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 		public ActivationFlags Flags;
 	}
 
-	public class FormsAppCompatActivity : AppCompatActivity, IDeviceInfoProvider
+	public class FormsAppCompatActivity : MauiAppCompatActivity, IDeviceInfoProvider
 	{
 		public delegate bool BackButtonPressedEventHandler(object sender, EventArgs e);
 
@@ -179,7 +179,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 		{
 			OnCreate(options.Bundle, options.Flags);
 		}
-
+				
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			OnCreate(savedInstanceState, default(ActivationFlags));
@@ -241,7 +241,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.Android
 			SetContentView(_layout);
 
 			Profile.FramePartition("OnStateChanged");
-			Microsoft.Maui.Controls.Application.Current = null;
+			// Microsoft.Maui.Controls.Application.Current = null;
 
 			_previousState = _currentState;
 			_currentState = AndroidApplicationLifecycleState.OnCreate;

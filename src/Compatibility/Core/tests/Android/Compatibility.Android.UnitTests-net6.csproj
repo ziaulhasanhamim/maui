@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-android</TargetFrameworks>
+    <RootNamespace>Compatibility.Android.UnitTests</RootNamespace>
+    <AssemblyName>Compatibility.Android.UnitTests</AssemblyName>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.13.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Controls\src\Core\Controls.Core-net6.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Core\src\Core-net6.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Android.FormsViewGroup\Compatibility.Android.FormsViewGroup-net6.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Compatibility-net6.csproj" />
+  </ItemGroup>
+</Project>
+
+
+
