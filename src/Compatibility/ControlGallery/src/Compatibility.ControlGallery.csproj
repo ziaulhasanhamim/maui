@@ -43,6 +43,7 @@
     <None Include="Issues.Shared\**\*" />
     <Compile Remove="Core\**\*" />
     <None Include="Core\**\*" />
+    <MauiXaml Remove="Issues.Shared\**\*" />
   </ItemGroup>
 
   <ItemGroup>
