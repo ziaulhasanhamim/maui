@@ -102,7 +102,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43DBC453-37A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{486F33D7-541C-444F-8DD0-CBFAD645EB1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.UnitTests", "src\Compatibility\Core\tests\Compatibility.UnitTests.csproj", "{3E944BE9-8762-454F-AD63-0E6965D36383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.UnitTests-net6", "src\Compatibility\Core\tests\Compatibility.UnitTests-net6.csproj", "{3E944BE9-8762-454F-AD63-0E6965D36383}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controls.CustomAttributes", "src\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj", "{2C153F56-1E1F-4F1C-B59B-BCE1375666B7}"
 EndProject
@@ -114,13 +114,13 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Compatibility.UITests.Share
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Compatibility.ControlGallery.Issues.Shared", "src\Compatibility\ControlGallery\src\Issues.Shared\Compatibility.ControlGallery.Issues.Shared.shproj", "{AE2513CB-4E5E-4E5C-8237-88954D4C9433}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery.Core", "src\Compatibility\ControlGallery\src\Core\Compatibility.ControlGallery.Core.csproj", "{B90E5807-B4E6-4643-81F0-F1C7D1ECC6D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery.Core-net6", "src\Compatibility\ControlGallery\src\Core\Compatibility.ControlGallery.Core-net6.csproj", "{B90E5807-B4E6-4643-81F0-F1C7D1ECC6D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery.SingleProject", "src\Compatibility\ControlGallery\src\Compatibility.ControlGallery.SingleProject.csproj", "{0870578B-9E45-4418-83F1-3CB8940C1847}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compatibility.ControlGallery.iOS", "src\Compatibility\ControlGallery\src\iOS\Compatibility.ControlGallery.iOS.csproj", "{C7131F14-274F-4B55-ACA9-E81731AD012F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.Maps", "src\Compatibility\Maps\src\Compatibility.Maps.csproj", "{D084EF3B-89DD-4D81-A8BE-0DA7CFC2A82B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.Maps-net6", "src\Compatibility\Maps\src\Compatibility.Maps-net6.csproj", "{D084EF3B-89DD-4D81-A8BE-0DA7CFC2A82B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

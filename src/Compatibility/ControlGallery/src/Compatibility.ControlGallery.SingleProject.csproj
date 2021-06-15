@@ -55,9 +55,9 @@
     <ProjectReference Include="..\..\..\Controls\src\Xaml\Controls.Xaml-net6.csproj" />
     <ProjectReference Include="..\..\..\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj" />
     <ProjectReference Include="..\..\Core\src\Compatibility-net6.csproj" />
-    <ProjectReference Include="..\..\Core\tests\Compatibility.UnitTests.csproj" />
-    <ProjectReference Include="..\..\Maps\src\Compatibility.Maps.csproj" />
-    <ProjectReference Include="Core\Compatibility.ControlGallery.Core.csproj" />
+    <ProjectReference Include="..\..\Core\tests\Compatibility.UnitTests-net6.csproj" />
+    <ProjectReference Include="..\..\Maps\src\Compatibility.Maps-net6.csproj" />
+    <ProjectReference Include="Core\Compatibility.ControlGallery.Core-net6.csproj" />
   </ItemGroup>
 </Project>
 
