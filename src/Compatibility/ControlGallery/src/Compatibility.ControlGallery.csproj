@@ -43,6 +43,7 @@
     <None Include="Issues.Shared\**\*" />
     <Compile Remove="Core\**\*" />
     <None Include="Core\**\*" />
+    <MauiXaml Remove="Core\**\*" />
     <MauiXaml Remove="Issues.Shared\**\*" />
     <MauiXaml Remove="Xamarin.Forms.ControlGallery.WPF\**\*" />
     <MauiXaml Remove="Windows\**\*" />
