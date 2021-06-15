@@ -52,13 +52,21 @@ namespace Microsoft.Maui.Controls.Compatibility
 
 #if __ANDROID__ || __IOS__ || WINDOWS || MACCATALYST
 
-			Forms.RegisterCompatRenderers(
-					assemblies,
-					null,
-					(controlType) =>
-					{
-						handlersCollection?.TryAddHandler(controlType, typeof(RendererToHandlerShim));
-					});
+			Controls.Internals.Registrar.RegisterAll(
+				assemblies,
+				null,
+				new[] 
+				{
+					typeof(ExportRendererAttribute),
+					typeof(ExportCellAttribute),
+					typeof(ExportImageSourceHandlerAttribute),
+					typeof(ExportFontAttribute)
+				}, default(InitializationFlags),
+				(controlType) =>
+				{
+					handlersCollection?.TryAddHandler(controlType, typeof(RendererToHandlerShim));
+				});
+
 
 			DependencyService.ScanAssemblies(assemblies);
 #endif
