@@ -26,7 +26,7 @@
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
     <None Include="iOS\Info.plist" LogicalName="Info.plist" />
-    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.1" />
+    <!-- <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.2" /> -->
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NUnit">
       <Version>3.13.1</Version>
