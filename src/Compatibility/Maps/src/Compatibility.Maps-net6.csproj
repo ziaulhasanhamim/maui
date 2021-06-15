@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>$(MauiPlatforms)</TargetFrameworks>
-		<AssemblyName>Microsoft.Maui.Controls.Compatibility.Maps</AssemblyName>
+    <AssemblyName>Microsoft.Maui.Controls.Compatibility.Maps</AssemblyName>
+    <RootNamespace>Microsoft.Maui.Controls.Compatibility.Maps</RootNamespace>
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>Microsoft.Maui.Controls.Compatibility.Maps</PackageId>
