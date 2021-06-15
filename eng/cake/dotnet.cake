@@ -91,6 +91,7 @@ Task("VS-NET6")
     .IsDependentOn("dotnet-buildtasks")
     .Does(() =>
     {
+        RunMSBuildWithLocalDotNet("./src/Controls/samples/Controls.Sample/Maui.Controls.Sample-net6.csproj");
         StartVisualStudioForDotNet6();
     });
 

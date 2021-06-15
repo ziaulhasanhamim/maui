@@ -116,7 +116,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Compatibility.ControlGaller
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery.Core", "src\Compatibility\ControlGallery\src\Core\Compatibility.ControlGallery.Core.csproj", "{B90E5807-B4E6-4643-81F0-F1C7D1ECC6D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery", "src\Compatibility\ControlGallery\src\Compatibility.ControlGallery.csproj", "{0870578B-9E45-4418-83F1-3CB8940C1847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compatibility.ControlGallery.SingleProject", "src\Compatibility\ControlGallery\src\Compatibility.ControlGallery.SingleProject.csproj", "{0870578B-9E45-4418-83F1-3CB8940C1847}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compatibility.ControlGallery.iOS", "src\Compatibility\ControlGallery\src\iOS\Compatibility.ControlGallery.iOS.csproj", "{C7131F14-274F-4B55-ACA9-E81731AD012F}"
 EndProject
