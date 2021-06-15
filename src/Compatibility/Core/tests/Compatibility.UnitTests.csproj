@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-ios</TargetFrameworks>
+    <RootNamespace>Compatibility.UnitTests</RootNamespace>
+    <AssemblyName>Compatibility.UnitTests</AssemblyName>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.13.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Controls\src\Core\Controls.Core-net6.csproj" />
+    <ProjectReference Include="..\..\..\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj" />
+    <ProjectReference Include="..\..\..\Core\src\Core-net6.csproj" />
+    <ProjectReference Include="..\src\Compatibility-net6.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-android')) == true ">
+    <ProjectReference Include="..\src\Android.FormsViewGroup\Compatibility.Android.FormsViewGroup-net6.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ControlGallery\test\UITests.Shared\Utilities\NumericExtensions.cs">
+      <Link>NumericExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ControlGallery\test\UITests.Shared\Utilities\ParsingUtils.cs">
+      <Link>ParsingUtils.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="..\..\..\..\.nuspec\Microsoft.Maui.Controls.MultiTargeting.targets" />
+</Project>
+
+
+

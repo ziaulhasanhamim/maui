@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>$(MauiPlatforms)</TargetFrameworks>
+		<AssemblyName>Microsoft.Maui.Controls.Compatibility.Maps</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Microsoft.Maui.Controls.Compatibility.Maps</PackageId>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Description>Provides Maps support for Microsoft MAUI Controls</Description>
+	</PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="GTK\**\*" />
+    <None Include="GTK\**\*" />
+    <Compile Remove="MacOS\**\*" />
+    <None Include="MacOS\**\*" />
+    <Compile Remove="Tizen\**\*" />
+    <None Include="Tizen\**\*" />
+    <Compile Remove="UWP\**\*" />
+    <None Include="UWP\**\*" />
+    <Compile Remove="WPF\**\*" />
+    <None Include="WPF\**\*" />
+  </ItemGroup>
+  <Import Project="..\..\..\..\.nuspec\Microsoft.Maui.Controls.MultiTargeting.targets" />
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android'))">
+    <PackageReference Include="Microsoft.Maui.Graphics" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
+    <PackageReference Include="Xamarin.Google.Android.Material" />
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Maps" Version="117.0.0" />
+    <ProjectReference Include="..\..\Core\src\Android.FormsViewGroup\Compatibility.Android.FormsViewGroup-net6.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
+    <PackageReference Include="Microsoft.Maui.Graphics" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Controls\Maps\src\Controls.Maps-net6.csproj" />
+    <ProjectReference Include="..\..\Core\src\Compatibility-net6.csproj" />
+  </ItemGroup>
+</Project>

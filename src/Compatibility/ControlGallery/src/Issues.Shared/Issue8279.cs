@@ -7,12 +7,11 @@ using System.Linq;
 using Microsoft.Maui.Controls.CustomAttributes;
 using Microsoft.Maui.Controls.Internals;
 #if UITEST
-using Microsoft.Maui.Controls.UITests;
 using Xamarin.UITest;
 using NUnit.Framework;
 #endif
 
-namespace Microsoft.Maui.Controls.ControlGallery.Issues
+namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Issues
 {
 	[Preserve (AllMembers=true)]
 	[Issue (IssueTracker.Github, 8279, "[Feature requested] ListView do not ScrollTo a group when there is no child of this group", PlatformAffected.Android)]

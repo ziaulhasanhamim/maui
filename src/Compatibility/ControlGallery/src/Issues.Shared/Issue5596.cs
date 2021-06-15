@@ -2,7 +2,7 @@
 using Microsoft.Maui.Controls.CustomAttributes;
 using Microsoft.Maui.Controls.Internals;
 
-namespace Microsoft.Maui.Controls.ControlGallery.Issues
+namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Issues
 {
 	[Preserve(AllMembers = true)]
 	[Issue(IssueTracker.Github, 5596, "Previous page's toolbar item being grayed out when canceling swipe to previous page then navigating back", PlatformAffected.iOS)]

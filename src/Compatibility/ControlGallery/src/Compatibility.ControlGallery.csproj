@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-ios</TargetFrameworks>
+    <RootNamespace>Microsoft.Maui.Controls.Compatibility.ControlGallery</RootNamespace>
+    <AssemblyName>Compatibility.ControlGallery</AssemblyName>
+    <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net6.0-ios'">iossimulator-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">maccatalyst-x64</RuntimeIdentifier>
+    <OutputType>Exe</OutputType>
+    <SingleProject>true</SingleProject>
+    <ApplicationTitle>Compatibility Tests</ApplicationTitle>
+    <ApplicationId>com.microsoft.maui.compatibilitycontrolgallery</ApplicationId>
+    <ApplicationVersion>1.0</ApplicationVersion>
+    <AndroidVersionCode>1</AndroidVersionCode>
+    <IsPackable>false</IsPackable>
+    <AndroidManifest>Android\Properties\AndroidManifest.xml</AndroidManifest>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <DefineConstants>$(DefineConstants);UITEST</DefineConstants>
+  </PropertyGroup>
+  <Import Project="..\..\..\..\.nuspec\Microsoft.Maui.Controls.MultiTargeting.targets" />
+  
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-android'))">
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
+    <None Include="iOS\Info.plist" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Xamarin.Forms.ControlGallery.*\**\*" />
+    <None Include="Xamarin.Forms.ControlGallery.*\**\*" />
+    <Compile Remove="Windows\**\*" />
+    <None Include="Windows (Package)\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Controls\Maps\src\Controls.Maps-net6.csproj" />
+    <ProjectReference Include="..\..\..\Controls\src\Core\Controls.Core-net6.csproj" />
+    <ProjectReference Include="..\..\..\Controls\src\Xaml\Controls.Xaml-net6.csproj" />
+    <ProjectReference Include="..\..\..\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj" />
+    <ProjectReference Include="..\..\Core\src\Compatibility-net6.csproj" />
+    <ProjectReference Include="..\..\Core\tests\Compatibility.UnitTests.csproj" />
+    <ProjectReference Include="..\..\Maps\src\Compatibility.Maps.csproj" />
+    <ProjectReference Include="Core\Compatibility.ControlGallery.Core.csproj" />
+  </ItemGroup>
+</Project>
+
+
+

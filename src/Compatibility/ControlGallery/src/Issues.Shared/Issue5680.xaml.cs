@@ -7,7 +7,7 @@ using System.ComponentModel;
 using Microsoft.Maui.Controls.CustomAttributes;
 using Microsoft.Maui.Controls.Internals;
 
-namespace Microsoft.Maui.Controls.ControlGallery.Issues
+namespace Microsoft.Maui.Controls.Compatibility.ControlGallery.Issues
 {
 	[Preserve(AllMembers = true)]
 	[Issue(IssueTracker.Github, 5680, "[Enhancement] Add method to force value coercion")]
@@ -15,8 +15,10 @@ namespace Microsoft.Maui.Controls.ControlGallery.Issues
     {
 		
 		public Issue5680()
-        {
+		{
+#if APP
             InitializeComponent();
+#endif
         }
 
 		protected override void Init()
