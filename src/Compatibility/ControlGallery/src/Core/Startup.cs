@@ -13,7 +13,11 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery
 		public void Configure(IAppHostBuilder appBuilder)
 		{
 			appBuilder
-				.UseMauiApp<App>();
+				.UseMauiApp<App>()
+				.ConfigureMauiHandlers(handlers =>
+				{
+					handlers.AddCompatibilityRenderers(Device.GetAssemblies());
+				});
 		}
 	}
 }

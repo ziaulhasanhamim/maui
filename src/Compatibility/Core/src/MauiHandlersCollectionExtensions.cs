@@ -46,5 +46,25 @@ namespace Microsoft.Maui.Controls.Compatibility
 
 			return handlersCollection;
 		}
+
+	public static IMauiHandlersCollection AddCompatibilityRenderers(this IMauiHandlersCollection handlersCollection, params System.Reflection.Assembly[] assemblies)
+	{
+
+#if __ANDROID__ || __IOS__ || WINDOWS || MACCATALYST
+
+			Forms.RegisterCompatRenderers(
+					assemblies,
+					null,
+					(controlType) =>
+					{
+						handlersCollection?.TryAddHandler(controlType, typeof(RendererToHandlerShim));
+					});
+
+			DependencyService.ScanAssemblies(assemblies);
+#endif
+
+
+			return handlersCollection;
+		}
 	}
 }
