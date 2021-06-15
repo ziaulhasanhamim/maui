@@ -73,22 +73,6 @@
     <Content Include="$(iOSRoot)*.jpg" />
     <Content Include="$(iOSRoot)*.gif" />
     <LinkDescription Include="$(iOSRoot)LinkDescription.xml" />
-    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Bold.ttf">
-      <Link>Resources\Fonts\Roboto-Bold.ttf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-BoldItalic.ttf">
-      <Link>Resources\Fonts\Roboto-BoldItalic.ttf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Italic.ttf">
-      <Link>Resources\Fonts\Roboto-Italic.ttf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
-    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Regular.ttf">
-      <Link>Resources\Fonts\Roboto-Regular.ttf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </BundleResource>
   </ItemGroup>
 </Project>
 
