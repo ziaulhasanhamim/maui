@@ -16,6 +16,9 @@
     <IsPackable>false</IsPackable>
     <AndroidManifest>Android\Properties\AndroidManifest.xml</AndroidManifest>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidRoot>Android\</AndroidRoot>
+    <iOSRoot>iOS\</iOSRoot>
+    <WindowsRoot>WinUI\</WindowsRoot>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <DefineConstants>$(DefineConstants);UITEST</DefineConstants>
@@ -58,6 +61,180 @@
     <ProjectReference Include="..\..\Core\tests\Compatibility.UnitTests-net6.csproj" />
     <ProjectReference Include="..\..\Maps\src\Compatibility.Maps-net6.csproj" />
     <ProjectReference Include="Core\Compatibility.ControlGallery.Core-net6.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
+    <Content Include="$(iOSRoot)bank%402x.png" />
+    <Content Include="$(iOSRoot)bank.png" />
+    <Content Include="$(iOSRoot)calculator%402x.png" />
+    <Content Include="$(iOSRoot)calculator.png" />
+    <BundleResource Include="$(iOSRoot)caret_r.png" />
+    <Content Include="$(iOSRoot)cover1.jpg" />
+    <Content Include="$(iOSRoot)crimson.jpg" />
+    <BundleResource Include="$(iOSRoot)default.css" />
+    <Content Include="$(iOSRoot)Entitlements.plist">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="$(iOSRoot)GifOne.gif" />
+    <Content Include="$(iOSRoot)GifTwo.gif" />
+    <Content Include="$(iOSRoot)Goobuntu-icon.png" />
+    <Content Include="$(iOSRoot)Intranet-icon.png" />
+    <BundleResource Include="$(iOSRoot)local.html" />
+    <LinkDescription Include="LinkDescription.xml" />
+    <Content Include="$(iOSRoot)oasis.jpg" />
+    <BundleResource Include="$(iOSRoot)oasissmall.jpg" />
+    <Content Include="$(iOSRoot)coffee%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\invalidimage.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\FlowerBuds.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\Fruits.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\Legumes.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\Vegetables.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\gamesflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\gamesflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\games.png" />
+    <BundleResource Include="$(iOSRoot)Resources\games%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\booksflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\booksflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\books.png" />
+    <BundleResource Include="$(iOSRoot)Resources\books%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\homeflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\homeflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\home%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\jet.png" />
+    <BundleResource Include="$(iOSRoot)Resources\jet%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\loop.png" />
+    <BundleResource Include="$(iOSRoot)Resources\loop%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\newspaperflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\newspaperflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\newspaper.png" />
+    <BundleResource Include="$(iOSRoot)Resources\newspaper%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\person.png" />
+    <BundleResource Include="$(iOSRoot)Resources\person%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\star-flyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\star-flyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\star.png" />
+    <BundleResource Include="$(iOSRoot)Resources\star%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\headphone%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\headphone.png" />
+    <BundleResource Include="$(iOSRoot)Resources\headphoneflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\headphoneflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\grid%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\grid.png" />
+    <BundleResource Include="$(iOSRoot)Resources\gear%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\gear.png" />
+    <BundleResource Include="$(iOSRoot)Resources\film%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\film.png" />
+    <BundleResource Include="$(iOSRoot)Resources\filmflyout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\filmflyout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\card%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\card.png" />
+    <BundleResource Include="$(iOSRoot)Resources\bell%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\bell.png" />
+    <BundleResource Include="$(iOSRoot)Resources\mic.png" />
+    <BundleResource Include="$(iOSRoot)Resources\photo.jpg" />
+    <Content Include="$(iOSRoot)settings%402x.png" />
+    <Content Include="$(iOSRoot)menuIcon%402x.png" />
+    <Content Include="$(iOSRoot)crimsonsmall.jpg" />
+    <Content Include="$(iOSRoot)seth%402x.png" />
+    <Content Include="$(iOSRoot)cover1small.jpg" />
+    <Content Include="$(iOSRoot)menuIcon.png" />
+    <Content Include="$(iOSRoot)seth.png" />
+    <BundleResource Include="$(iOSRoot)photo.jpg" />
+    <BundleResource Include="$(iOSRoot)ionicons.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="$(iOSRoot)WebImages\XamarinLogo.png" />
+    <BundleResource Include="$(iOSRoot)Images\FlowerBuds.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\FlowerBuds%402x.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Fruits.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Fruits%402x.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Legumes.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Legumes%402x.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Vegetables.jpg" />
+    <BundleResource Include="$(iOSRoot)Images\Vegetables%402x.jpg" />
+    <BundleResource Include="$(iOSRoot)toolbar_close.png" />
+    <BundleResource Include="$(iOSRoot)test.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\about.png" />
+    <BundleResource Include="$(iOSRoot)Resources\about%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\blog.png" />
+    <BundleResource Include="$(iOSRoot)Resources\blog%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\facebook.png" />
+    <BundleResource Include="$(iOSRoot)Resources\facebook%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\favorite.png" />
+    <BundleResource Include="$(iOSRoot)Resources\googleplus.png" />
+    <BundleResource Include="$(iOSRoot)Resources\googleplus%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\hm_full.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\hm.png" />
+    <BundleResource Include="$(iOSRoot)Resources\hm%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\home.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_pause.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_pause%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_play.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_play%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_share.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_share%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_stop.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ic_stop%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\instagram.png" />
+    <BundleResource Include="$(iOSRoot)Resources\instagram%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\lists.png" />
+    <BundleResource Include="$(iOSRoot)Resources\messages.png" />
+    <BundleResource Include="$(iOSRoot)Resources\notifications.png" />
+    <BundleResource Include="$(iOSRoot)Resources\profile.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ratchet_full.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\ratchet.png" />
+    <BundleResource Include="$(iOSRoot)Resources\ratchet%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\refresh.png" />
+    <BundleResource Include="$(iOSRoot)Resources\refresh%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\reply.png" />
+    <BundleResource Include="$(iOSRoot)Resources\retweet.png" />
+    <BundleResource Include="$(iOSRoot)Resources\rui.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\scott.png" />
+    <BundleResource Include="$(iOSRoot)Resources\scott159.png" />
+    <BundleResource Include="$(iOSRoot)Resources\search.png" />
+    <BundleResource Include="$(iOSRoot)Resources\slideout.png" />
+    <BundleResource Include="$(iOSRoot)Resources\slideout%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\tdl_full.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\tdl.png" />
+    <BundleResource Include="$(iOSRoot)Resources\tdl%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\tweet.png" />
+    <BundleResource Include="$(iOSRoot)Resources\twitter.png" />
+    <BundleResource Include="$(iOSRoot)Resources\twitter%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\twitternav.png" />
+    <BundleResource Include="$(iOSRoot)Resources\twitternav%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\xamarinlogo.png" />
+    <BundleResource Include="$(iOSRoot)coffee.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Default%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Default.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Default-Portrait%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Default-Portrait.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Default-568h%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\xamarin_logo%403x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\xamarin_logo%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\xamarin_logo.png" />
+    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Bold.ttf">
+      <Link>Resources\Fonts\Roboto-Bold.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-BoldItalic.ttf">
+      <Link>Resources\Fonts\Roboto-BoldItalic.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Italic.ttf">
+      <Link>Resources\Fonts\Roboto-Italic.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="..\Xamarin.Forms.ControlGallery.MacOS\Resources\Fonts\Roboto-Regular.ttf">
+      <Link>Resources\Fonts\Roboto-Regular.ttf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="$(iOSRoot)Resources\button_add%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\icon_search%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\icon_bookmark%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\xamarinstore.jpg" />
+    <BundleResource Include="$(iOSRoot)Resources\cardBackground%402x.png" />
+    <BundleResource Include="$(iOSRoot)Resources\Fonts\fa-solid-900.ttf" />
   </ItemGroup>
 </Project>
 
