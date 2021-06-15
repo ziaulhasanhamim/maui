@@ -44,7 +44,8 @@
     <Compile Remove="Core\**\*" />
     <None Include="Core\**\*" />
     <MauiXaml Remove="Issues.Shared\**\*" />
-    <MauiXaml Remove="Core\**\*" />
+    <MauiXaml Remove="Xamarin.Forms.ControlGallery.WPF\**\*" />
+    <MauiXaml Remove="Windows\**\*" />
   </ItemGroup>
 
   <ItemGroup>
