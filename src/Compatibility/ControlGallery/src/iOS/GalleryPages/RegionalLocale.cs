@@ -1,7 +1,8 @@
 ﻿using System;
 using Foundation;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Compatibility.ControlGallery.GalleryPages.DateTimePickerGalleries;
 using Xamarin.Forms;
-using Xamarin.Forms.Controls.GalleryPages.DateTimePickerGalleries;
 
 [assembly: Dependency(typeof(Xamarin.Forms.ControlGallery.iOS.GalleryPages.RegionalLocale))]
 namespace Xamarin.Forms.ControlGallery.iOS.GalleryPages

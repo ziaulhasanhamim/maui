@@ -26,6 +26,12 @@
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios'))">
     <None Include="iOS\Info.plist" LogicalName="Info.plist" />
+    <PackageReference Include="Xamarin.TestCloud.Agent" Version="0.22.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NUnit">
+      <Version>3.13.1</Version>
+    </PackageReference>
+    <PackageReference Include="AdvancedColorPicker" Version="2.0.1" />
   </ItemGroup>
   
   <ItemGroup>
@@ -35,6 +41,8 @@
     <None Include="Windows (Package)\**\*" />
     <Compile Remove="Issues.Shared\**\*" />
     <None Include="Issues.Shared\**\*" />
+    <Compile Remove="Core\**\*" />
+    <None Include="Core\**\*" />
   </ItemGroup>
 
   <ItemGroup>
