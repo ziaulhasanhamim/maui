@@ -40,10 +40,10 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\ControlGallery\src\UITests.Shared\Utilities\NumericExtensions.cs">
+    <Compile Include="..\..\..\ControlGallery\test\UITests.Shared\Utilities\NumericExtensions.cs">
       <Link>NumericExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\ControlGallery\src\UITests.Shared\Utilities\ParsingUtils.cs">
+    <Compile Include="..\..\..\ControlGallery\test\UITests.Shared\Utilities\ParsingUtils.cs">
       <Link>ParsingUtils.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.cs" />
