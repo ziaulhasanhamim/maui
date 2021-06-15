@@ -89,7 +89,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="..\..\src\Issues.Shared\Compatibility.ControlGallery.Issues.Shared.projitems" Label="Shared" />
-  <Import Project="..\..\src\UITests.Shared\Compatibility.UITests.projitems" Label="Shared" />
+  <Import Project="..\UITests.Shared\Compatibility.UITests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="_CopyXamarinUITestFiles" AfterTargets="Build">
     <ItemGroup>

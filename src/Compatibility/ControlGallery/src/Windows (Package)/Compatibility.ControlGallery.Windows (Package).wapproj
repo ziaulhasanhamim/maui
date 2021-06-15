@@ -39,9 +39,9 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-    <EntryPointProjectUniqueName>..\WinUI\Compatibility.ControlGallery.WinUI.csproj</EntryPointProjectUniqueName>
     <AppProjectTargetFramework>net6.0-windows$(TargetPlatformVersion)</AppProjectTargetFramework>
     <AssetTargetFallback>$(AppProjectTargetFramework);$(AssetTargetFallback)</AssetTargetFallback>
+    <EntryPointProjectUniqueName>..\Windows\Compatibility.ControlGallery.Windows.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -55,11 +55,6 @@
     <PackageReference Include="Microsoft.ProjectReunion.WinUI" Version="[$(_MicrosoftProjectReunionVersion)]">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WinUI\Compatibility.ControlGallery.WinUI.csproj">
-      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\coverassets1.jpg" />
@@ -145,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\OFL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Windows\Compatibility.ControlGallery.Windows.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

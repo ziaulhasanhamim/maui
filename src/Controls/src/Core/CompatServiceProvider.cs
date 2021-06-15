@@ -13,7 +13,7 @@ namespace Microsoft.Maui.Controls
 		static IEmbeddedFontLoader? _embeddedFontLoader;
 
 		// TODO MAUI This create seems wrong
-		public static IServiceProvider ServiceProvider => _serviceProvider ??= CreateCompatServiceProvider();
+		public static IServiceProvider ServiceProvider => _serviceProvider ?? throw new InvalidOperationException("ServiceProvider has not been initialized");
 
 		public static IFontRegistrar FontRegistrar => ServiceProvider.GetRequiredService<IFontRegistrar>();
 

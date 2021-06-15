@@ -1,4 +1,8 @@
 using System;
+#if WINDOWS
+using Microsoft.Maui.Controls.Compatibility.Platform.UWP;
+#endif
+
 using Microsoft.Maui.Controls.Internals;
 using Microsoft.Maui.Hosting;
 
@@ -47,7 +51,7 @@ namespace Microsoft.Maui.Controls.Compatibility
 			return handlersCollection;
 		}
 
-	public static IMauiHandlersCollection AddCompatibilityRenderers(this IMauiHandlersCollection handlersCollection, params System.Reflection.Assembly[] assemblies)
+	public static IMauiHandlersCollection AddCompatibilityRenderers(this IMauiHandlersCollection handlersCollection, params global::System.Reflection.Assembly[] assemblies)
 	{
 
 #if __ANDROID__ || __IOS__ || WINDOWS || MACCATALYST
