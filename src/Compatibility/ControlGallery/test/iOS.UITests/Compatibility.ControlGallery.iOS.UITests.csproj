@@ -58,21 +58,21 @@
     <Compile Include="BaseViewContainerRemoteiOS.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Controls\Maps\src\Controls.Maps.csproj">
-      <Project>{f2379e0f-524f-47bc-877c-0428e4c836d4}</Project>
-      <Name>Controls.Maps</Name>
+    <ProjectReference Include="..\..\..\..\Controls\Maps\src\Controls.Maps-net6.csproj">
+      <Project>{61b7caa3-0050-4223-a4d5-301e1d1eba32}</Project>
+      <Name>Controls.Maps-net6</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Controls\src\Core\Controls.Core.csproj">
-      <Project>{57b8b73d-c3b5-4c42-869e-7b2f17d354ac}</Project>
-      <Name>Controls.Core</Name>
+    <ProjectReference Include="..\..\..\..\Controls\src\Core\Controls.Core-net6.csproj">
+      <Project>{af64451f-e2bd-41c2-b083-f60c26ae2a9f}</Project>
+      <Name>Controls.Core-net6</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Controls\tests\CustomAttributes\Controls.CustomAttributes.csproj">
       <Project>{d816b818-f58f-4738-93ae-924efab7a07f}</Project>
       <Name>Controls.CustomAttributes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Core\src\Core.csproj">
-      <Project>{29913989-0f70-48d8-8ede-b1dd217f21d1}</Project>
-      <Name>Core</Name>
+    <ProjectReference Include="..\..\..\..\Core\src\Core-net6.csproj">
+      <Project>{95ba42b5-b00e-4986-b9b5-517140378452}</Project>
+      <Name>Core-net6</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\iOS\Compatibility.ControlGallery.iOS.csproj">
       <Project>{C7131F14-274F-4B55-ACA9-E81731AD012F}</Project>
@@ -85,6 +85,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="..\..\src\Issues.Shared\Compatibility.ControlGallery.Issues.Shared.projitems" Label="Shared" />
+  <Import Project="..\UITests.Shared\Compatibility.UITests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Delete Files="bin/$(Configuration)/System.Net.Http.dll" />
