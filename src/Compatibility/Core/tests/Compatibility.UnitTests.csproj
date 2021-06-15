@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-ios</TargetFrameworks>
+    <TargetFrameworks>$(MauiPlatforms)</TargetFrameworks>
     <RootNamespace>Compatibility.UnitTests</RootNamespace>
     <AssemblyName>Compatibility.UnitTests</AssemblyName>
     <Nullable>disable</Nullable>
