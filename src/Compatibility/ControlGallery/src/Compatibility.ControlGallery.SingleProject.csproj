@@ -72,7 +72,7 @@
     <Content Include="$(iOSRoot)*.png" />
     <Content Include="$(iOSRoot)*.jpg" />
     <Content Include="$(iOSRoot)*.gif" />
-    <LinkDescription Include="$(iOSRoot)LinkDescription.xml" />
+    <!--<LinkDescription Include="$(iOSRoot)LinkDescription.xml" />-->
   </ItemGroup>
 </Project>
 
