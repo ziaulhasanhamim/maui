@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BlazorTestAppProjects\BasicTestApp\BasicTestApp.csproj" />
     <ProjectReference Include="..\..\..\BlazorWebView\samples\MauiRazorClassLibrarySample\MauiRazorClassLibrarySample.csproj" />
   </ItemGroup>
   <ItemGroup Condition=" '$(UseMaui)' != 'true' ">

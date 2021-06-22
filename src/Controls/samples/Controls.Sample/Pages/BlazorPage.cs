@@ -39,7 +39,7 @@ namespace Maui.Controls.Sample.Pages
 				// BlazorWebView properties
 				HostPage = @"wwwroot/index.html",
 			};
-			bwv.RootComponents.Add(new RootComponent { Selector = "#app", ComponentType = typeof(Main) });
+			bwv.RootComponents.Add(new RootComponent { Selector = "root", ComponentType = typeof(BasicTestApp.Index) });
 			verticalStack.Add(bwv);
 
 			verticalStack.Add(new Label { Text = "Thank you for using Blazor and .NET MAUI!", FontSize = 24, TextColor = Colors.BlanchedAlmond, HorizontalOptions = LayoutOptions.Center });
