@@ -38,10 +38,6 @@ namespace Microsoft.Maui.Hosting
 				services.AddSingleton<IImageSourceServiceConfiguration, ImageSourceServiceConfiguration>();
 				services.AddSingleton<IImageSourceServiceProvider>(svcs => new ImageSourceServiceProvider(this, svcs));
 			}
-
-			public void Configure(HostBuilderContext context, IServiceProvider services)
-			{
-			}
 		}
 	}
 }

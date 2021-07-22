@@ -24,10 +24,75 @@ namespace Maui.Controls.Sample
 {
 	public class CustomButton : Button { }
 
+	public static class MauiProgram
+	{
+		enum PageType { Main, Blazor, Shell }
+		readonly static PageType _pageType = PageType.Main;
+
+		public static MauiAppBuilder CreateAppBuilder()
+		{
+			var builder = MauiAppBuilder.CreateBuilder();
+
+			builder.UseMauiApp<XamlApp>();
+			var services = builder.Services;
+			services.AddSingleton<ITextService, TextService>();
+			services.AddTransient<MainViewModel>();
+
+			services.AddTransient(
+				serviceType: typeof(Page),
+				implementationType: _pageType switch
+				{
+					PageType.Shell => typeof(AppShell),
+#if WINDOWS
+					PageType.Main => typeof(TempPage),
+#else
+					PageType.Main => typeof(CustomNavigationPage),
+#endif
+					PageType.Blazor =>
+#if NET6_0_OR_GREATER
+						typeof(BlazorPage),
+#else
+						throw new NotSupportedException("Blazor requires .NET 6 or higher."),
+#endif
+					_ => throw new Exception(),
+				});
+
+			builder.ConfigureImageSources();
+
+			builder.ConfigureFonts(fonts =>
+			{
+				fonts.AddFont("Dokdo-Regular.ttf", "Dokdo");
+				fonts.AddFont("LobsterTwo-Regular.ttf", "Lobster Two");
+				fonts.AddFont("LobsterTwo-Bold.ttf", "Lobster Two Bold");
+				fonts.AddFont("LobsterTwo-Italic.ttf", "Lobster Two Italic");
+				fonts.AddFont("LobsterTwo-BoldItalic.ttf", "Lobster Two BoldItalic");
+				fonts.AddFont("ionicons.ttf", "Ionicons");
+				fonts.AddFont("SegoeUI.ttf", "Segoe UI");
+				fonts.AddFont("SegoeUI-Bold.ttf", "Segoe UI Bold");
+				fonts.AddFont("SegoeUI-Italic.ttf", "Segoe UI Italic");
+				fonts.AddFont("SegoeUI-Bold-Italic.ttf", "Segoe UI Bold Italic");
+			});
+
+			builder.ConfigureAppConfiguration(config =>
+				{
+					config.AddInMemoryCollection(new Dictionary<string, string>
+					{
+						{"MyKey", "Dictionary MyKey Value"},
+						{":Title", "Dictionary_Title"},
+						{"Position:Name", "Dictionary_Name" },
+						{"Logging:LogLevel:Default", "Warning"}
+					});
+				});
+
+			return builder;
+		}
+	}
+
+
 	public class Startup : IStartup
 	{
 		enum PageType { Main, Blazor, Shell }
-		readonly PageType _pageType = PageType.Main;
+		readonly PageType _pageType = PageType.Blazor;
 
 		public void Configure(IAppHostBuilder appBuilder)
 		{

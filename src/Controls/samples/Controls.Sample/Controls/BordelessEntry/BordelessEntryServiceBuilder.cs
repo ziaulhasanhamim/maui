@@ -7,7 +7,7 @@ using Microsoft.Maui.Hosting;
 
 namespace Maui.Controls.Sample.Controls
 {
-	class BordelessEntryServiceBuilder : IMauiServiceBuilder
+	class BordelessEntryServiceBuilder : IMauiServiceBuilder, IMauiInitializeService
 	{
 		static IMauiHandlersCollection HandlersCollection;
 		static readonly Dictionary<Type, Type> PendingHandlers = new();
@@ -24,10 +24,10 @@ namespace Maui.Controls.Sample.Controls
 
 		void IMauiServiceBuilder.ConfigureServices(HostBuilderContext context, IServiceCollection services)
 		{
-			// No-op
+			services.InitThis(this);
 		}
 
-		void IMauiServiceBuilder.Configure(HostBuilderContext context, IServiceProvider services)
+		void IMauiInitializeService.Initialize(HostBuilderContext context, IServiceProvider services)
 		{
 			HandlersCollection ??= services.GetRequiredService<IMauiHandlersServiceProvider>().GetCollection();
 

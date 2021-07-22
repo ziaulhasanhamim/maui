@@ -105,10 +105,6 @@ namespace Microsoft.Maui.Hosting
 
 				services.AddSingleton<IMauiHandlersServiceProvider>(provider);
 			}
-
-			public void Configure(HostBuilderContext context, IServiceProvider services)
-			{
-			}
 		}
 	}
 }

@@ -27,9 +27,30 @@ namespace Microsoft.Maui.LifecycleEvents
 			{
 				services.AddSingleton<ILifecycleEventService>(this);
 			}
+		}
+	}
 
-			public void Configure(HostBuilderContext context, IServiceProvider services)
+	public static partial class MauiAppHostBuilderExtensions
+	{
+		public static MauiAppBuilder ConfigureLifecycleEvents(this MauiAppBuilder builder, Action<ILifecycleBuilder> configureDelegate)
+		{
+			builder.ConfigureServices<LifecycleBuilder>((_, lifecycle) => configureDelegate(lifecycle));
+
+			return builder;
+		}
+
+		public static MauiAppBuilder ConfigureLifecycleEvents(this MauiAppBuilder builder, Action<HostBuilderContext, ILifecycleBuilder> configureDelegate)
+		{
+			builder.ConfigureServices<LifecycleBuilder>(configureDelegate);
+
+			return builder;
+		}
+
+		class LifecycleBuilder : LifecycleEventService, ILifecycleBuilder, IMauiServiceBuilder
+		{
+			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 			{
+				services.AddSingleton<ILifecycleEventService>(this);
 			}
 		}
 	}

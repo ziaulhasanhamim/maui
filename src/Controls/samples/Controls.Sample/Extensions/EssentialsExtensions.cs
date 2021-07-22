@@ -72,7 +72,7 @@ namespace Microsoft.Maui.Essentials
 		public static IEssentialsBuilder AddAppAction(this IEssentialsBuilder essentials, string id, string title, string subtitle = null, string icon = null) =>
 			essentials.AddAppAction(new AppAction(id, title, subtitle, icon));
 
-		class EssentialsBuilder : IEssentialsBuilder, IMauiServiceBuilder
+		class EssentialsBuilder : IEssentialsBuilder, IMauiServiceBuilder, IMauiInitializeService
 		{
 			readonly List<AppAction> _appActions = new List<AppAction>();
 			Action<AppAction> _appActionHandlers;
@@ -115,9 +115,10 @@ namespace Microsoft.Maui.Essentials
 
 			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 			{
+				services.InitThis(this);
 			}
 
-			public async void Configure(HostBuilderContext context, IServiceProvider services)
+			public async void Initialize(HostBuilderContext context, IServiceProvider services)
 			{
 #if WINDOWS
 				Platform.MapServiceToken = _mapServiceToken;

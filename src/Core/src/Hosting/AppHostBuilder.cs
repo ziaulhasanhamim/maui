@@ -14,7 +14,6 @@ namespace Microsoft.Maui.Hosting
 	public class AppHostBuilder : IAppHostBuilder
 	{
 		readonly Dictionary<Type, List<Action<HostBuilderContext, IMauiServiceBuilder>>> _configureServiceBuilderActions = new Dictionary<Type, List<Action<HostBuilderContext, IMauiServiceBuilder>>>();
-		readonly List<IMauiServiceBuilder> _configureServiceBuilderInstances = new List<IMauiServiceBuilder>();
 		readonly List<Action<IConfigurationBuilder>> _configureHostConfigActions = new List<Action<IConfigurationBuilder>>();
 		readonly List<Action<HostBuilderContext, IConfigurationBuilder>> _configureAppConfigActions = new List<Action<HostBuilderContext, IConfigurationBuilder>>();
 		readonly List<Action<HostBuilderContext, IServiceCollection>> _configureServicesActions = new List<Action<HostBuilderContext, IServiceCollection>>();
@@ -224,8 +223,6 @@ namespace Microsoft.Maui.Hosting
 				}
 
 				instance.ConfigureServices(_hostBuilderContext, services);
-
-				_configureServiceBuilderInstances.Add(instance);
 			}
 		}
 
@@ -236,9 +233,13 @@ namespace Microsoft.Maui.Hosting
 			if (_hostBuilderContext == null)
 				throw new InvalidOperationException($"The HostBuilderContext was not set.");
 
-			foreach (var instance in _configureServiceBuilderInstances)
+			var initServices = serviceProvider.GetService<IEnumerable<IMauiInitializeService>>();
+			if (initServices != null)
 			{
-				instance.Configure(_hostBuilderContext, serviceProvider);
+				foreach (var instance in initServices)
+				{
+					instance.Initialize(_hostBuilderContext, serviceProvider);
+				}
 			}
 		}
 

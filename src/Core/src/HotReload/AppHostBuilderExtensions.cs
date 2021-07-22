@@ -19,7 +19,7 @@ namespace Microsoft.Maui.Hosting
 			return builder;
 		}
 
-		class HotReloadBuilder : IMauiServiceBuilder
+		class HotReloadBuilder : IMauiServiceBuilder, IMauiInitializeService
 		{
 			public string? IdeIp { get; set; }
 
@@ -27,9 +27,10 @@ namespace Microsoft.Maui.Hosting
 
 			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 			{
+				services.InitThis(this);
 			}
 
-			public async void Configure(HostBuilderContext context, IServiceProvider services)
+			public async void Initialize(HostBuilderContext context, IServiceProvider services)
 			{
 				var handlers = services.GetRequiredService<IMauiHandlersServiceProvider>();
 

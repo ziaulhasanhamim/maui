@@ -25,16 +25,17 @@ namespace Microsoft.Maui.Hosting
 			return builder;
 		}
 
-		class FontCollectionBuilder : FontCollection, IMauiServiceBuilder
+		class FontCollectionBuilder : FontCollection, IMauiServiceBuilder, IMauiInitializeService
 		{
 			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 			{
 				services.AddSingleton<IEmbeddedFontLoader>(svc => new EmbeddedFontLoader(svc.CreateLogger<EmbeddedFontLoader>()));
 				services.AddSingleton<IFontRegistrar>(svc => new FontRegistrar(svc.GetRequiredService<IEmbeddedFontLoader>(), svc.CreateLogger<FontRegistrar>()));
 				services.AddSingleton<IFontManager>(svc => new FontManager(svc.GetRequiredService<IFontRegistrar>(), svc.CreateLogger<FontManager>()));
+				services.InitThis(this);
 			}
 
-			public void Configure(HostBuilderContext context, IServiceProvider services)
+			public void Initialize(HostBuilderContext context, IServiceProvider services)
 			{
 				var fontRegistrar = services.GetService<IFontRegistrar>();
 				if (fontRegistrar == null)

@@ -16,16 +16,17 @@ namespace Microsoft.Maui.Controls.Hosting
 			return builder;
 		}
 
-		class EffectCollectionBuilder : IMauiServiceBuilder, IEffectsBuilder
+		class EffectCollectionBuilder : IMauiServiceBuilder, IEffectsBuilder, IMauiInitializeService
 		{
 			internal Dictionary<Type, Func<PlatformEffect>> RegisteredEffects { get; } = new Dictionary<Type, Func<PlatformEffect>>();
 
 			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 			{
 				services.AddSingleton<EffectsFactory>();
+				services.InitThis(this);
 			}
 
-			public void Configure(HostBuilderContext context, IServiceProvider services)
+			public void Initialize(HostBuilderContext context, IServiceProvider services)
 			{
 				var effectsProvider = services.GetRequiredService<EffectsFactory>();
 				effectsProvider.SetRegisteredEffects(RegisteredEffects);
