@@ -32,6 +32,7 @@ namespace Microsoft.Maui.Controls.Compatibility.ControlGallery
 					effects.AddCompatibilityEffects(Device.GetAssemblies());
 				});
 
+			// TODO: This used to be called inside a callback from ConfigureServices, but doesn't actually use any services. Was it just to delay execution to be later in app startup?
 			DependencyService.Register(Device.GetAssemblies());
 
 			return builder;
