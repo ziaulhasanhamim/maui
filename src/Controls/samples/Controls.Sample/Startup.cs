@@ -27,7 +27,7 @@ namespace Maui.Controls.Sample
 	public static class MauiProgram
 	{
 		enum PageType { Main, Blazor, Shell }
-		readonly static PageType _pageType = PageType.Main;
+		readonly static PageType _pageType = PageType.Shell;
 
 		public static MauiAppBuilder CreateAppBuilder()
 		{
@@ -38,12 +38,48 @@ namespace Maui.Controls.Sample
 			services.AddSingleton<ITextService, TextService>();
 			services.AddTransient<MainViewModel>();
 
+			builder
+				.ConfigureMauiHandlers(handlers =>
+				{
+#if __ANDROID__
+					handlers.AddCompatibilityRenderer(typeof(CustomButton),
+						typeof(Microsoft.Maui.Controls.Compatibility.Platform.Android.AppCompat.ButtonRenderer));
+#elif __IOS__
+					handlers.AddCompatibilityRenderer(typeof(CustomButton),
+						typeof(Microsoft.Maui.Controls.Compatibility.Platform.iOS.ButtonRenderer));
+#elif WINDOWS
+					handlers.AddCompatibilityRenderer(typeof(CustomButton),
+						typeof(Microsoft.Maui.Controls.Compatibility.Platform.UWP.ButtonRenderer));
+#endif
+				});
+
+			// Use a "third party" library that brings in a massive amount of controls
+			// TODO: appBuilder.UseBordelessEntry();
+			builder.ConfigureEffects(builder =>
+			{
+				builder.Add<FocusRoutingEffect, FocusPlatformEffect>();
+			});
+
+#if DEBUG && !WINDOWS
+			// TODO: appBuilder.EnableHotReload();
+#endif
 
 #if NET6_0_OR_GREATER
 			builder.RegisterBlazorMauiWebView(typeof(Startup).Assembly);
 			services.AddBlazorWebView();
 #endif
 
+			services.AddLogging(logging =>
+			{
+#if WINDOWS
+				logging.AddDebug();
+#else
+				logging.AddConsole();
+#endif
+			});
+
+
+			services.AddTransient<IWindow, Window>();
 
 			services.AddTransient(
 				serviceType: typeof(Page),
@@ -91,129 +127,7 @@ namespace Maui.Controls.Sample
 					});
 				});
 
-			return builder;
-		}
-	}
-
-
-	public class Startup
-	{
-		enum PageType { Main, Blazor, Shell }
-		readonly PageType _pageType = PageType.Blazor;
-
-		public void Configure(IAppHostBuilder appBuilder)
-		{
-			appBuilder.UseMauiApp<XamlApp>();
-
-			appBuilder
-				.ConfigureMauiHandlers(handlers =>
-				{
-#if __ANDROID__
-					handlers.AddCompatibilityRenderer(typeof(CustomButton),
-						typeof(Microsoft.Maui.Controls.Compatibility.Platform.Android.AppCompat.ButtonRenderer));
-#elif __IOS__
-					handlers.AddCompatibilityRenderer(typeof(CustomButton),
-						typeof(Microsoft.Maui.Controls.Compatibility.Platform.iOS.ButtonRenderer));
-#elif WINDOWS
-					handlers.AddCompatibilityRenderer(typeof(CustomButton),
-						typeof(Microsoft.Maui.Controls.Compatibility.Platform.UWP.ButtonRenderer));
-#endif
-				});
-
-
-			// Use a "third party" library that brings in a massive amount of controls
-			appBuilder.UseBordelessEntry();
-			appBuilder.ConfigureEffects(builder =>
-			{
-				builder.Add<FocusRoutingEffect, FocusPlatformEffect>();
-			});
-
-#if DEBUG && !WINDOWS
-			appBuilder.EnableHotReload();
-#endif
-
-			appBuilder
-				.ConfigureAppConfiguration(config =>
-				{
-					config.AddInMemoryCollection(new Dictionary<string, string>
-					{
-						{"MyKey", "Dictionary MyKey Value"},
-						{":Title", "Dictionary_Title"},
-						{"Position:Name", "Dictionary_Name" },
-						{"Logging:LogLevel:Default", "Warning"}
-					});
-				});
-
-#if NET6_0_OR_GREATER
-			appBuilder
-				.RegisterBlazorMauiWebView(typeof(Startup).Assembly);
-#endif
-
-			appBuilder
-				.ConfigureServices(services =>
-				{
-					services.AddLogging(logging =>
-					{
-#if WINDOWS
-						logging.AddDebug();
-#else
-						logging.AddConsole();
-#endif
-					});
-
-					services.AddSingleton<ITextService, TextService>();
-					services.AddTransient<MainViewModel>();
-
-#if NET6_0_OR_GREATER
-					services.AddBlazorWebView();
-#endif
-
-					services.AddTransient(
-						serviceType: typeof(Page),
-						implementationType: _pageType switch
-						{
-							PageType.Shell => typeof(AppShell),
-#if WINDOWS
-							PageType.Main => typeof(TempPage),
-#else
-							PageType.Main => typeof(CustomNavigationPage),
-#endif
-							PageType.Blazor =>
-#if NET6_0_OR_GREATER
-								typeof(BlazorPage),
-#else
-								throw new NotSupportedException("Blazor requires .NET 6 or higher."),
-#endif
-							_ => throw new Exception(),
-						});
-
-					services.AddTransient<IWindow, Window>();
-				})
-				.ConfigureFonts(fonts =>
-				{
-					fonts.AddFont("Dokdo-Regular.ttf", "Dokdo");
-					fonts.AddFont("LobsterTwo-Regular.ttf", "Lobster Two");
-					fonts.AddFont("LobsterTwo-Bold.ttf", "Lobster Two Bold");
-					fonts.AddFont("LobsterTwo-Italic.ttf", "Lobster Two Italic");
-					fonts.AddFont("LobsterTwo-BoldItalic.ttf", "Lobster Two BoldItalic");
-					fonts.AddFont("ionicons.ttf", "Ionicons");
-					fonts.AddFont("SegoeUI.ttf", "Segoe UI");
-					fonts.AddFont("SegoeUI-Bold.ttf", "Segoe UI Bold");
-					fonts.AddFont("SegoeUI-Italic.ttf", "Segoe UI Italic");
-					fonts.AddFont("SegoeUI-Bold-Italic.ttf", "Segoe UI Bold Italic");
-				})
-				.ConfigureEssentials(essentials =>
-				{
-					essentials
-						.UseVersionTracking()
-						.UseMapServiceToken("YOUR-KEY-HERE")
-						.AddAppAction("test_action", "Test App Action")
-						.AddAppAction("second_action", "Second App Action")
-						.OnAppAction(appAction =>
-						{
-							Debug.WriteLine($"You seem to have arrived from a special place: {appAction.Title} ({appAction.Id})");
-						});
-				})
+			builder
 				.ConfigureLifecycleEvents(events =>
 				{
 					events.AddEvent<Action<string>>("CustomEventName", value => LogEvent("CustomEventName"));
@@ -292,6 +206,33 @@ namespace Maui.Controls.Sample
 						Debug.WriteLine($"Lifecycle event: {eventName}{(type == null ? "" : $" ({type})")}");
 						return true;
 					}
+				});
+
+
+
+			return builder;
+		}
+	}
+
+
+	public class Startup
+	{
+		public void Configure(IAppHostBuilder appBuilder)
+		{
+
+
+			appBuilder
+				.ConfigureEssentials(essentials =>
+				{
+					essentials
+						.UseVersionTracking()
+						.UseMapServiceToken("YOUR-KEY-HERE")
+						.AddAppAction("test_action", "Test App Action")
+						.AddAppAction("second_action", "Second App Action")
+						.OnAppAction(appAction =>
+						{
+							Debug.WriteLine($"You seem to have arrived from a special place: {appAction.Title} ({appAction.Id})");
+						});
 				});
 		}
 	}
