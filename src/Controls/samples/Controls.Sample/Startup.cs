@@ -38,6 +38,13 @@ namespace Maui.Controls.Sample
 			services.AddSingleton<ITextService, TextService>();
 			services.AddTransient<MainViewModel>();
 
+
+#if NET6_0_OR_GREATER
+			builder.RegisterBlazorMauiWebView(typeof(Startup).Assembly);
+			services.AddBlazorWebView();
+#endif
+
+
 			services.AddTransient(
 				serviceType: typeof(Page),
 				implementationType: _pageType switch
