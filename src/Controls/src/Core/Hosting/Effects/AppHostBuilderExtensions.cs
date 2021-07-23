@@ -10,6 +10,13 @@ namespace Microsoft.Maui.Controls.Hosting
 {
 	public static partial class AppHostBuilderExtensions
 	{
+		public static MauiAppBuilder ConfigureEffects(this MauiAppBuilder builder, Action<IEffectsBuilder> configureDelegate)
+		{
+			builder.ConfigureServices<EffectCollectionBuilder>((_, b) => configureDelegate(b));
+			return builder;
+		}
+
+
 		public static IAppHostBuilder ConfigureEffects(this IAppHostBuilder builder, Action<IEffectsBuilder> configureDelegate)
 		{
 			builder.ConfigureServices<EffectCollectionBuilder>(b => configureDelegate(b));

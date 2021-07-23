@@ -8,33 +8,6 @@ using Microsoft.Maui.Hosting.Internal;
 
 namespace Microsoft.Maui
 {
-	/// <summary>
-	/// Startup allow to configure and instantiate application services.
-	/// </summary>
-	public interface IStartup
-	{
-		/// <summary>
-		/// Configures the application.
-		/// Configure are called by the .NET MAUI Core runtime when the app starts.
-		/// </summary>
-		/// <param name="appBuilder">Defines a class that provides the mechanisms to configure an application's dependencies.</param>
-		void Configure(IAppHostBuilder appBuilder);
-	}
-
-	/// <summary>
-	/// Allow to create a custom IAppHostBuilder instance.
-	/// </summary>
-	public interface IAppHostBuilderStartup : IStartup
-	{
-		/// <summary>
-		/// Create and configure a builder object.
-		/// </summary>
-		/// <returns>The new instance of the IAppHostBuilder.</returns>
-		IAppHostBuilder CreateAppHostBuilder();
-	}
-
-
-
 	public sealed class MauiAppBuilder
 	{
 		private MauiAppBuilder()
@@ -60,37 +33,43 @@ namespace Microsoft.Maui
 
 
 		readonly Dictionary<Type, List<Action<HostBuilderContext, IMauiServiceBuilder>>> _configureServiceBuilderActions = new();
-		public void ConfigureMauiHandlers(Action<IMauiHandlersCollection> configureDelegate)
+		public MauiAppBuilder ConfigureMauiHandlers(Action<IMauiHandlersCollection> configureDelegate)
 		{
 			ConfigureServices<HandlerCollectionBuilder>((_, handlers) => configureDelegate(handlers));
+			return this;
 		}
 
-		public void ConfigureMauiHandlers(Action<HostBuilderContext, IMauiHandlersCollection> configureDelegate)
+		public MauiAppBuilder ConfigureMauiHandlers(Action<HostBuilderContext, IMauiHandlersCollection> configureDelegate)
 		{
 			ConfigureServices<HandlerCollectionBuilder>(configureDelegate);
+			return this;
 		}
 
-		public void ConfigureFonts(Action<IFontCollection> configureDelegate)
+		public MauiAppBuilder ConfigureFonts(Action<IFontCollection> configureDelegate)
 		{
 			ConfigureServices<FontCollectionBuilder>((_, fonts) => configureDelegate(fonts));
+			return this;
 		}
 
 		readonly List<Action<HostBuilderContext, IConfigurationBuilder>> _configureAppConfigActions = new List<Action<HostBuilderContext, IConfigurationBuilder>>();
 		readonly List<Action<IConfigurationBuilder>> _configureHostConfigActions = new List<Action<IConfigurationBuilder>>();
 
-		public void ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
+		public MauiAppBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
 		{
 			_configureAppConfigActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
+			return this;
 		}
 
-		public void ConfigureAppConfiguration(Action<IConfigurationBuilder> configureDelegate)
+		public MauiAppBuilder ConfigureAppConfiguration(Action<IConfigurationBuilder> configureDelegate)
 		{
 			ConfigureAppConfiguration((_, config) => configureDelegate(config));
+			return this;
 		}
 
-		public void ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
+		public MauiAppBuilder ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
 		{
 			_configureHostConfigActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
+			return this;
 		}
 
 
@@ -168,7 +147,7 @@ namespace Microsoft.Maui
 		}
 
 
-		public void ConfigureServices<TBuilder>(Action<HostBuilderContext, TBuilder> configureDelegate)
+		public MauiAppBuilder ConfigureServices<TBuilder>(Action<HostBuilderContext, TBuilder> configureDelegate)
 			where TBuilder : IMauiServiceBuilder, new()
 		{
 			_ = configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
@@ -181,6 +160,8 @@ namespace Microsoft.Maui
 			}
 
 			list.Add((context, builder) => configureDelegate(context, (TBuilder)builder));
+
+			return this;
 		}
 
 		public IServiceProvider FinalizeInternals()
