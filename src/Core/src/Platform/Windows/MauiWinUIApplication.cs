@@ -6,15 +6,9 @@ using Microsoft.Maui.LifecycleEvents;
 
 namespace Microsoft.Maui
 {
-	public class MauiWinUIApplication<TStartup> : MauiWinUIApplication
-		where TStartup : IStartup, new()
-	{
-		protected override IStartup OnCreateStartup() => new TStartup();
-	}
-
 	public abstract class MauiWinUIApplication : UI.Xaml.Application
 	{
-		protected abstract IStartup OnCreateStartup();
+		protected abstract MauiAppBuilder CreateAppBuilder();
 
 		public virtual UI.Xaml.Window CreateWindow() =>
 			new MauiWinUIWindow();
@@ -23,16 +17,19 @@ namespace Microsoft.Maui
 		{
 			LaunchActivatedEventArgs = args;
 
-			var startup = OnCreateStartup() ??
-				throw new InvalidOperationException($"A valid startup object must be provided by overriding {nameof(OnCreateStartup)}.");
+			var builder = CreateAppBuilder();
+			var services = builder.FinalizeInternals();
 
-			var host = startup
-				.CreateAppHostBuilder()
-				.ConfigureServices(ConfigureNativeServices)
-				.ConfigureUsing(startup)
-				.Build();
+			//var startup = OnCreateStartup() ??
+			//	throw new InvalidOperationException($"A valid startup object must be provided by overriding {nameof(OnCreateStartup)}.");
 
-			Services = host.Services;
+			//var host = startup
+			//	.CreateAppHostBuilder()
+			//	.ConfigureServices(ConfigureNativeServices)
+			//	.ConfigureUsing(startup)
+			//	.Build();
+
+			Services = services;
 
 			Services.InvokeLifecycleEvents<WindowsLifecycle.OnLaunching>(del => del(this, args));
 

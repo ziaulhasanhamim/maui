@@ -217,9 +217,16 @@ namespace Microsoft.Maui.Controls.Hosting
 #endif
 				});
 
-			builder
-				.Services.AddSingleton<MauiCompatBuilder>();
+			builder.AddMauiCompat();
 
+			return builder;
+		}
+
+		private static MauiAppBuilder AddMauiCompat(this MauiAppBuilder builder)
+		{
+			var mauiCompatBuilder = new MauiCompatBuilder();
+			builder.Services.AddSingleton<MauiCompatBuilder>(mauiCompatBuilder);
+			builder.Services.AddSingleton<IMauiInitializeService>(mauiCompatBuilder);
 			return builder;
 		}
 
