@@ -9,26 +9,21 @@ namespace Microsoft.Maui.Hosting
 {
 	public static partial class AppHostBuilderExtensions
 	{
-		public static IAppHostBuilder EnableHotReload(this IAppHostBuilder builder, string? ideIp = null, int idePort = 9988)
+		public static MauiAppBuilder EnableHotReload(this MauiAppBuilder builder, string? ideIp = null, int idePort = 9988)
 		{
-			builder.ConfigureServices<HotReloadBuilder>(hotReload =>
+			builder.Services.AddSingleton<IMauiInitializeService>(new HotReloadBuilder
 			{
-				hotReload.IdeIp = ideIp;
-				hotReload.IdePort = idePort;
+				IdeIp = ideIp,
+				IdePort = idePort,
 			});
 			return builder;
 		}
 
-		class HotReloadBuilder : IMauiServiceBuilder, IMauiInitializeService
+		class HotReloadBuilder : IMauiInitializeService
 		{
 			public string? IdeIp { get; set; }
 
 			public int IdePort { get; set; } = 9988;
-
-			public void ConfigureServices(HostBuilderContext context, IServiceCollection services)
-			{
-				services.InitThis(this);
-			}
 
 			public async void Initialize(HostBuilderContext context, IServiceProvider services)
 			{

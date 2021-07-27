@@ -61,7 +61,7 @@ namespace Maui.Controls.Sample
 			});
 
 #if DEBUG && !WINDOWS
-			// TODO: appBuilder.EnableHotReload();
+			builder.EnableHotReload();
 #endif
 
 #if NET6_0_OR_GREATER
