@@ -65,7 +65,7 @@ namespace Maui.Controls.Sample
 #endif
 
 #if NET6_0_OR_GREATER
-			builder.RegisterBlazorMauiWebView(typeof(Startup).Assembly);
+			builder.RegisterBlazorMauiWebView(typeof(MauiProgram).Assembly);
 			services.AddBlazorWebView();
 #endif
 
@@ -125,6 +125,20 @@ namespace Maui.Controls.Sample
 						{"Position:Name", "Dictionary_Name" },
 						{"Logging:LogLevel:Default", "Warning"}
 					});
+				});
+
+			builder
+				.ConfigureEssentials(essentials =>
+				{
+					essentials
+						.UseVersionTracking()
+						.UseMapServiceToken("YOUR-KEY-HERE")
+						.AddAppAction("test_action", "Test App Action")
+						.AddAppAction("second_action", "Second App Action")
+						.OnAppAction(appAction =>
+						{
+							Debug.WriteLine($"You seem to have arrived from a special place: {appAction.Title} ({appAction.Id})");
+						});
 				});
 
 			builder
@@ -211,29 +225,6 @@ namespace Maui.Controls.Sample
 
 
 			return builder;
-		}
-	}
-
-
-	public class Startup
-	{
-		public void Configure(IAppHostBuilder appBuilder)
-		{
-
-
-			appBuilder
-				.ConfigureEssentials(essentials =>
-				{
-					essentials
-						.UseVersionTracking()
-						.UseMapServiceToken("YOUR-KEY-HERE")
-						.AddAppAction("test_action", "Test App Action")
-						.AddAppAction("second_action", "Second App Action")
-						.OnAppAction(appAction =>
-						{
-							Debug.WriteLine($"You seem to have arrived from a special place: {appAction.Title} ({appAction.Id})");
-						});
-				});
 		}
 	}
 }
