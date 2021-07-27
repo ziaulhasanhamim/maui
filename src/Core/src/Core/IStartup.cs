@@ -130,9 +130,6 @@ namespace Microsoft.Maui
 			return this;
 		}
 
-
-
-
 		public MauiAppBuilder ConfigureImageSources()
 		{
 			ConfigureImageSources(services =>
