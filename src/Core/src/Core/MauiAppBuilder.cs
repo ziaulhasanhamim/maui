@@ -12,7 +12,6 @@ namespace Microsoft.Maui
 	{
 		private MauiAppBuilder()
 		{
-			Host = new ConfigureHostBuilder(Services);
 		}
 
 		public static MauiAppBuilder CreateBuilder() => new MauiAppBuilder(); // <-- perhaps set some defaults here?
@@ -21,16 +20,6 @@ namespace Microsoft.Maui
 		/// A collection of services for the application to compose. This is useful for adding user provided or framework provided services.
 		/// </summary>
 		public IServiceCollection Services { get; } = new ServiceCollection();
-
-		/// <summary>
-		/// An <see cref="IHostBuilder"/> for configuring host specific properties, but not building.
-		/// </summary>
-		public ConfigureHostBuilder Host { get; }
-
-		//public FontCollection CustomFonts { get; set; } // <-- Would something like this be useful?
-		//public ControlHandlerCollection CustomHandlers { get; set; } // <-- Or this? More usable than just registering magical 'services'?
-
-
 
 		readonly Dictionary<Type, List<Action<HostBuilderContext, IMauiServiceBuilder>>> _configureServiceBuilderActions = new();
 		public MauiAppBuilder ConfigureMauiHandlers(Action<IMauiHandlersCollection> configureDelegate)
@@ -256,70 +245,6 @@ namespace Microsoft.Maui
 			_appConfiguration = configBuilder.Build();
 
 			builderContext.Configuration = _appConfiguration;
-		}
-	}
-
-	/// <summary>
-	/// A non-buildable <see cref="IHostBuilder"/> for <see cref="MauiAppBuilder"/>.
-	/// </summary>
-	public sealed class ConfigureHostBuilder : IHostBuilder
-	{
-		/// <inheritdoc />
-		public IDictionary<object, object> Properties { get; } = new Dictionary<object, object>();
-
-		private readonly IServiceCollection _services;
-		private readonly HostBuilderContext _context;
-
-		internal ConfigureHostBuilder(IServiceCollection services)
-		{
-			_services = services;
-			_context = new HostBuilderContext(Properties)
-			{
-			};
-		}
-
-		internal bool ConfigurationEnabled { get; set; }
-
-		IHost IHostBuilder.Build()
-		{
-			throw new NotSupportedException($"This object is not buildable.");
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
-		{
-			throw new NotImplementedException("TODO: This");
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder ConfigureContainer<TContainerBuilder>(Action<HostBuilderContext, TContainerBuilder> configureDelegate)
-		{
-			throw new NotImplementedException("TODO: This");
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
-		{
-			throw new NotImplementedException("TODO: This");
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureDelegate)
-		{
-			configureDelegate(_context, _services);
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder UseServiceProviderFactory<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory) where TContainerBuilder : notnull
-		{
-			throw new NotImplementedException("TODO: This");
-		}
-
-		/// <inheritdoc />
-		public IHostBuilder UseServiceProviderFactory<TContainerBuilder>(Func<HostBuilderContext, IServiceProviderFactory<TContainerBuilder>> factory) where TContainerBuilder : notnull
-		{
-			throw new NotImplementedException("TODO: This");
 		}
 	}
 }
