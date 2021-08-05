@@ -35,7 +35,7 @@ namespace Maui.Controls.Sample.Pages
 
 			verticalStack.Add(new Label { Text = "Thank you for using Blazor and .NET MAUI!", FontSize = 24, TextColor = Colors.BlanchedAlmond, HorizontalOptions = LayoutOptions.Center });
 
-			Content = verticalStack;
+			Content = bwv;// verticalStack;
 #endif
 		}
 	}
