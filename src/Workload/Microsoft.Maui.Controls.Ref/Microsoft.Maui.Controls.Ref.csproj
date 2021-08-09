@@ -10,6 +10,7 @@
 
   <!-- Android-only files -->
   <ItemGroup Condition=" '$(MauiPlatformName)' == 'android' ">
+    <_AndroidFiles Include="$(MauiRootDirectory)src/Controls/src/Core/bin/$(Configuration)/net6.0-android/Microsoft.Maui.Controls.aar" />
     <_AndroidFiles Include="$(MauiRootDirectory)src/Compatibility/Android.FormsViewGroup/src/bin/$(Configuration)/net6.0-android/ref/Microsoft.Maui.Controls.Compatibility.Android.FormsViewGroup.dll" />
     <_AndroidFiles Include="$(MauiRootDirectory)src/Compatibility/Android.FormsViewGroup/src/bin/$(Configuration)/net6.0-android/Microsoft.Maui.Controls.Compatibility.Android.FormsViewGroup.aar" />
     <_AndroidFiles Include="$(MauiRootDirectory)src/Compatibility/Core/src/bin/$(Configuration)/net6.0-android/Microsoft.Maui.Controls.Compatibility.aar" />
