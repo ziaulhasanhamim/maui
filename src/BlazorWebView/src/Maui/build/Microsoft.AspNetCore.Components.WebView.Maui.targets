@@ -50,18 +50,19 @@
 
   <Target Name="EnsureBundles" BeforeTargets="CoreCompile" DependsOnTargets="_ResolveBundlingConfiguration;BundleScopedCssFiles" />
 
-  <Target Name="_FixUpMauiReference"
-    BeforeTargets="ComputeReferencedProjectsPublishAssets"
-    AfterTargets="LoadStaticWebAssetsBuildManifest">
+  <Target Name="_FixUpMauiReference2"
+    BeforeTargets="ResolveReferencedProjectsStaticWebAssets"
+    AfterTargets="ResolveReferencedProjectsStaticWebAssetsConfiguration">
 
     <ItemGroup>
-      <_MauiManifestsToUpdate Include="@(StaticWebAssetManifest)" Condition="'%(ManifestType)' == 'Publish'" />
+      <_MauiManifestsToUpdate Include="@(StaticWebAssetProjectConfiguration)" />
       <_MauiManifestsToUpdate>
        <AdditionalPublishPropertiesToRemove Condition="$([System.String]::Copy('%(_MauiManifestsToUpdate.AdditionalPublishProperties)').Contains('TargetFramework')) == 'false'">@(_MauiManifestsToUpdate->'%(AdditionalPublishPropertiesToRemove)');TargetFramework</AdditionalPublishPropertiesToRemove>      
+       <AdditionalBuildPropertiesToRemove Condition="$([System.String]::Copy('%(_MauiManifestsToUpdate.AdditionalBuildProperties)').Contains('TargetFramework')) == 'false'">@(_MauiManifestsToUpdate->'%(AdditionalBuildPropertiesToRemove)');TargetFramework</AdditionalBuildPropertiesToRemove>      
       </_MauiManifestsToUpdate>
 
-      <StaticWebAssetManifest Remove="@(_MauiManifestsToUpdate)" />
-      <StaticWebAssetManifest Include="@(_MauiManifestsToUpdate)" />
+      <StaticWebAssetProjectConfiguration Remove="@(_MauiManifestsToUpdate)" />
+      <StaticWebAssetProjectConfiguration Include="@(_MauiManifestsToUpdate)" />
     </ItemGroup>
 
   </Target>
