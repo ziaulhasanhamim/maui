@@ -48,8 +48,6 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="EnsureBundles" BeforeTargets="CoreCompile" DependsOnTargets="_ResolveBundlingConfiguration;BundleScopedCssFiles" />
-
   <Target Name="_FixUpMauiReference2"
     BeforeTargets="ResolveReferencedProjectsStaticWebAssets"
     AfterTargets="ResolveReferencedProjectsStaticWebAssetsConfiguration">
