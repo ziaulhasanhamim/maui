@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("iOSUnitTests")]
@@ -21,3 +22,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("CommunityToolkit.Maui.Markup")]
 [assembly: InternalsVisibleTo("CommunityToolkit.Maui.Markup.UnitTests")]
 [assembly: InternalsVisibleTo("Reloadify-emit")]
+
+[assembly: AssemblyMetadata("IsTrimmable", "True")]

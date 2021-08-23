@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Maui;
@@ -12,9 +13,9 @@ namespace Maui.Controls.Sample.Controls
 		static IMauiHandlersCollection HandlersCollection;
 		static readonly Dictionary<Type, Type> PendingHandlers = new();
 
-		public static void TryAddHandler<TType, TTypeRender>()
-			where TType : IView
-			where TTypeRender : IViewHandler
+		public static void TryAddHandler<TType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TTypeRender>()
+			where TType : IElement
+			where TTypeRender : IElementHandler
 		{
 			if (HandlersCollection == null)
 				PendingHandlers[typeof(TType)] = typeof(TTypeRender);
@@ -33,7 +34,11 @@ namespace Maui.Controls.Sample.Controls
 
 			if (PendingHandlers.Count > 0)
 			{
-				HandlersCollection.TryAddHandlers(PendingHandlers);
+				foreach (var handler in PendingHandlers)
+				{
+					HandlersCollection.TryAddHandler(handler.Key, handler.Value);
+				}
+
 				PendingHandlers.Clear();
 			}
 		}

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,9 +11,7 @@ namespace Microsoft.Maui.Hosting.Internal
 {
 	class MauiServiceProvider : IMauiServiceProvider
 	{
-		static readonly Type ServiceProviderType = typeof(IServiceProvider);
 		static readonly Type EnumerableType = typeof(IEnumerable<>);
-		static readonly Type ListType = typeof(List<>);
 
 		readonly IMauiServiceCollection _collection;
 		readonly bool _constructorInjection;
@@ -38,7 +37,7 @@ namespace Microsoft.Maui.Hosting.Internal
 			return GetService(serviceType, single, enumerable);
 		}
 
-		protected ServiceDescriptor? GetServiceDescriptor(Type serviceType)
+		protected ServiceDescriptor? GetServiceDescriptor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type serviceType)
 		{
 			if (serviceType == null)
 				throw new ArgumentNullException(nameof(serviceType));
@@ -54,7 +53,7 @@ namespace Microsoft.Maui.Hosting.Internal
 			return null;
 		}
 
-		protected IEnumerable<ServiceDescriptor> GetServiceDescriptors(Type serviceType)
+		protected IEnumerable<ServiceDescriptor> GetServiceDescriptors([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type serviceType)
 		{
 			if (serviceType == null)
 				throw new ArgumentNullException(nameof(serviceType));
@@ -100,7 +99,7 @@ namespace Microsoft.Maui.Hosting.Internal
 			return false;
 		}
 
-		static List<Type> GetServiceBaseTypes(Type serviceType)
+		static List<Type> GetServiceBaseTypes([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type serviceType)
 		{
 			var types = new List<Type> { serviceType };
 
@@ -144,7 +143,8 @@ namespace Microsoft.Maui.Hosting.Internal
 
 			if (enumerable != null)
 			{
-				var values = (IList)Activator.CreateInstance(ListType.MakeGenericType(serviceType))!;
+				var type = typeof(List<>).MakeGenericType(serviceType);
+				var values = (IList)Activator.CreateInstance(type)!;
 
 				foreach (var descriptor in enumerable)
 				{
@@ -176,10 +176,10 @@ namespace Microsoft.Maui.Hosting.Internal
 			throw new InvalidOperationException($"You need to provide an {nameof(item.ImplementationType)}, an {nameof(item.ImplementationFactory)} or an {nameof(item.ImplementationInstance)}.");
 		}
 
-		object? CreateInstance(Type implementationType)
+		object? CreateInstance([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type implementationType)
 		{
 			// get constructors ordered by parameter count
-			var constructors = implementationType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			var constructors = implementationType.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
 			var matches = new (ConstructorInfo? Constructor, ParameterInfo[]? Parameters)[constructors.Length];
 			var matchesCounts = new int[constructors.Length];
 			var found = false;

@@ -7,6 +7,7 @@
     <AssemblyName>Maui.Controls.Sample.Droid</AssemblyName>
     <IsPackable>false</IsPackable>
     <_FastDeploymentDiagnosticLogging>True</_FastDeploymentDiagnosticLogging>
+    <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
   </PropertyGroup>
 
   <!-- HACK: seems to fix a threading issue for now -->

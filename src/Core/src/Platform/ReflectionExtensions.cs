@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,27 +10,27 @@ namespace Microsoft.Maui
 {
 	internal static class ReflectionExtensions
 	{
-		public static FieldInfo? GetField(this Type type, Func<FieldInfo, bool> predicate)
+		public static FieldInfo? GetField([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields)] this Type type, Func<FieldInfo, bool> predicate)
 		{
 			return GetFields(type).FirstOrDefault(predicate);
 		}
 
-		public static FieldInfo? GetField(this Type type, string name)
+		public static FieldInfo? GetField([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields)] this Type type, string name)
 		{
 			return type.GetField(fi => fi.Name == name);
 		}
 
-		public static IEnumerable<FieldInfo> GetFields(this Type type)
+		public static IEnumerable<FieldInfo> GetFields([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields)] this Type type)
 		{
 			return GetParts(type, i => i.DeclaredFields);
 		}
 
-		public static IEnumerable<PropertyInfo> GetProperties(this Type type)
+		public static IEnumerable<PropertyInfo> GetProperties([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] this Type type)
 		{
 			return GetParts(type, ti => ti.DeclaredProperties);
 		}
 
-		public static PropertyInfo? GetProperty(this Type type, string name)
+		public static PropertyInfo? GetProperty([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties)] this Type type, string name)
 		{
 			Type? t = type;
 			while (t != null)

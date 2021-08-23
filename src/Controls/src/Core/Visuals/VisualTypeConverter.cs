@@ -68,7 +68,7 @@ namespace Microsoft.Maui.Controls
 
 			try
 			{
-				foreach (var type in assembly.GetExportedTypes())
+				foreach (var type in assembly.ExportedTypes)
 					if (typeof(IVisual).IsAssignableFrom(type) && type != typeof(IVisual))
 						Register(type, mappings);
 			}
