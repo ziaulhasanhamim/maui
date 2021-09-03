@@ -34,6 +34,8 @@ namespace Microsoft.Maui
 			propertyMapper.Add(key, newMethod);
 		}
 
+
+		// TODO ezhart Rewrite prepend/append using this
 		public static void ModifyMapping<TVirtualView, TViewHandler>(this IPropertyMapper<TVirtualView, TViewHandler> propertyMapper,
 			string key, Action<TViewHandler, TVirtualView, Action<IElementHandler, IElement>?> method)
 			where TVirtualView : IElement where TViewHandler : IElementHandler
