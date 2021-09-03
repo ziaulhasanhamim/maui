@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using Microsoft.Maui.Graphics;
 
 namespace Microsoft.Maui.Controls
@@ -97,6 +98,44 @@ namespace Microsoft.Maui.Controls
 		public virtual ControlTemplate ResolveControlTemplate()
 		{
 			return ControlTemplate;
+		}
+
+		static ColorToBrushConverter s_ColorToBrushConverter = new ColorToBrushConverter();
+
+		internal class ColorToBrushConverter : IValueConverter
+		{
+			public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+			{
+				var color = (Color)value;
+
+				return new SolidColorBrush(color);
+			}
+
+			public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		internal static void BindTemplatedParentProperties(BindableObject bindableObject, params BindableProperty[] properties)
+		{
+			foreach (var property in properties)
+			{
+				bindableObject.SetBinding(property, new Binding(property.PropertyName,
+					source: RelativeBindingSource.TemplatedParent));
+			}
+		}
+
+		internal static void BindBrushToTemplatedParentColor(BindableObject bindableObject, BindableProperty brushProperty, BindableProperty colorProperty)
+		{
+			bindableObject.SetBinding(brushProperty, new Binding(colorProperty.PropertyName,
+					source: RelativeBindingSource.TemplatedParent, converter: s_ColorToBrushConverter));
+		}
+
+		internal static void BindToTemplatedParentProperty(BindableObject bindableObject, BindableProperty localProperty, BindableProperty templateProperty)
+		{
+			bindableObject.SetBinding(localProperty, new Binding(templateProperty.PropertyName,
+				source: RelativeBindingSource.TemplatedParent));
 		}
 	}
 }

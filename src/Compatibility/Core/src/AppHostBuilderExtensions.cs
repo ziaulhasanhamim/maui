@@ -164,6 +164,7 @@ namespace Microsoft.Maui.Controls.Hosting
 					VisualElement.RemapForControls();
 					Label.RemapForControls();
 					Button.RemapForControls();
+					Frame.RemapForControls();
 				});
 
 			builder.AddMauiCompat();

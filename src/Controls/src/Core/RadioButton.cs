@@ -434,15 +434,6 @@ namespace Microsoft.Maui.Controls
 			IsChecked = true;
 		}
 
-		static void BindToTemplatedParent(BindableObject bindableObject, params BindableProperty[] properties)
-		{
-			foreach (var property in properties)
-			{
-				bindableObject.SetBinding(property, new Binding(property.PropertyName,
-					source: RelativeBindingSource.TemplatedParent));
-			}
-		}
-
 		static View BuildDefaultTemplate()
 		{
 			var frame = new Frame
@@ -451,7 +442,7 @@ namespace Microsoft.Maui.Controls
 				Padding = 6
 			};
 
-			BindToTemplatedParent(frame, BackgroundColorProperty, Microsoft.Maui.Controls.Frame.BorderColorProperty, HorizontalOptionsProperty,
+			BindTemplatedParentProperties(frame, BackgroundColorProperty, Microsoft.Maui.Controls.Frame.BorderColorProperty, HorizontalOptionsProperty,
 				MarginProperty, OpacityProperty, RotationProperty, ScaleProperty, ScaleXProperty, ScaleYProperty,
 				TranslationYProperty, TranslationXProperty, VerticalOptionsProperty);
 
