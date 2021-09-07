@@ -128,38 +128,6 @@ namespace Microsoft.Maui.Controls
 			}
 		}
 
-		// Normally we'd have to account for padding in the measure/arrange steps. But since we're doing the weird thing
-		// of shifting the padding to the content's margin, it's already accounted for by the measure/arrange of the Content
-		// So we need to override CPM and CPA here to deliberately ignore Padding
-
-		Size IContentView.CrossPlatformMeasure(double widthConstraint, double heightConstraint)
-		{
-			var content = (this as IContentView).PresentedContent;
-
-			var contentSize = Size.Zero;
-
-			if (content != null)
-			{
-				contentSize = content.Measure(widthConstraint, heightConstraint);
-			}
-
-			return contentSize;
-		}
-
-		Size IContentView.CrossPlatformArrange(Rectangle bounds)
-		{
-			var contentView = this as IContentView;
-
-			if (contentView.PresentedContent == null)
-			{
-				return bounds.Size;
-			}
-
-			_ = contentView.PresentedContent.Arrange(bounds);
-
-			return bounds.Size;
-		}
-
 		public new static void RemapForControls()
 		{
 			ContentViewHandler.ContentViewMapper.ModifyMapping(BackgroundProperty.PropertyName, IgnoreForFrame);
@@ -177,12 +145,12 @@ namespace Microsoft.Maui.Controls
 		{
 			var grid = new GridLayout
 			{
-				Background = new SolidColorBrush(Colors.Transparent),
+				Background = new SolidColorBrush(Colors.Orange),
 				ColumnDefinitions = new ColumnDefinitionCollection {
-					new ColumnDefinition { Width = GridLength.Star }
+					new ColumnDefinition { Width = GridLength.Auto }
 				},
 				RowDefinitions = new RowDefinitionCollection {
-					new RowDefinition { Height = GridLength.Star }
+					new RowDefinition { Height = GridLength.Auto }
 				}
 			};
 
@@ -190,37 +158,30 @@ namespace Microsoft.Maui.Controls
 				 OpacityProperty, RotationProperty, ScaleProperty, ScaleXProperty, ScaleYProperty,
 				TranslationYProperty, TranslationXProperty, VerticalOptionsProperty);
 
-			var rectangle = new Shapes.Rectangle
+			grid.SetBinding(MarginProperty, new Binding(PaddingProperty.PropertyName,
+				source: RelativeBindingSource.TemplatedParent, converter: new PaddingInverter()));
+
+			grid.SetBinding(PaddingProperty, new Binding(PaddingProperty.PropertyName,
+				source: RelativeBindingSource.TemplatedParent));
+
+			var rectangle = new DecoratorRectangle
 			{
-				Aspect = Stretch.Fill,
 				Background = new SolidColorBrush(Colors.Transparent)
 			};
 
 			BindBrushToTemplatedParentColor(rectangle, Shapes.Shape.StrokeProperty, BorderColorProperty);
 			BindToTemplatedParentProperty(rectangle, Shapes.Shape.FillProperty, BackgroundProperty);
 			BindToTemplatedParentProperty(rectangle, Shapes.Shape.StrokeThicknessProperty, BorderElement.BorderWidthProperty);
-			BindToTemplatedParentProperty(rectangle, Shapes.Rectangle.RadiusXProperty, CornerRadiusProperty);
-			BindToTemplatedParentProperty(rectangle, Shapes.Rectangle.RadiusYProperty, CornerRadiusProperty);
+			BindToTemplatedParentProperty(rectangle, DecoratorRectangle.RadiusXProperty, CornerRadiusProperty);
+			BindToTemplatedParentProperty(rectangle, DecoratorRectangle.RadiusYProperty, CornerRadiusProperty);
 
-			grid.Add(rectangle);
+			//rectangle.SetBinding(MarginProperty, new Binding(PaddingProperty.PropertyName,
+			//	source: RelativeBindingSource.TemplatedParent, converter: new PaddingInverter()));
 
 			var contentPresenter = new ContentPresenter();
-			BindToTemplatedParentProperty(contentPresenter, MarginProperty, PaddingProperty);
+			BindToTemplatedParentProperty(contentPresenter, MarginProperty, BorderElement.BorderWidthProperty);
 
-			// To achieve the padding for the Frame inside of the rectangle, we substitute the Padding from the Frame
-			// for the Margin of the Frame's Content. But we also need to account for the BorderWidth. So we'll bind the Content
-			// Margin to both the Padding and the BorderWidth and combine them.
-			var paddingAndBorderWidthBinding = new MultiBinding()
-			{
-				Bindings = new Collection<BindingBase>() {
-						new Binding(PaddingProperty.PropertyName, source: RelativeBindingSource.TemplatedParent),
-						new Binding(BorderWidthProperty.PropertyName, source: RelativeBindingSource.TemplatedParent)
-					},
-				Converter = new PaddingConverter()
-			};
-
-			contentPresenter.SetBinding(MarginProperty, paddingAndBorderWidthBinding);
-
+			grid.Add(rectangle);
 			grid.Add(contentPresenter);
 
 			INameScope nameScope = new NameScope();
@@ -231,28 +192,63 @@ namespace Microsoft.Maui.Controls
 			return grid;
 		}
 
-		class PaddingConverter : IMultiValueConverter
+		// Specialized rectangle for use here in Frame; it ignores measure calls (always Size.Zero)
+		// so it doesn't affect the size of the Frame; only the content counts for measurement
+		class DecoratorRectangle : Shapes.Shape
 		{
-			public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+			public DecoratorRectangle() : base()
 			{
-				// values[0] is the Padding 
-				// values[1] is the BorderWidth
-
-				if (values[0] == null || values[1] == null)
-				{
-					return Thickness.Zero;
-				}
-
-				var padding = (Thickness)values[0];
-				var borderWidth = (double)values[1];
-
-				var fullPadding = new Thickness(padding.Left + borderWidth, padding.Top + borderWidth,
-					padding.Right + borderWidth, padding.Bottom + borderWidth);
-
-				return fullPadding;
+				Aspect = Stretch.Fill;
 			}
 
-			public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+			public static readonly BindableProperty RadiusXProperty =
+				BindableProperty.Create(nameof(RadiusX), typeof(double), typeof(Rectangle), 0.0d);
+
+			public static readonly BindableProperty RadiusYProperty =
+				BindableProperty.Create(nameof(RadiusY), typeof(double), typeof(Rectangle), 0.0d);
+
+			public double RadiusX
+			{
+				set { SetValue(RadiusXProperty, value); }
+				get { return (double)GetValue(RadiusXProperty); }
+			}
+
+			public double RadiusY
+			{
+				set { SetValue(RadiusYProperty, value); }
+				get { return (double)GetValue(RadiusYProperty); }
+			}
+
+			public override PathF GetPath()
+			{
+				var path = new PathF();
+
+				float x = (float)StrokeThickness / 2;
+				float y = (float)StrokeThickness / 2;
+				float w = (float)(Width - StrokeThickness);
+				float h = (float)(Height - StrokeThickness);
+				float cornerRadius = (float)Math.Max(RadiusX, RadiusY);
+
+				path.AppendRoundedRectangle(x, y, w, h, cornerRadius);
+				return path;
+			}
+
+			protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
+			{
+				return Size.Zero;
+			}
+		}
+
+		class PaddingInverter : IValueConverter
+		{
+			public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+			{
+				var padding = (Thickness)value;
+
+				return new Thickness(-padding.Left, -padding.Top, -padding.Right, -padding.Bottom);
+			}
+
+			public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 			{
 				throw new NotImplementedException();
 			}

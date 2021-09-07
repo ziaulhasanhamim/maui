@@ -24,8 +24,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
-        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,*">
+    <ScrollView Padding="{OnPlatform iOS='30,60,30,30', Default='0'}">
+        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,*" >
 
             <Label Text="Hello, World!"
                 Grid.Row="0"
@@ -39,13 +39,17 @@
                 FontSize="16"
                 HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Current count: 0"
-                Grid.Row="2"
-                SemanticProperties.Hint="Counts the number of times you click"
-                FontSize="18"
-                FontAttributes="Bold"
-                x:Name="CounterLabel"
-                HorizontalOptions="Center" />
+            <Frame Grid.Row="2" BorderWidth="5" HorizontalOptions="Start" VerticalOptions="Start" BorderColor="Red" Background="Coral" CornerRadius="5" HasShadow="True">
+
+                <Label Text="Current count: 0"
+                    Background="Red"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    x:Name="CounterLabel"
+                     />
+
+            </Frame>
 
             <Button Text="Click me"
                 Grid.Row="3"
@@ -53,12 +57,16 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
-            <Image Grid.Row="4"
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dotnet bot waving hi to you!"
-                WidthRequest="300"
-                HeightRequest="372"
-                HorizontalOptions="Center" />
+            <Frame GridLayout.Row="4" HorizontalOptions="Center"  Padding="0,0,0,0" BorderColor="Black" BorderWidth="20" 
+                   HasShadow="True" Background="LightBlue">
+
+                <Image Grid.Row="4"
+                    Source="dotnet_bot.png"
+                    SemanticProperties.Description="Cute dotnet bot waving hi to you!"
+                    WidthRequest="300"
+                    HeightRequest="300" Background="Yellow"
+                    HorizontalOptions="Center" />
+            </Frame>
 
         </Grid>
     </ScrollView>
