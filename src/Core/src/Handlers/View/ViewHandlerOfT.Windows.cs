@@ -26,7 +26,7 @@ namespace Microsoft.Maui.Handlers
 			if (rect.Width < 0 || rect.Height < 0)
 				return;
 
-			if (nativeView.Parent is ScrollViewer)
+			if (VirtualView.Parent is INoPaddingContentView)
 			{
 				rect = AdjustForScrollViewer(nativeView, VirtualView, rect);
 			}

@@ -32,4 +32,9 @@ namespace Microsoft.Maui
 		/// <returns>The actual size of the arranged IContentView.</returns>
 		Size CrossPlatformArrange(Rectangle bounds);
 	}
+
+	internal interface INoPaddingContentView : IContentView
+	{
+
+	}
 }

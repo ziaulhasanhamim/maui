@@ -17,6 +17,9 @@ namespace Microsoft.Maui.Layouts
 			}
 
 			var margin = view.Margin;
+			if (view.Parent is INoPaddingContentView parent)
+				margin = new Thickness(margin.Left + parent.Padding.Left, margin.Top + parent.Padding.Top,
+					margin.Right + parent.Padding.Right, margin.Bottom + parent.Padding.Bottom);
 
 			// Adjust the constraints to account for the margins
 			widthConstraint -= margin.HorizontalThickness;
@@ -32,7 +35,10 @@ namespace Microsoft.Maui.Layouts
 
 		public static Rectangle ComputeFrame(this IView view, Rectangle bounds)
 		{
-			Thickness margin = view.Margin;
+			var margin = view.Margin;
+			if (view.Parent is INoPaddingContentView parent)
+				margin = new Thickness(margin.Left + parent.Padding.Left, margin.Top + parent.Padding.Top,
+					margin.Right + parent.Padding.Right, margin.Bottom + parent.Padding.Bottom);
 
 			// We need to determine the width the element wants to consume; normally that's the element's DesiredSize.Width
 			var consumedWidth = view.DesiredSize.Width;
@@ -152,7 +158,11 @@ namespace Microsoft.Maui.Layouts
 
 		public static Size MeasureContent(this IContentView contentView, double widthConstraint, double heightConstraint)
 		{
-			return contentView.MeasureContent(contentView.Padding, widthConstraint, heightConstraint);
+			var padding = Thickness.Zero;
+			if (contentView is not INoPaddingContentView)
+				padding = contentView.Padding;
+
+			return contentView.MeasureContent(padding, widthConstraint, heightConstraint);
 		}
 
 		public static Size MeasureContent(this IContentView contentView, Thickness inset, double widthConstraint, double heightConstraint)
@@ -177,7 +187,9 @@ namespace Microsoft.Maui.Layouts
 				return;
 			}
 
-			var padding = contentView.Padding;
+			var padding = Thickness.Zero;
+			if (contentView is not INoPaddingContentView)
+				padding = contentView.Padding;
 
 			var targetBounds = new Rectangle(bounds.Left + padding.Left, bounds.Top + padding.Top,
 				bounds.Width - padding.HorizontalThickness, bounds.Height - padding.VerticalThickness);

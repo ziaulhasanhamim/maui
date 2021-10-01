@@ -5,7 +5,7 @@ using static Microsoft.Maui.Layouts.LayoutManager;
 
 namespace Microsoft.Maui.Controls
 {
-	public partial class ScrollView : IScrollView, IContentView
+	public partial class ScrollView : IScrollView, IContentView, INoPaddingContentView
 	{
 		object IContentView.Content => Content;
 		IView IContentView.PresentedContent => Content;
@@ -44,11 +44,11 @@ namespace Microsoft.Maui.Controls
 
 		protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
 		{
-			Thickness contentMargin = (Content as IView)?.Margin ?? Thickness.Zero;
+			Thickness contentMargin = Thickness.Zero; // (Content as IView)?.Margin ?? Thickness.Zero;
 
 			// Account for the ScrollView's margins and use the rest of the available space to measure the actual Content
-			var contentWidthConstraint = widthConstraint - Margin.HorizontalThickness - Padding.HorizontalThickness;
-			var contentHeightConstraint = heightConstraint - Margin.VerticalThickness - Padding.VerticalThickness;
+			var contentWidthConstraint = widthConstraint - Margin.HorizontalThickness;// - Padding.HorizontalThickness;
+			var contentHeightConstraint = heightConstraint - Margin.VerticalThickness;// - Padding.VerticalThickness;
 			(this as IContentView).CrossPlatformMeasure(contentWidthConstraint, contentHeightConstraint);
 
 			// Now measure the ScrollView itself (ComputeDesiredSize will account for the ScrollView margins)
@@ -118,8 +118,8 @@ namespace Microsoft.Maui.Controls
 				// Normally we'd just want the content to be arranged within the ContentView's Frame,
 				// but ScrollView content might be larger than the ScrollView itself (for obvious reasons)
 				// So in each dimension, we assume the larger of the two values.
-				bounds.Width = Math.Max(Frame.Width, content.DesiredSize.Width + Padding.HorizontalThickness);
-				bounds.Height = Math.Max(Frame.Height, content.DesiredSize.Height + Padding.VerticalThickness);
+				bounds.Width = Math.Max(Frame.Width, content.DesiredSize.Width);// + Padding.HorizontalThickness);
+				bounds.Height = Math.Max(Frame.Height, content.DesiredSize.Height);// + Padding.VerticalThickness);
 
 				this.ArrangeContent(bounds);
 			}
