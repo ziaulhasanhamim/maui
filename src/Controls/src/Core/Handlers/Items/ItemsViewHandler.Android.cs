@@ -11,6 +11,7 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 		protected ItemsViewHandler(PropertyMapper mapper, CommandMapper commandMapper = null) : base(mapper, commandMapper)
 		{
 		}
+
 		protected abstract IItemsLayout GetItemsLayout();
 
 		protected virtual ItemsViewAdapter<TItemsView, IItemsViewSource> CreateAdapter() => new(VirtualView);

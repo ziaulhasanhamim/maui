@@ -16,7 +16,8 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 
 		}
 
-		public static PropertyMapper<TItemsView, StructuredItemsViewHandler<TItemsView>> StructuredItemsViewMapper = new PropertyMapper<TItemsView, StructuredItemsViewHandler<TItemsView>>(ViewMapper)
+		public static PropertyMapper<TItemsView, StructuredItemsViewHandler<TItemsView>> StructuredItemsViewMapper = 
+			new PropertyMapper<TItemsView, StructuredItemsViewHandler<TItemsView>>(ViewMapper)
 		{
 			[Controls.ItemsView.ItemsSourceProperty.PropertyName] = MapItemsSource,
 			[Controls.ItemsView.HorizontalScrollBarVisibilityProperty.PropertyName] = MapHorizontalScrollBarVisibility,
@@ -27,6 +28,7 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 			[Controls.ItemsView.FlowDirectionProperty.PropertyName] = MapFlowDirection,
 			[Controls.ItemsView.IsVisibleProperty.PropertyName] = MapIsVisible,
 			[Controls.ItemsView.ItemsUpdatingScrollModeProperty.PropertyName] = MapItemsUpdatingScrollMode,
+
 			[StructuredItemsView.HeaderTemplateProperty.PropertyName] = MapHeaderTemplate,
 			[StructuredItemsView.FooterTemplateProperty.PropertyName] = MapFooterTemplate,
 			[StructuredItemsView.ItemsLayoutProperty.PropertyName] = MapItemsLayout,

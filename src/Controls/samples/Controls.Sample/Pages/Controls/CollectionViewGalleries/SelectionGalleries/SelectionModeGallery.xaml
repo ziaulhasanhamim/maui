@@ -7,7 +7,7 @@
 		
 		<ResourceDictionary>
 
-			<Style TargetType="Grid">
+			<!--<Style TargetType="Grid">
 				<Setter Property="VisualStateManager.VisualStateGroups">
 					<VisualStateGroupList>
 						<VisualStateGroup x:Name="CommonStates">
@@ -20,7 +20,7 @@
 						</VisualStateGroup>
 					</VisualStateGroupList>
 				</Setter>
-			</Style>
+			</Style>-->
 
 		</ResourceDictionary>
 	</ContentPage.Resources>

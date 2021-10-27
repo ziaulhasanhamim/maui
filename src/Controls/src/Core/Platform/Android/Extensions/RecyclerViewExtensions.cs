@@ -12,8 +12,14 @@ namespace Microsoft.Maui.Controls.Platform
 		{
 			var mode = selectableItemsView.SelectionMode;
 
-			var adapter = (recyclerView.GetAdapter() as SelectableItemsViewAdapter<SelectableItemsView, IItemsViewSource>);
-			adapter?.ClearNativeSelection();
+			var adapter = (recyclerView.GetAdapter() as ISelectionAdapter);
+
+			if (adapter == null)
+			{
+				return;
+			}
+
+			adapter.ClearNativeSelection();
 
 			switch (mode)
 			{

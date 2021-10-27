@@ -17,7 +17,8 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 
 		}
 		
-		public static PropertyMapper<TItemsView, ItemsViewHandler<TItemsView>> ItemsViewMapper = new PropertyMapper<TItemsView, ItemsViewHandler<TItemsView>>(ViewHandler.ViewMapper)
+		public static PropertyMapper<TItemsView, ItemsViewHandler<TItemsView>> ItemsViewMapper = 
+			new PropertyMapper<TItemsView, ItemsViewHandler<TItemsView>>(ViewHandler.ViewMapper)
 		{	
 			[Controls.ItemsView.ItemsSourceProperty.PropertyName] = MapItemsSource,
 			[Controls.ItemsView.HorizontalScrollBarVisibilityProperty.PropertyName] = MapHorizontalScrollBarVisibility,

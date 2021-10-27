@@ -11,6 +11,7 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 		{
 			throw new NotImplementedException();
 		}
+		
 		public static void MapSelectedItem(SelectableItemsViewHandler<TItemsView> handler, SelectableItemsView itemsView)
 		{
 		}

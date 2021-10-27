@@ -6,7 +6,13 @@ using Object = Java.Lang.Object;
 
 namespace Microsoft.Maui.Controls.Handlers.Items
 {
-	public class SelectableItemsViewAdapter<TItemsView, TItemsSource> : StructuredItemsViewAdapter<TItemsView, TItemsSource>
+	internal interface ISelectionAdapter 
+	{
+		void ClearNativeSelection();
+		void MarkNativeSelection(object selectedItem);
+	}
+
+	public class SelectableItemsViewAdapter<TItemsView, TItemsSource> : StructuredItemsViewAdapter<TItemsView, TItemsSource>, ISelectionAdapter
 		where TItemsView : SelectableItemsView
 		where TItemsSource : IItemsViewSource
 	{
@@ -48,7 +54,7 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 			base.OnViewRecycled(holder);
 		}
 
-		internal void ClearNativeSelection()
+		void ISelectionAdapter.ClearNativeSelection()
 		{
 			for (int i = 0; i < _currentViewHolders.Count; i++)
 			{
@@ -56,7 +62,7 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 			}
 		}
 
-		internal void MarkNativeSelection(object selectedItem)
+		void ISelectionAdapter.MarkNativeSelection(object selectedItem)
 		{
 			if (selectedItem == null)
 			{

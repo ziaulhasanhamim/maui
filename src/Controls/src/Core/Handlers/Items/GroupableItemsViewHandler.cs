@@ -11,12 +11,14 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 		{
 
 		}
+
 		public GroupableItemsViewHandler(PropertyMapper mapper = null) : base(mapper ?? GroupableItemsViewMapper)
 		{
 
 		}
 
-		public static PropertyMapper<TItemsView, GroupableItemsViewHandler<TItemsView>> GroupableItemsViewMapper = new PropertyMapper<TItemsView, GroupableItemsViewHandler<TItemsView>>(SelectableItemsViewHandler<SelectableItemsView>.SelectableItemsViewMapper)
+		public static PropertyMapper<TItemsView, GroupableItemsViewHandler<TItemsView>> GroupableItemsViewMapper = 
+			new PropertyMapper<TItemsView, GroupableItemsViewHandler<TItemsView>>(ViewMapper)
 		{
 			[Controls.ItemsView.ItemsSourceProperty.PropertyName] = MapItemsSource,
 			[Controls.ItemsView.HorizontalScrollBarVisibilityProperty.PropertyName] = MapHorizontalScrollBarVisibility,
@@ -27,13 +29,16 @@ namespace Microsoft.Maui.Controls.Handlers.Items
 			[Controls.ItemsView.FlowDirectionProperty.PropertyName] = MapFlowDirection,
 			[Controls.ItemsView.IsVisibleProperty.PropertyName] = MapIsVisible,
 			[Controls.ItemsView.ItemsUpdatingScrollModeProperty.PropertyName] = MapItemsUpdatingScrollMode,
+
 			[StructuredItemsView.HeaderTemplateProperty.PropertyName] = MapHeaderTemplate,
 			[StructuredItemsView.FooterTemplateProperty.PropertyName] = MapFooterTemplate,
 			[StructuredItemsView.ItemsLayoutProperty.PropertyName] = MapItemsLayout,
 			[StructuredItemsView.ItemSizingStrategyProperty.PropertyName] = MapItemSizingStrategy,
+
 			[SelectableItemsView.SelectedItemProperty.PropertyName] = MapSelectedItem,
 			[SelectableItemsView.SelectedItemsProperty.PropertyName] = MapSelectedItems,
 			[SelectableItemsView.SelectionModeProperty.PropertyName] = MapSelectionMode,
+
 			[GroupableItemsView.IsGroupedProperty.PropertyName] = MapIsGrouped,
 #if WINDOWS || __ANDROID__
 			[GroupableItemsView.GroupFooterTemplateProperty.PropertyName] = MapIsGrouped,
