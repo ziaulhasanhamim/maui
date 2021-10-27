@@ -7,12 +7,16 @@
 		
 		<ResourceDictionary>
 
-			<!--<Style TargetType="Grid">
+			<Style TargetType="Grid">
 				<Setter Property="VisualStateManager.VisualStateGroups">
 					<VisualStateGroupList>
 						<VisualStateGroup x:Name="CommonStates">
-							<VisualState x:Name="Normal" />
-							<VisualState x:Name="Selected">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
 								<VisualState.Setters>
 									<Setter Property="BackgroundColor" Value="LightSkyBlue" />
 								</VisualState.Setters>
@@ -20,7 +24,7 @@
 						</VisualStateGroup>
 					</VisualStateGroupList>
 				</Setter>
-			</Style>-->
+			</Style>
 
 		</ResourceDictionary>
 	</ContentPage.Resources>
