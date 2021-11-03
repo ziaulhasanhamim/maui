@@ -65,6 +65,18 @@ namespace Maui.Controls.Sample.Pages
 			};
 			vertical.Add(changeColorBoxView);
 
+			vertical.Add(new Image()
+			{
+				Source = "dotnet_bot.png",
+				GestureRecognizers =
+				{
+					new TapGestureRecognizer()
+					{
+						Command = TapCommand,
+						NumberOfTapsRequired = 1
+					}
+				}
+			});
 
 			vertical.Add(new Button()
 			{
