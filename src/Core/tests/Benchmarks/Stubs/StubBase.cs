@@ -119,5 +119,9 @@ namespace Microsoft.Maui.Handlers.Benchmarks
 		{
 			return new Size(widthConstraint, heightConstraint);
 		}
+
+#if ANDROID
+		bool IView.Initialized { get; set; }
+#endif
 	}
 }

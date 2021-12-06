@@ -282,7 +282,6 @@ namespace Microsoft.Maui.Controls
 			{
 				Shadow.Parent = null;
 				Shadow.PropertyChanged -= OnShadowChanged;
-
 			}
 		}
 

@@ -22,6 +22,8 @@ namespace Microsoft.Maui.Platform
 {
 	public static partial class ViewExtensions
 	{
+		public static void Initialize(this object nativeView, IView view) { }
+
 		public static void TryMoveFocus(this FrameworkElement nativeView, FocusNavigationDirection direction)
 		{
 			if (nativeView?.XamlRoot?.Content is UIElement elem)

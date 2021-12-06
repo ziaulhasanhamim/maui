@@ -17,6 +17,8 @@ namespace Microsoft.Maui.Platform
 	{
 		internal const string BackgroundLayerName = "MauiBackgroundLayer";
 
+		public static void Initialize(this object nativeView, IView view) { }
+
 		public static void UpdateIsEnabled(this UIView nativeView, IView view)
 		{
 			if (nativeView is not UIControl uiControl)

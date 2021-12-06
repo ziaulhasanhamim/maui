@@ -91,5 +91,9 @@ namespace Microsoft.Maui.UnitTests
 
 		public Size Measure(double widthConstraint, double heightConstraint) =>
 			Size.Zero;
+
+#if ANDROID
+		bool IView.Initialized { get; set; }
+#endif
 	}
 }

@@ -1,4 +1,5 @@
 #nullable enable
+using System.ComponentModel;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Primitives;
 

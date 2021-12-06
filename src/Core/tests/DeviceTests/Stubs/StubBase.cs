@@ -117,6 +117,10 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 			return new Size(widthConstraint, heightConstraint);
 		}
 
+#if ANDROID
+		bool IView.Initialized { get; set; }
+#endif
+
 		IReadOnlyList<Maui.IVisualTreeElement> IVisualTreeElement.GetVisualChildren() => this.Children.Cast<IVisualTreeElement>().ToList().AsReadOnly();
 
 		IVisualTreeElement IVisualTreeElement.GetVisualParent() => this.Parent as IVisualTreeElement;
