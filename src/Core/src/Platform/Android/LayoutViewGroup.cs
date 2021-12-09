@@ -5,15 +5,16 @@ using Android.Util;
 using Android.Views;
 using Rectangle = Microsoft.Maui.Graphics.Rectangle;
 using Size = Microsoft.Maui.Graphics.Size;
+using ARect = Android.Graphics.Rect;
 
 namespace Microsoft.Maui.Platform
 {
 	public class LayoutViewGroup : ViewGroup
 	{
+		readonly ARect _clipRect = new();
+
 		public LayoutViewGroup(Context context) : base(context)
 		{
-			//Maui layouts should not impose clipping on their children
-			SetClipChildren(false);
 		}
 
 		public LayoutViewGroup(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -72,6 +73,11 @@ namespace Microsoft.Maui.Platform
 				deviceIndependentRight - deviceIndependentLeft, deviceIndependentBottom - deviceIndependentTop);
 
 			CrossPlatformArrange(destination);
+
+			_clipRect.Right = r - l;
+			_clipRect.Bottom = b - t;
+
+			ClipBounds = _clipRect;
 		}
 
 		internal Func<double, double, Size>? CrossPlatformMeasure { get; set; }

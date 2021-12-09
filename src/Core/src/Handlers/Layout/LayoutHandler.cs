@@ -1,10 +1,10 @@
 #nullable enable
 #if __IOS__ || MACCATALYST
-using NativeView = UIKit.UIView;
+using NativeView = Microsoft.Maui.Platform.LayoutView;
 #elif __ANDROID__
-using NativeView = Android.Views.View;
+using NativeView = Microsoft.Maui.Platform.LayoutViewGroup;
 #elif WINDOWS
-using NativeView = Microsoft.UI.Xaml.FrameworkElement;
+using NativeView = Microsoft.Maui.Platform.LayoutPanel;
 #elif NETSTANDARD
 using NativeView = System.Object;
 #endif

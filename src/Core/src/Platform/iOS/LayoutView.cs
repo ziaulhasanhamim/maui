@@ -1,13 +1,17 @@
 using System;
 using CoreGraphics;
 using Microsoft.Maui.Graphics;
-using ObjCRuntime;
 using UIKit;
 
 namespace Microsoft.Maui.Platform
 {
 	public class LayoutView : MauiView
 	{
+		public LayoutView() 
+		{
+			ClipsToBounds = true;
+		}
+
 		public override CGSize SizeThatFits(CGSize size)
 		{
 			if (CrossPlatformMeasure == null)
