@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Maui.Graphics;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Maui.Handlers
 {
@@ -124,5 +125,49 @@ namespace Microsoft.Maui.Handlers
 				NativeView.Children.Move((uint)currentIndex, (uint)targetIndex);
 			}
 		}
+
+		bool _clip = false;
+
+		public override bool NeedsContainer =>
+			_clip == false ||
+			base.NeedsContainer;
+
+		protected override void SetupContainer()
+		{
+			if (NativeView == null || ContainerView != null)
+				return;
+
+			var oldParent = (Panel?)NativeView.Parent;
+
+			var oldIndex = oldParent?.Children.IndexOf(NativeView);
+			oldParent?.Children.Remove(NativeView);
+
+			ContainerView = new Canvas();
+			ContainerView.Children.Add(NativeView);
+
+			if (oldIndex is int idx && idx >= 0)
+				oldParent?.Children.Insert(idx, ContainerView);
+			else
+				oldParent?.Children.Add(ContainerView);
+		}
+
+		//protected override void RemoveContainer()
+		//{
+		//	if (NativeView == null || ContainerView == null || NativeView.Parent != ContainerView)
+		//		return;
+
+		//	var oldParent = (Canvas?)ContainerView.Parent;
+
+		//	var oldIndex = oldParent?.Children.IndexOf(ContainerView);
+		//	oldParent?.Children.Remove(ContainerView);
+
+		//	ContainerView.Child = null;
+		//	ContainerView = null;
+
+		//	if (oldIndex is int idx && idx >= 0)
+		//		oldParent?.Children.Insert(idx, NativeView);
+		//	else
+		//		oldParent?.Children.Add(NativeView);
+		//}
 	}
 }

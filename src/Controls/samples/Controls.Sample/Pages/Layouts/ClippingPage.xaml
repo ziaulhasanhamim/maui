@@ -1,0 +1,28 @@
+﻿<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Maui.Controls.Sample.Pages.ClippingPage"
+    xmlns:views="clr-namespace:Maui.Controls.Sample.Pages.Base"
+    Title="Clipping" Background="Orange">
+    <views:BasePage.Content>
+        <!--<VerticalStackLayout Spacing="25" Margin="12">-->
+            <!--<Label 
+                Text="VerticalStackLayout" />-->
+            <HorizontalStackLayout Background="Beige" HeightRequest="20" WidthRequest="50">
+                <Image Source="coffee.png" HeightRequest="40"/>
+            <Image Source="coffee.png" HeightRequest="40"/>
+            <Image Source="coffee.png" HeightRequest="40"/>
+            <Image Source="coffee.png" HeightRequest="40"/>
+        </HorizontalStackLayout>
+            <!--<HorizontalStackLayout Background="LightBlue" HeightRequest="20">
+                <Image Source="coffee.png" Scale="2"/>
+            </HorizontalStackLayout>-->
+            <!--<HorizontalStackLayout Background="LightGreen">
+                <Image Source="coffee.png"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Background="Orange">
+                <Image Source="coffee.png"/>
+            </HorizontalStackLayout>-->
+        <!--</VerticalStackLayout>-->
+    </views:BasePage.Content>
+</views:BasePage>

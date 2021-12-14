@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Maui.Handlers
 {
@@ -25,8 +26,12 @@ namespace Microsoft.Maui.Handlers
 
             NativeView.Children.Clear();
 
-            if (VirtualView.PresentedContent is IView view)
-                NativeView.Children.Add(view.ToNative(MauiContext));
+			if (VirtualView.PresentedContent is IView view)
+			{
+				var x = view.ToNative(MauiContext);
+				var y = VirtualView!.PresentedContent!.Handler!.ContainerView as FrameworkElement;
+				NativeView.Children.Add(y);
+			}
         }
 
         protected override ContentPanel CreateNativeView()

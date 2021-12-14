@@ -35,6 +35,7 @@ namespace Microsoft.Maui.Handlers
 				return;
 			}
 
+			
 			var left = Context.ToPixels(frame.Left);
 			var top = Context.ToPixels(frame.Top);
 			var bottom = Context.ToPixels(frame.Bottom);
@@ -61,7 +62,8 @@ namespace Microsoft.Maui.Handlers
 			nativeView.Measure(widthSpec, heightSpec);
 
 			// Convert back to xplat sizes for the return value
-			return Context.FromPixels(nativeView.MeasuredWidth, nativeView.MeasuredHeight);
+			var x = Context.FromPixels(nativeView.MeasuredWidth, nativeView.MeasuredHeight);
+			return x;
 		}
 
 		int CreateMeasureSpec(double constraint, double explicitSize, double maximumSize)

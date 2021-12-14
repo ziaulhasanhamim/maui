@@ -57,8 +57,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\Layouts\ClippingPage.xaml.cs">
+      <DependentUpon>ClippingPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiXaml Update="Pages\Compatibility\AndExpandPage.xaml">
       <Generator></Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\Layouts\ClippingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
   </ItemGroup>
 

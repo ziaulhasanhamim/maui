@@ -10,9 +10,9 @@ namespace Microsoft.Maui.Handlers
 		FrameworkElement? INativeViewHandler.NativeView => this.GetWrappedNativeView();
 		FrameworkElement? INativeViewHandler.ContainerView => ContainerView;
 
-		public new WrapperView? ContainerView
+		public new Panel? ContainerView
 		{
-			get => (WrapperView?)base.ContainerView;
+			get => (Panel?)base.ContainerView;
 			protected set => base.ContainerView = value;
 		}
 
@@ -45,7 +45,8 @@ namespace Microsoft.Maui.Handlers
 
 			nativeView.Measure(measureConstraint);
 
-			return new Size(nativeView.DesiredSize.Width, nativeView.DesiredSize.Height);
+			var x =  new Size(nativeView.DesiredSize.Width, nativeView.DesiredSize.Height);
+			return x;
 		}
 
 		protected override void SetupContainer()
@@ -59,7 +60,8 @@ namespace Microsoft.Maui.Handlers
 			oldParent?.Children.Remove(NativeView);
 
 			ContainerView ??= new WrapperView();
-			ContainerView.Child = NativeView;
+			//ContainerView.Child = NativeView;
+			ContainerView.Children.Add(NativeView);
 
 			if (oldIndex is int idx && idx >= 0)
 				oldParent?.Children.Insert(idx, ContainerView);
@@ -77,7 +79,8 @@ namespace Microsoft.Maui.Handlers
 			var oldIndex = oldParent?.Children.IndexOf(ContainerView);
 			oldParent?.Children.Remove(ContainerView);
 
-			ContainerView.Child = null;
+			//ContainerView.Child = null;
+			ContainerView.Children.Clear();
 			ContainerView = null;
 
 			if (oldIndex is int idx && idx >= 0)

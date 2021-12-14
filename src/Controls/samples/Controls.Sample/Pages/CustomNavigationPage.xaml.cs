@@ -7,7 +7,7 @@ namespace Maui.Controls.Sample.Pages
 	public partial class CustomNavigationPage : NavigationPage
 	{
 		public CustomNavigationPage(IServiceProvider services, MainViewModel viewModel) :
-			base(new MainPage(services, viewModel))
+			base(new ClippingPage())
 		{
 			InitializeComponent();
 		}
