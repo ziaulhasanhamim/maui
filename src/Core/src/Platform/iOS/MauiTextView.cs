@@ -1,7 +1,6 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
-using ObjCRuntime;
 using UIKit;
 
 namespace Microsoft.Maui.Platform
@@ -22,6 +21,8 @@ namespace Microsoft.Maui.Platform
 			_placeholderLabel = InitPlaceholderLabel();
 			Changed += OnChanged;
 		}
+
+		public event EventHandler? FrameChanged;
 
 		// Native Changed doesn't fire when the Text Property is set in code
 		// We use this event as a way to fire changes whenever the Text changes
@@ -52,6 +53,16 @@ namespace Microsoft.Maui.Platform
 		{
 			get => _placeholderLabel.TextColor;
 			set => _placeholderLabel.TextColor = value;
+		}
+
+		public override CGRect Frame
+		{
+			get => base.Frame;
+			set
+			{
+				base.Frame = value;
+				FrameChanged?.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		public override string? Text

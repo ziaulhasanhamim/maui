@@ -212,6 +212,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.iOS
 			UpdateUserInteraction();
 		}
 
+		[PortHandler]
 		protected internal virtual void UpdateAutoSizeOption()
 		{
 			if (Control is IFormsUITextView textView)
@@ -269,6 +270,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.iOS
 			ElementController.SetValueFromRenderer(Editor.TextProperty, TextView.Text);
 		}
 
+		[PortHandler]
 		private void OnFrameChanged(object sender, EventArgs e)
 		{
 			// When a new line is added to the UITextView the resize happens after the view has already scrolled
@@ -290,6 +292,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.iOS
 			ElementController.SendCompleted();
 		}
 
+		[PortHandler("Missing to port the code related with Focus")]
 		void OnStarted(object sender, EventArgs eventArgs)
 		{
 			ElementController.SetValueFromRenderer(VisualElement.IsFocusedPropertyKey, true);
@@ -395,6 +398,7 @@ namespace Microsoft.Maui.Controls.Compatibility.Platform.iOS
 				UpdateEditable();
 		}
 
+		[PortHandler]
 		internal class FormsUITextView : UITextView, IFormsUITextView
 		{
 			public event EventHandler FrameChanged;

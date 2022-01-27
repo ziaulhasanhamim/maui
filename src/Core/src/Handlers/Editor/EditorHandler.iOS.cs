@@ -1,8 +1,8 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Microsoft.Maui.Essentials;
 using Microsoft.Maui.Graphics;
-using ObjCRuntime;
 using UIKit;
 
 namespace Microsoft.Maui.Handlers
@@ -11,11 +11,34 @@ namespace Microsoft.Maui.Handlers
 	{
 		static readonly int BaseHeight = 30;
 
-		protected override MauiTextView CreateNativeView() => new MauiTextView();
+		protected override MauiTextView CreateNativeView()
+		{
+		var nativeEditor =	new MauiTextView();
+
+			if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+			{
+				// iPhone does not have a dismiss keyboard button
+				var keyboardWidth = UIScreen.MainScreen.Bounds.Width;
+				var accessoryView = new UIToolbar(new CGRect(0, 0, keyboardWidth, 44)) { BarStyle = UIBarStyle.Default, Translucent = true };
+
+				var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace);
+				var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (o, a) =>
+				{
+					nativeEditor.ResignFirstResponder();
+					VirtualView?.Completed();
+				});
+
+				accessoryView.SetItems(new[] { spacer, doneButton }, false);
+				nativeEditor.InputAccessoryView = accessoryView;
+			}
+
+			return nativeEditor;
+		}
 
 		protected override void ConnectHandler(MauiTextView nativeView)
 		{
 			nativeView.ShouldChangeText += OnShouldChangeText;
+			nativeView.Started += OnStarted;
 			nativeView.Ended += OnEnded;
 			nativeView.TextSetOrChanged += OnTextPropertySet;
 		}
@@ -23,12 +46,30 @@ namespace Microsoft.Maui.Handlers
 		protected override void DisconnectHandler(MauiTextView nativeView)
 		{
 			nativeView.ShouldChangeText -= OnShouldChangeText;
+			nativeView.Started -= OnStarted;
 			nativeView.Ended -= OnEnded;
 			nativeView.TextSetOrChanged -= OnTextPropertySet;
+			nativeView.FrameChanged -= OnFrameChanged;
 		}
 
 		public override Size GetDesiredSize(double widthConstraint, double heightConstraint) =>
 			new SizeRequest(new Size(widthConstraint, BaseHeight));
+
+		public static void MapAutoSize(EditorHandler handler, IEditor editor)
+		{
+			handler.UpdateAutoSizeOption();
+		}
+
+		protected internal virtual void UpdateAutoSizeOption()
+		{
+			if (VirtualView == null || NativeView == null)
+				return;
+
+			NativeView.FrameChanged -= OnFrameChanged;
+
+			if (VirtualView.AutoSize == EditorAutoSizeOption.TextChanges)
+				NativeView.FrameChanged += OnFrameChanged;
+		}
 
 		public static void MapText(EditorHandler handler, IEditor editor)
 		{
@@ -90,6 +131,11 @@ namespace Microsoft.Maui.Handlers
 		bool OnShouldChangeText(UITextView textView, NSRange range, string replacementString) =>
 			VirtualView.TextWithinMaxLength(textView.Text, range, replacementString);
 
+		void OnStarted(object? sender, EventArgs eventArgs)
+		{
+			// TODO: Update IsFocused property
+		}
+
 		void OnEnded(object? sender, EventArgs eventArgs)
 		{
 			// TODO: Update IsFocused property
@@ -97,6 +143,17 @@ namespace Microsoft.Maui.Handlers
 		}
 
 		void OnTextPropertySet(object? sender, EventArgs e) =>
-			VirtualView.UpdateText(NativeView.Text);
+			VirtualView.UpdateText(NativeView.Text); 
+		
+		void OnFrameChanged(object? sender, EventArgs e)
+		{
+			// When a new line is added to the UITextView the resize happens after the view has already scrolled
+			// This causes the view to reposition without the scroll. If TextChanges is enabled then the Frame
+			// will resize until it can't anymore and thus it should never be scrolled until the Frame can't increase in size
+			if (VirtualView.AutoSize == EditorAutoSizeOption.TextChanges)
+			{
+				NativeView.ScrollRangeToVisible(new NSRange(0, 0));
+			}
+		}
 	}
 }

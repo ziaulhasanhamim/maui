@@ -5,6 +5,9 @@ namespace Microsoft.Maui.Handlers
 	{
 		public static IPropertyMapper<IEditor, EditorHandler> EditorMapper = new PropertyMapper<IEditor, EditorHandler>(ViewHandler.ViewMapper)
 		{
+#if __IOS__
+			[nameof(IEditor.AutoSize)] = MapAutoSize,
+#endif
 			[nameof(IEditor.Background)] = MapBackground,
 			[nameof(IEditor.CharacterSpacing)] = MapCharacterSpacing,
 			[nameof(IEditor.Font)] = MapFont,

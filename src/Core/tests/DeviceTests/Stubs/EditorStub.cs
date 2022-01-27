@@ -7,6 +7,8 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 	{
 		private string _text;
 
+		public EditorAutoSizeOption AutoSize { get; set; } = EditorAutoSizeOption.Disabled;
+
 		public string Text
 		{
 			get => _text;
@@ -38,6 +40,7 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 		public int CursorPosition { get; set; }
 
 		public int SelectionLength { get; set; }
+
 
 		public event EventHandler<StubPropertyChangedEventArgs<string>> TextChanged;
 
