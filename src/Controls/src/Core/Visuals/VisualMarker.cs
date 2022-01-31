@@ -16,7 +16,7 @@ namespace Microsoft.Maui.Controls
 		public static IVisual Default { get; } = new DefaultVisual();
 		
 		// /// <include file="../../../docs/Microsoft.Maui.Controls/VisualMarker.xml" path="//Member[@MemberName='Material']/Docs" />
-		//public static IVisual Material { get; } = new MaterialVisual();
+		internal static IVisual Material { get; } = new MaterialVisual();
 
 		internal static void RegisterMaterial() => _isMaterialRegistered = true;
 		internal static void MaterialCheck()
@@ -32,7 +32,7 @@ namespace Microsoft.Maui.Controls
 				logger?.LogWarning("Material is currently not support on {RuntimePlatform}.", Device.RuntimePlatform);
 		}
 
-		// public sealed class MaterialVisual : IVisual { public MaterialVisual() { } }
+		internal sealed class MaterialVisual : IVisual { public MaterialVisual() { } }
 		public sealed class DefaultVisual : IVisual { public DefaultVisual() { } }
 		internal sealed class MatchParentVisual : IVisual { public MatchParentVisual() { } }
 	}
