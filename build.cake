@@ -80,6 +80,7 @@ var releaseChannelArg = GetBuildVariable("CHANNEL", "Stable");
 var teamProject = GetBuildVariable("TeamProject", GetBuildVariable("SYSTEM_TEAMPROJECT", ""));
 bool isHostedAgent = agentName.StartsWith("Azure Pipelines") || agentName.StartsWith("Hosted Agent");
 var localDotnet = GetBuildVariable("workloads",  (target == "VS-WINUI") ? "global" : "local") == "local";
+var NUGET_DIFF_SOURCE_URL = GetBuildVariable("diff-source", "");
 
 var vsVersion = GetBuildVariable("VS", "");
 

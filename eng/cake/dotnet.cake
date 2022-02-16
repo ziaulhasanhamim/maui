@@ -232,16 +232,27 @@ Task("dotnet-diff")
                 DotNetCoreTool("api-tools", new DotNetCoreToolSettings
                 {
                     DiagnosticOutput = true,
-                    ArgumentCustomization = builder => builder
-                        .Append("nuget-diff")
-                        .AppendQuoted(nupkg.FullPath)
-                        .Append("--latest")
-                        // .Append("--verbose")
-                        .Append("--prerelease")
-                        .Append("--group-ids")
-                        .Append("--ignore-unchanged")
-                        .AppendSwitchQuoted("--output", diffDirectory.FullPath)
-                        .AppendSwitchQuoted("--cache", diffCacheDir.FullPath)
+                    ArgumentCustomization = builder =>
+                    {
+                        builder = builder
+                            .Append("nuget-diff")
+                            .AppendQuoted(nupkg.FullPath)
+                            .Append("--latest")
+                            .Append("--prerelease")
+                            .Append("--group-ids")
+                            .Append("--ignore-unchanged")
+                            .AppendSwitchQuoted("--output", diffDirectory.FullPath)
+                            .AppendSwitchQuoted("--cache", diffCacheDir.FullPath);
+
+                        if (!string.IsNullOrWhiteSpace(NUGET_DIFF_SOURCE_URL))
+                        {
+                            builder = builder
+                                .Append("--source")
+                                .AppendQuoted(NUGET_DIFF_SOURCE_URL);
+                        }
+
+                        return builder;
+                    }
                 });
             }
 
