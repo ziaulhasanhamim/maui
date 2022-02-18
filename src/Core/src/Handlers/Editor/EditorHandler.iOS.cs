@@ -62,13 +62,13 @@ namespace Microsoft.Maui.Handlers
 
 		protected internal virtual void UpdateAutoSizeOption()
 		{
-			if (VirtualView == null || NativeView == null)
+			if (VirtualView == null || PlatformView == null)
 				return;
 
-			NativeView.FrameChanged -= OnFrameChanged;
+			PlatformView.FrameChanged -= OnFrameChanged;
 
 			if (VirtualView.AutoSize == EditorAutoSizeOption.TextChanges)
-				NativeView.FrameChanged += OnFrameChanged;
+				PlatformView.FrameChanged += OnFrameChanged;
 		}
 
 		public static void MapText(EditorHandler handler, IEditor editor)
