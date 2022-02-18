@@ -1,5 +1,6 @@
 #nullable enable
 using System.IO;
+using Microsoft.Maui.Essentials;
 
 namespace Microsoft.Maui
 {
@@ -7,18 +8,19 @@ namespace Microsoft.Maui
 	{
 		string? LoadNativeAppFont(string font, string filename, string? alias)
 		{
-			var root = global::Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+			if (FileSystem.AppPackageFileExists(filename))
+				return $"ms-appx:///{filename}";
 
-			var packagePath = Path.Combine(root, "Assets", filename);
-			if (File.Exists(packagePath))
+			var packagePath = Path.Combine("Assets", filename);
+			if (FileSystem.AppPackageFileExists(packagePath))
 				return $"ms-appx:///Assets/{filename}";
 
-			packagePath = Path.Combine(root, "Fonts", filename);
-			if (File.Exists(packagePath))
+			packagePath = Path.Combine("Fonts", filename);
+			if (FileSystem.AppPackageFileExists(packagePath))
 				return $"ms-appx:///Fonts/{filename}";
 
-			packagePath = Path.Combine(root, "Assets", "Fonts", filename);
-			if (File.Exists(packagePath))
+			packagePath = Path.Combine("Assets", "Fonts", filename);
+			if (FileSystem.AppPackageFileExists(packagePath))
 				return $"ms-appx:///Assets/Fonts/{filename}";
 
 			// TODO: check other folders as well

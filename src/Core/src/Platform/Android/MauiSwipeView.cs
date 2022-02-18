@@ -229,7 +229,7 @@ namespace Microsoft.Maui.Platform
 
 
 			if (Element?.PresentedContent is IView view)
-				_contentView = view.ToNative(MauiContext);
+				_contentView = view.ToPlatform(MauiContext);
 			else
 				_contentView = CreateEmptyContent();
 
@@ -239,7 +239,7 @@ namespace Microsoft.Maui.Platform
 		AView CreateEmptyContent()
 		{
 			var emptyContentView = new AView(_context);
-			emptyContentView.SetBackgroundColor(Colors.Transparent.ToNative());
+			emptyContentView.SetBackgroundColor(Colors.Transparent.ToPlatform());
 
 			return emptyContentView;
 		}
@@ -530,7 +530,7 @@ namespace Microsoft.Maui.Platform
 
 			foreach (var item in items)
 			{
-				AView swipeItem = item.ToNative(MauiContext);
+				AView swipeItem = item.ToPlatform(MauiContext);
 
 				if (item is ISwipeItemView formsSwipeItemView)
 				{
@@ -611,7 +611,7 @@ namespace Microsoft.Maui.Platform
 
 			_swipeItems.TryGetValue(item, out object? view);
 
-			if (view != null && view is AView nativeView)
+			if (view != null && view is AView platformView)
 			{
 				_swipeThreshold = 0;
 				LayoutSwipeItems(GetNativeSwipeItems());
@@ -640,7 +640,7 @@ namespace Microsoft.Maui.Platform
 
 		void UpdateSwipeItemViewLayout(ISwipeItemView swipeItemView)
 		{
-			swipeItemView?.Handler?.GetWrappedNativeView()?.InvalidateMeasure(swipeItemView);
+			swipeItemView?.Handler?.ToPlatform().InvalidateMeasure(swipeItemView);
 		}
 
 		internal void UpdateIsSwipeEnabled(bool isEnabled)

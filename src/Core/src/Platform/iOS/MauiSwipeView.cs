@@ -158,7 +158,7 @@ namespace Microsoft.Maui.Platform
 				if (Subviews.Length > 0)
 					_contentView = Subviews[0];
 
-				_contentView = view.ToNative(mauiContext);
+				_contentView = view.ToPlatform(mauiContext);
 			}
 			else
 			{
@@ -236,7 +236,7 @@ namespace Microsoft.Maui.Platform
 		{
 			var emptyContentView = new UIView
 			{
-				BackgroundColor = Colors.Transparent.ToNative()
+				BackgroundColor = Colors.Transparent.ToPlatform()
 			};
 
 			return emptyContentView;
@@ -291,7 +291,7 @@ namespace Microsoft.Maui.Platform
 
 			foreach (var item in items)
 			{
-				UIView swipeItem = item.ToNative(Element.Handler.MauiContext);
+				UIView swipeItem = item.ToPlatform(Element.Handler.MauiContext);
 				_actionView.AddSubview(swipeItem);
 				_swipeItems.Add(item, swipeItem);
 			}
@@ -374,7 +374,7 @@ namespace Microsoft.Maui.Platform
 			if (!_isOpen)
 				return;
 
-			if (item?.Handler?.NativeView is UIView nativeView)
+			if (item?.Handler?.PlatformView is UIView platformView)
 			{
 				_swipeThreshold = 0;
 				LayoutSwipeItems(GetNativeSwipeItems());
@@ -1036,8 +1036,8 @@ namespace Microsoft.Maui.Platform
 
 		UIViewController? GetViewController()
 		{
-			var window = Element?.Handler?.MauiContext?.GetNativeWindow() ??
-				throw new InvalidOperationException("Unable to retrieve Native Window");
+			var window = Element?.Handler?.MauiContext?.GetPlatformWindow() ??
+				throw new InvalidOperationException("Unable to retrieve Platform Window");
 
 			var viewController = window.RootViewController;
 

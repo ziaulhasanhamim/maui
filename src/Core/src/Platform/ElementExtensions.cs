@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 #if __IOS__ || MACCATALYST
-using NativeView = UIKit.UIView;
-using BasePlatformType = Foundation.NSObject;
+using PlatformView = UIKit.UIView;
+using BasePlatformType = ObjCRuntime.INativeObject;
 using PlatformWindow = UIKit.UIWindow;
-using PlatformApplication = UIKit.UIApplicationDelegate;
+using PlatformApplication = UIKit.IUIApplicationDelegate;
 #elif MONOANDROID
-using NativeView = Android.Views.View;
+using PlatformView = Android.Views.View;
 using BasePlatformType = Android.Content.Context;
 using PlatformWindow = Android.App.Activity;
 using PlatformApplication = Android.App.Application;
 #elif WINDOWS
-using NativeView = Microsoft.UI.Xaml.FrameworkElement;
+using PlatformView = Microsoft.UI.Xaml.FrameworkElement;
 using BasePlatformType = WinRT.IWinRTObject;
 using PlatformWindow = Microsoft.UI.Xaml.Window;
 using PlatformApplication = Microsoft.UI.Xaml.Application;
 #elif NETSTANDARD || (NET6_0 && !IOS && !ANDROID)
-using NativeView = System.Object;
+using PlatformView = System.Object;
 using BasePlatformType = System.Object;
-using INativeViewHandler = Microsoft.Maui.IViewHandler;
+using IPlatformViewHandler = Microsoft.Maui.IViewHandler;
 using PlatformWindow = System.Object;
 using PlatformApplication = System.Object;
 #endif
@@ -96,42 +96,42 @@ namespace Microsoft.Maui.Platform
 			return handler;
 		}
 
-		internal static NativeView? ToNative(this IElement view)
+		internal static PlatformView ToPlatform(this IElement view)
 		{
 			if (view is IReplaceableView replaceableView && replaceableView.ReplacedView != view)
-				return replaceableView.ReplacedView.ToNative();
+				return replaceableView.ReplacedView.ToPlatform();
 
 			if (view.Handler == null)
 			{
 				var mauiContext = view.Parent?.Handler?.MauiContext ??
 					throw new InvalidOperationException($"{nameof(MauiContext)} should have been set on parent.");
 
-				return view.ToNative(mauiContext);
+				return view.ToPlatform(mauiContext);
 			}
 
-			if (view.Handler is IViewHandler nativeHandler)
+			if (view.Handler is IViewHandler viewHandler)
 			{
-				if (nativeHandler.ContainerView is NativeView containerView)
+				if (viewHandler.ContainerView is PlatformView containerView)
 					return containerView;
 
-				if (nativeHandler.NativeView is NativeView nativeView)
-					return nativeView;
+				if (viewHandler.PlatformView is PlatformView platformView)
+					return platformView;
 			}
 
-			return (view.Handler?.NativeView as NativeView);
+			return (view.Handler?.PlatformView as PlatformView) ?? throw new InvalidOperationException($"Unable to convert {view} to {typeof(PlatformView)}");
 
 		}
 
-		public static NativeView ToNative(this IElement view, IMauiContext context)
+		public static PlatformView ToPlatform(this IElement view, IMauiContext context)
 		{
 			var handler = view.ToHandler(context);
 
-			if (handler.NativeView is not NativeView result)
+			if (handler.PlatformView is not PlatformView result)
 			{
-				throw new InvalidOperationException($"Unable to convert {view} to {typeof(NativeView)}");
+				throw new InvalidOperationException($"Unable to convert {view} to {typeof(PlatformView)}");
 			}
 
-			return view.ToNative() ?? throw new InvalidOperationException($"Unable to convert {view} to {typeof(NativeView)}");
+			return view.ToPlatform() ?? throw new InvalidOperationException($"Unable to convert {view} to {typeof(PlatformView)}");
 
 		}
 
@@ -159,15 +159,15 @@ namespace Microsoft.Maui.Platform
 				handler.SetVirtualView(element);
 		}
 
-		public static void SetApplicationHandler(this PlatformApplication nativeApplication, IApplication application, IMauiContext context) =>
-			SetHandler(nativeApplication, application, context);
+		public static void SetApplicationHandler(this PlatformApplication platformApplication, IApplication application, IMauiContext context) =>
+			SetHandler(platformApplication, application, context);
 
-		public static void SetWindowHandler(this PlatformWindow nativeWindow, IWindow window, IMauiContext context) =>
-			SetHandler(nativeWindow, window, context);
+		public static void SetWindowHandler(this PlatformWindow platformWindow, IWindow window, IMauiContext context) =>
+			SetHandler(platformWindow, window, context);
 
 #if WINDOWS || IOS || ANDROID
 		internal static IWindow GetWindow(this IElement element) =>
-			element.Handler?.MauiContext?.GetNativeWindow()?.GetWindow() ??
+			element.Handler?.MauiContext?.GetPlatformWindow()?.GetWindow() ??
 			throw new InvalidOperationException("IWindow not found");
 #endif
 	}

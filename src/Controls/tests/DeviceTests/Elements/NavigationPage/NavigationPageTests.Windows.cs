@@ -21,59 +21,51 @@ namespace Microsoft.Maui.DeviceTests
 	[Category(TestCategory.NavigationPage)]
 	public partial class NavigationPageTests : HandlerTestBase
 	{
-		void SetupBuilder()
+		public bool IsBackButtonVisible(IElementHandler handler) =>
+			IsBackButtonVisible(handler.MauiContext);
+
+		public bool IsBackButtonVisible(IMauiContext mauiContext)
 		{
-			EnsureHandlerCreated(builder =>
-			{
-				builder.ConfigureMauiHandlers(handlers =>
-				{
-					handlers.AddHandler(typeof(Controls.Window), typeof(WindowHandler));
-					handlers.AddHandler(typeof(Controls.Toolbar), typeof(ToolbarHandler));
-					handlers.AddHandler(typeof(Controls.NavigationPage), typeof(NavigationViewHandler));
-					handlers.AddHandler<Page, PageHandler>();
-				});
-			});
+			var navView = GetMauiNavigationView(mauiContext);
+			return navView.IsBackButtonVisible == UI.Xaml.Controls.NavigationViewBackButtonVisible.Visible;
 		}
 
-		[Fact(DisplayName = "Back Button Visibility Changes with push/pop")]
-		public async Task TabbedPageHandlerDisconnects()
-		{
-			SetupBuilder();
-			var navPage = new NavigationPage(new ContentPage());
+		public bool IsNavigationBarVisible(IElementHandler handler) =>
+			IsNavigationBarVisible(handler.MauiContext);
 
-			await CreateHandlerAndAddToWindow<WindowHandler>(new Window(navPage), async (handler) =>
-			{
-				var navView = GetMauiNavigationView(handler.MauiContext);
-				Assert.Equal(UI.Xaml.Controls.NavigationViewBackButtonVisible.Collapsed, navView.IsBackButtonVisible);
-				await navPage.PushAsync(new ContentPage());
-				Assert.Equal(UI.Xaml.Controls.NavigationViewBackButtonVisible.Visible, navView.IsBackButtonVisible);
-				await navPage.PopAsync();
-				Assert.Equal(UI.Xaml.Controls.NavigationViewBackButtonVisible.Collapsed, navView.IsBackButtonVisible);
-			});
+		public bool IsNavigationBarVisible(IMauiContext mauiContext)
+		{
+			var navView = GetMauiNavigationView(mauiContext);
+			var header = navView.Header as WFrameworkElement;
+			return header.Visibility == UI.Xaml.Visibility.Visible;
 		}
 
-		[Fact(DisplayName = "Toolbar Items Map Correctly")]
-		public async Task ToolbarItemsMapCorrectly()
+		public bool ToolbarItemsMatch(
+			IElementHandler handler,
+			params ToolbarItem[] toolbarItems)
 		{
-			SetupBuilder();
-			var toolbarItem = new ToolbarItem() { Text = "Toolbar Item 1" };
-			var navPage = new NavigationPage(new ContentPage()
-			{
-				ToolbarItems =
-				{
-					toolbarItem
-				}
-			});
+			var navView = (RootNavigationView)GetMauiNavigationView(handler.MauiContext);
+			MauiToolbar windowHeader = (MauiToolbar)navView.Header;
 
-			await CreateHandlerAndAddToWindow<WindowHandler>(new Window(navPage), (handler) =>
+			Assert.Equal(toolbarItems.Length, windowHeader.CommandBar.PrimaryCommands.Count);
+			for (var i = 0; i < toolbarItems.Length; i++)
 			{
-				var navView = (RootNavigationView)GetMauiNavigationView(handler.MauiContext);
-				WindowHeader windowHeader = (WindowHeader)navView.HeaderControl;
-				var primaryCommand = ((WAppBarButton)windowHeader.CommandBar.PrimaryCommands[0]);
-
+				ToolbarItem toolbarItem = toolbarItems[i];
+				var primaryCommand = ((WAppBarButton)windowHeader.CommandBar.PrimaryCommands[i]);
 				Assert.Equal(toolbarItem, primaryCommand.DataContext);
-				return Task.CompletedTask;
-			});
+			}
+
+			return true;
 		}
+
+		MauiToolbar GetPlatformToolbar(IElementHandler handler)
+		{
+			var navView = (RootNavigationView)GetMauiNavigationView(handler.MauiContext);
+			MauiToolbar windowHeader = (MauiToolbar)navView.Header;
+			return windowHeader;
+		}
+
+		string GetToolbarTitle(IElementHandler handler) =>
+			GetPlatformToolbar(handler).Title;
 	}
 }
