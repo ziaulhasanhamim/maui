@@ -1,8 +1,6 @@
 ﻿using System;
-using CoreGraphics;
 using Foundation;
 using Microsoft.Maui.Graphics;
-using ObjCRuntime;
 using UIKit;
 
 namespace Microsoft.Maui.Handlers
@@ -19,6 +17,9 @@ namespace Microsoft.Maui.Handlers
 			platformView.Started += OnStarted;
 			platformView.Ended += OnEnded;
 			platformView.TextSetOrChanged += OnTextPropertySet;
+
+			if (platformView is IMauiTextView mauiUITextView)
+				mauiUITextView.FrameChanged += OnFrameChanged;
 		}
 
 		protected override void DisconnectHandler(MauiTextView platformView)
@@ -27,6 +28,9 @@ namespace Microsoft.Maui.Handlers
 			platformView.Started -= OnStarted;
 			platformView.Ended -= OnEnded;
 			platformView.TextSetOrChanged -= OnTextPropertySet;
+
+			if (platformView is IMauiTextView mauiUITextView)
+				mauiUITextView.FrameChanged -= OnFrameChanged;
 		}
 
 		public override Size GetDesiredSize(double widthConstraint, double heightConstraint) =>
@@ -109,6 +113,17 @@ namespace Microsoft.Maui.Handlers
 		}
 
 		void OnTextPropertySet(object? sender, EventArgs e) =>
-			VirtualView.UpdateText(PlatformView.Text);
+			VirtualView.UpdateText(PlatformView.Text); 
+		
+		void OnFrameChanged(object? sender, EventArgs e)
+		{
+			// When a new line is added to the UITextView the resize happens after the view has already scrolled
+			// This causes the view to reposition without the scroll. If TextChanges is enabled then the Frame
+			// will resize until it can't anymore and thus it should never be scrolled until the Frame can't increase in size
+			if (VirtualView.AutoSize == EditorAutoSizeOption.TextChanges)
+			{
+				PlatformView?.ScrollRangeToVisible(new NSRange(0, 0));
+			}
+		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
-using ObjCRuntime;
 using UIKit;
 
 namespace Microsoft.Maui.Platform
 {
-	public class MauiTextView : UITextView
+	public class MauiTextView : UITextView, IMauiTextView
 	{
 		readonly UILabel _placeholderLabel;
 
@@ -27,6 +26,8 @@ namespace Microsoft.Maui.Platform
 		// We use this event as a way to fire changes whenever the Text changes
 		// via code or user interaction.
 		public event EventHandler? TextSetOrChanged;
+		
+		public event EventHandler? FrameChanged;
 
 		public string? PlaceholderText
 		{
@@ -52,6 +53,16 @@ namespace Microsoft.Maui.Platform
 		{
 			get => _placeholderLabel.TextColor;
 			set => _placeholderLabel.TextColor = value;
+		}
+
+		public override CGRect Frame
+		{
+			get => base.Frame;
+			set
+			{
+				base.Frame = value;
+				FrameChanged?.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		public override string? Text

@@ -7,6 +7,8 @@ namespace Microsoft.Maui.DeviceTests.Stubs
 	{
 		private string _text;
 
+		public EditorAutoSizeOption AutoSize { get; set; } = EditorAutoSizeOption.Disabled;
+
 		public string Text
 		{
 			get => _text;

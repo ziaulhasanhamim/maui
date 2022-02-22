@@ -12,6 +12,8 @@ namespace Microsoft.Maui.Controls
 
 		Font ITextStyle.Font => (Font)GetValue(FontElement.FontProperty);
 
+		Maui.EditorAutoSizeOption IEditor.AutoSize => AutoSize;
+
 		void IEditor.Completed()
 		{
 			(this as IEditorController).SendCompleted();
