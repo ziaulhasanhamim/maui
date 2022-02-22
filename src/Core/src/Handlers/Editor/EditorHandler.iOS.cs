@@ -71,7 +71,7 @@ namespace Microsoft.Maui.Handlers
 				PlatformView.FrameChanged += OnFrameChanged;
 		}
 
-		public static void MapText(EditorHandler handler, IEditor editor)
+		public static void MapText(IEditorHandler handler, IEditor editor)
 		{
 			handler.PlatformView?.UpdateText(editor);
 
