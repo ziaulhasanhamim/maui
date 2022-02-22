@@ -17,9 +17,6 @@ namespace Microsoft.Maui.Handlers
 			platformView.Started += OnStarted;
 			platformView.Ended += OnEnded;
 			platformView.TextSetOrChanged += OnTextPropertySet;
-
-			if (platformView is IMauiTextView mauiUITextView)
-				mauiUITextView.FrameChanged += OnFrameChanged;
 		}
 
 		protected override void DisconnectHandler(MauiTextView platformView)
@@ -35,6 +32,22 @@ namespace Microsoft.Maui.Handlers
 
 		public override Size GetDesiredSize(double widthConstraint, double heightConstraint) =>
 			new SizeRequest(new Size(widthConstraint, BaseHeight));
+
+		protected internal virtual void UpdateAutoSizeOption()
+		{
+			if (VirtualView == null || PlatformView == null)
+				return;
+
+			PlatformView.FrameChanged -= OnFrameChanged;
+
+			if (VirtualView.AutoSize == EditorAutoSizeOption.TextChanges)
+				PlatformView.FrameChanged += OnFrameChanged;
+		}
+
+		public static void MapAutoSize(IEditorHandler handler, IEditor editor)
+		{
+			(handler as EditorHandler)?.UpdateAutoSizeOption();
+		}
 
 		public static void MapText(IEditorHandler handler, IEditor editor)
 		{
