@@ -85,6 +85,8 @@ namespace Microsoft.Maui.UnitTests
 
 		public int ZIndex { get; set; }
 
+		public bool InputTransparent { get; set; }
+
 		public Size Arrange(Rectangle bounds) => Size.Zero;
 
 		public void InvalidateArrange() { }

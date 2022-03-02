@@ -88,6 +88,8 @@ namespace Microsoft.Maui.Handlers.Benchmarks
 
 		public int ZIndex { get; set; }
 
+		public bool InputTransparent { get; set; }
+
 		public Size Arrange(Rectangle bounds)
 		{
 			Frame = bounds;
