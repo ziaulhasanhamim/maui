@@ -69,8 +69,8 @@ parameters:
     type: object
     default:
       - name: Windows
-        poolName: Azure Pipelines
-        vmImage: windows-2022
+        poolName: $(windowsNet6VmPool)
+        vmImage: $(windowsNet6VmImage)
         bootsAndroid: $(Android.Msi)
         bootsiOS: $(iOS.Msi)
         artifact: net6-windows
@@ -85,8 +85,8 @@ parameters:
     type: object
     default:
       - name: Windows
-        poolName: Azure Pipelines
-        vmImage: windows-2022
+        poolName: $(windowsNet6VmPool)
+        vmImage: $(windowsNet6VmImage)
         bootsAndroid: $(Android.Msi)
         bootsiOS: $(iOS.Msi)
         artifact: nuget
