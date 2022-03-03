@@ -69,8 +69,8 @@ parameters:
     type: object
     default:
       - name: Windows
-        poolName: $(windowsNet6VmPool)
-        vmImage: $(windowsNet6VmImage)
+        poolName: Azure Pipelines
+        vmImage: windows-2022
         bootsAndroid: $(Android.Msi)
         bootsiOS: $(iOS.Msi)
         artifact: net6-windows
@@ -85,8 +85,8 @@ parameters:
     type: object
     default:
       - name: Windows
-        poolName: $(windowsNet6VmPool)
-        vmImage: $(windowsNet6VmImage)
+        poolName: Azure Pipelines
+        vmImage: windows-2022
         bootsAndroid: $(Android.Msi)
         bootsiOS: $(iOS.Msi)
         artifact: nuget
@@ -131,9 +131,6 @@ stages:
             pool:
               name: ${{ BuildPlatform.poolName }}
               vmImage: ${{ BuildPlatform.vmImage }}
-              ${{ if eq(BuildPlatform.name, 'Windows') }}:
-                demands:
-                  - ImageOverride -equals server2022-VS2022-17-2-p1
               ${{ if startsWith(BuildPlatform.poolName, 'VSEng-VSMac-Xamarin-Shared') }}:
                 demands:
                   - macOS.Name -equals BigSur
@@ -152,16 +149,6 @@ stages:
                   platform: ${{ BuildPlatform.name }}
                   poolName: ${{ BuildPlatform.poolName }}
                   provisionatorChannel: ${{ parameters.provisionatorChannel }}
-              - pwsh: |
-                  dotnet tool install dotnet-vs
-                  dotnet vs modify preview +native
-
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC'
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114'
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin'
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86'
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86\x64'
-                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86\x64\mspdbcmf.exe'
               - pwsh: ./build.ps1 --target=dotnet --configuration="${{ BuildConfiguration }}" --verbosity=diagnostic
                 displayName: 'Install .NET'
                 retryCountOnTaskFailure: 3
@@ -196,9 +183,6 @@ stages:
           pool:
             name: ${{ PackPlatform.poolName }}
             vmImage: ${{ PackPlatform.vmImage }}
-            ${{ if eq(PackPlatform.name, 'Windows') }}:
-              demands:
-                - ImageOverride -equals server2022-VS2022-17-2-p1
             ${{ if startsWith(PackPlatform.poolName, 'VSEng-VSMac-Xamarin-Shared') }}:
               demands:
                 - macOS.Name -equals BigSur
@@ -231,9 +215,6 @@ stages:
             pool:
               name: ${{ BuildPlatform.poolName }}
               vmImage: ${{ BuildPlatform.vmImage }}
-              ${{ if eq(BuildPlatform.name, 'Windows') }}:
-                demands:
-                  - ImageOverride -equals server2022-VS2022-17-2-p1
               ${{ if startsWith(BuildPlatform.poolName, 'VSEng-VSMac-Xamarin-Shared') }}:
                 demands:
                   - macOS.Name -equals BigSur
@@ -292,9 +273,6 @@ stages:
             pool:
               name: ${{ BuildPlatform.poolName }}
               vmImage: ${{ BuildPlatform.vmImage }}
-              ${{ if eq(BuildPlatform.name, 'Windows') }}:
-                demands:
-                  - ImageOverride -equals server2022-VS2022-17-2-p1
               ${{ if startsWith(BuildPlatform.poolName, 'VSEng-VSMac-Xamarin-Shared') }}:
                 demands:
                   - macOS.Name -equals BigSur
