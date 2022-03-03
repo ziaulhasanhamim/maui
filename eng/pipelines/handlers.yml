@@ -153,6 +153,9 @@ stages:
                   poolName: ${{ BuildPlatform.poolName }}
                   provisionatorChannel: ${{ parameters.provisionatorChannel }}
               - pwsh: |
+                  dotnet tool install dotnet-vs
+                  dotnet vs modify preview +native
+
                   dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC'
                   dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114'
                   dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin'
