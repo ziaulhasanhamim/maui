@@ -152,7 +152,13 @@ stages:
                   platform: ${{ BuildPlatform.name }}
                   poolName: ${{ BuildPlatform.poolName }}
                   provisionatorChannel: ${{ parameters.provisionatorChannel }}
-              - pwsh: dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\'
+              - pwsh: |
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC'
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114'
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin'
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86'
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86\x64'
+                  dir 'C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.32.31114\bin\HostX86\x64\mspdbcmf.exe'
               - pwsh: ./build.ps1 --target=dotnet --configuration="${{ BuildConfiguration }}" --verbosity=diagnostic
                 displayName: 'Install .NET'
                 retryCountOnTaskFailure: 3
